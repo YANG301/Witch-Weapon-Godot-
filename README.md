@@ -53,7 +53,7 @@
 
 1. **克隆本仓库**
 ```bash
-git clone https://github.com/你的用户名/witch-weapon.git
+git clone https://github.com/YANG301/Witch-Weapon-Godot-.git
 cd witch-weapon
 ```
 
