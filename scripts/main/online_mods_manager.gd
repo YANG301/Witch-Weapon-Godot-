@@ -36,7 +36,11 @@ var _online_status_label: Label = null
 
 var _mods_dirty: bool = false
 var _online_http: HTTPRequest = null
+var _online_public_list: ItemList = null
 var _online_list: ItemList = null
+var _online_admin_tabs: TabContainer = null
+var _online_admin_pending_list: ItemList = null
+var _online_admin_reviewed_list: ItemList = null
 var _online_sort: OptionButton = null
 var _online_refresh_button: Button = null
 var _online_download_button: Button = null
@@ -44,7 +48,10 @@ var _online_delete_button: Button = null
 var _online_admin_approve_button: Button = null
 var _online_admin_reject_button: Button = null
 var _online_delete_confirm_dialog: ConfirmationDialog = null
+var _online_all_mods: Array[Dictionary] = []
 var _online_mods: Array[Dictionary] = []
+var _online_admin_pending_mods: Array[Dictionary] = []
+var _online_admin_reviewed_mods: Array[Dictionary] = []
 var _online_busy: bool = false
 var _online_is_admin: bool = false
 var _online_pending_delete_item: Dictionary = {}
@@ -458,7 +465,7 @@ func _open_online_dialog() -> void:
 
 func _sync_online_after_open(load_now: bool) -> void:
 	if not await AuthManager.ensure_valid_token():
-		if _online_mods.is_empty():
+		if _online_all_mods.is_empty():
 			_set_online_status("Login required")
 			_show_message("Notice", "Please login before downloading online mods.")
 		else:
@@ -474,6 +481,18 @@ func _refresh_online_admin_mode() -> void:
 	_online_is_admin = false
 	if has_node("/root/AuthManager") and AuthManager.has_method("is_admin"):
 		_online_is_admin = bool(AuthManager.is_admin())
+
+	if _online_public_list != null:
+		_online_public_list.visible = not _online_is_admin
+	if _online_admin_tabs != null:
+		_online_admin_tabs.visible = _online_is_admin
+
+	if _online_is_admin:
+		_apply_admin_online_view(false)
+	else:
+		_online_list = _online_public_list
+		_replace_online_mods(_online_all_mods, false)
+
 	_update_online_admin_actions_state()
 
 func _ensure_online_dialog() -> void:
@@ -528,13 +547,51 @@ func _ensure_online_dialog() -> void:
 	toolbar.add_child(refresh_btn)
 	_online_refresh_button = refresh_btn
 
-	var list := ItemList.new()
-	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	list.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	list.select_mode = ItemList.SELECT_SINGLE
-	list.item_selected.connect(_on_online_item_selected)
-	root.add_child(list)
-	_online_list = list
+	var public_list := ItemList.new()
+	public_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	public_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	public_list.select_mode = ItemList.SELECT_SINGLE
+	public_list.item_selected.connect(_on_online_item_selected)
+	root.add_child(public_list)
+	_online_public_list = public_list
+	_online_list = public_list
+
+	var admin_tabs := TabContainer.new()
+	admin_tabs.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	admin_tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	admin_tabs.tab_alignment = TabBar.ALIGNMENT_LEFT
+	admin_tabs.visible = false
+	admin_tabs.tab_changed.connect(_on_online_admin_tab_changed)
+	root.add_child(admin_tabs)
+	_online_admin_tabs = admin_tabs
+
+	var pending_tab := VBoxContainer.new()
+	pending_tab.name = "Pending"
+	pending_tab.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pending_tab.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	admin_tabs.add_child(pending_tab)
+
+	var pending_list := ItemList.new()
+	pending_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pending_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	pending_list.select_mode = ItemList.SELECT_SINGLE
+	pending_list.item_selected.connect(_on_online_item_selected)
+	pending_tab.add_child(pending_list)
+	_online_admin_pending_list = pending_list
+
+	var reviewed_tab := VBoxContainer.new()
+	reviewed_tab.name = "Reviewed"
+	reviewed_tab.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	reviewed_tab.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	admin_tabs.add_child(reviewed_tab)
+
+	var reviewed_list := ItemList.new()
+	reviewed_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	reviewed_list.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	reviewed_list.select_mode = ItemList.SELECT_SINGLE
+	reviewed_list.item_selected.connect(_on_online_item_selected)
+	reviewed_tab.add_child(reviewed_list)
+	_online_admin_reviewed_list = reviewed_list
 
 	var footer := HBoxContainer.new()
 	footer.add_theme_constant_override("separation", 8)
@@ -641,6 +698,47 @@ func _replace_online_mods(new_mods: Array[Dictionary], preserve_ui_state: bool =
 	if preserve_ui_state:
 		_restore_online_list_state(state)
 
+func _set_online_all_mods(new_mods: Array[Dictionary], preserve_ui_state: bool = true) -> void:
+	_online_all_mods = _clone_online_mods_array(new_mods)
+	if _online_is_admin:
+		_rebuild_admin_online_groups()
+		_apply_admin_online_view(preserve_ui_state)
+	else:
+		_online_list = _online_public_list
+		_replace_online_mods(_online_all_mods, preserve_ui_state)
+
+func _rebuild_admin_online_groups() -> void:
+	_online_admin_pending_mods.clear()
+	_online_admin_reviewed_mods.clear()
+	for item in _online_all_mods:
+		var status: int = int(item.get("status", 1))
+		var has_pending_update: bool = typeof(item.get("pending_update")) == TYPE_DICTIONARY
+		if status == 0 or has_pending_update:
+			_online_admin_pending_mods.append(item.duplicate(true))
+		else:
+			_online_admin_reviewed_mods.append(item.duplicate(true))
+
+func _apply_admin_online_view(preserve_ui_state: bool = true) -> void:
+	if _online_admin_tabs == null:
+		return
+
+	var tab_index: int = _online_admin_tabs.current_tab
+	if tab_index < 0:
+		tab_index = 0
+
+	if tab_index == 0:
+		_online_list = _online_admin_pending_list
+		_replace_online_mods(_online_admin_pending_mods, preserve_ui_state)
+	else:
+		_online_list = _online_admin_reviewed_list
+		_replace_online_mods(_online_admin_reviewed_mods, preserve_ui_state)
+
+func _on_online_admin_tab_changed(_tab: int) -> void:
+	if not _online_is_admin:
+		return
+	_apply_admin_online_view(false)
+	_update_online_admin_actions_state()
+
 func _apply_cached_mods_for_current_sort() -> bool:
 	var cache_key: String = _current_online_cache_key()
 	var cached: Array[Dictionary] = _get_cached_online_mods(cache_key)
@@ -652,7 +750,7 @@ func _apply_cached_mods_for_current_sort() -> bool:
 
 	if cached.is_empty():
 		return false
-	_replace_online_mods(cached, false)
+	_set_online_all_mods(cached, false)
 	_set_online_status("Loaded from cache")
 	return true
 
@@ -852,7 +950,7 @@ func _on_online_download_pressed() -> void:
 	if mod_id <= 0:
 		_show_message("Notice", "Mod data is invalid (missing id).")
 		return
-	if status != 1:
+	if status != 1 and not _online_is_admin:
 		_show_message("Notice", "This mod is not published yet and cannot be downloaded.")
 		return
 
@@ -905,30 +1003,34 @@ func _load_online_mods() -> void:
 				continue
 			new_mods.append(item_any as Dictionary)
 
-	_replace_online_mods(new_mods, true)
+	_set_online_all_mods(new_mods, true)
 	var cache_key: String = _current_online_cache_key()
-	_set_cached_online_mods(cache_key, _online_mods)
+	_set_cached_online_mods(cache_key, _online_all_mods)
 	if not _online_is_admin:
-		set_cached_public_mods(_current_sort_key(), _online_mods)
+		set_cached_public_mods(_current_sort_key(), _online_all_mods)
 	_set_online_status("Updated just now")
 	_update_online_admin_actions_state()
 
 func _request_online_mods() -> Dictionary:
+	var admin_mods: Array[Dictionary] = []
 	if _online_is_admin:
 		var admin_path: String = "%s?page=1&limit=50&sort=%s" % [PLATFORM_ADMIN_MODS_PATH, _current_sort_key()]
 		var admin_response: Dictionary = await _api_get_json_with_auth(admin_path)
 		if bool(admin_response.get("ok", false)):
-			return {"ok": true, "mods": _extract_mods_from_response(admin_response)}
-		if not _is_api_path_not_found(admin_response):
+			admin_mods = _extract_mods_from_response(admin_response)
+		elif not _is_api_path_not_found(admin_response):
 			return admin_response
 
 	var path: String = "%s?page=1&limit=50&sort=%s" % [PLATFORM_MODS_LIST_PATH, _current_sort_key()]
 	var response: Dictionary = await _api_get_json_with_auth(path)
 	if not bool(response.get("ok", false)):
+		if _online_is_admin and not admin_mods.is_empty():
+			return {"ok": true, "mods": admin_mods}
 		return response
 
 	var next_mods: Array[Dictionary] = []
 	var existing_ids: Dictionary = {}
+	var id_to_index: Dictionary = {}
 	var my_mod_ids: Dictionary = {}
 	var public_mods: Array[Dictionary] = _extract_mods_from_response(response)
 	for item in public_mods:
@@ -937,6 +1039,23 @@ func _request_online_mods() -> Dictionary:
 		var mod_id: int = int(row.get("id", 0))
 		if mod_id > 0:
 			existing_ids[mod_id] = true
+			id_to_index[mod_id] = next_mods.size() - 1
+
+	if _online_is_admin and not admin_mods.is_empty():
+		for admin_item in admin_mods:
+			var admin_copy: Dictionary = admin_item.duplicate(true)
+			var admin_id: int = int(admin_copy.get("id", 0))
+			if admin_id > 0 and id_to_index.has(admin_id):
+				var idx: int = int(id_to_index[admin_id])
+				var existing: Dictionary = next_mods[idx]
+				if bool(existing.get("__mine", false)):
+					admin_copy["__mine"] = true
+				next_mods[idx] = admin_copy
+				continue
+			next_mods.append(admin_copy)
+			if admin_id > 0:
+				existing_ids[admin_id] = true
+				id_to_index[admin_id] = next_mods.size() - 1
 
 	# Also append my own unpublished uploads so uploader can see review status.
 	var my_response: Dictionary = await _api_get_json_with_auth("%s?page=1&limit=50" % PLATFORM_MY_MODS_PATH)
@@ -953,6 +1072,7 @@ func _request_online_mods() -> Dictionary:
 			next_mods.append(mine_copy)
 			if mine_id > 0:
 				existing_ids[mine_id] = true
+				id_to_index[mine_id] = next_mods.size() - 1
 
 	if not my_mod_ids.is_empty():
 		for i in range(next_mods.size()):

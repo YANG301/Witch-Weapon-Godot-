@@ -526,8 +526,20 @@ export async function downloadMod(request, env, user) {
   }
 
   const modId = Number(match[1]);
-  const mod = await env.DB.prepare(
-    `SELECT
+  const isAdmin = String(user.role || '').toLowerCase() === 'admin';
+  const sql = isAdmin
+    ? `SELECT
+      id,
+      mod_name,
+      mod_slug,
+      version,
+      file_path,
+      file_type,
+      status
+     FROM mods
+     WHERE id = ?
+     LIMIT 1`
+    : `SELECT
       id,
       mod_name,
       mod_slug,
@@ -537,8 +549,8 @@ export async function downloadMod(request, env, user) {
       status
      FROM mods
      WHERE id = ? AND status = 1
-     LIMIT 1`
-  ).bind(modId).first();
+     LIMIT 1`;
+  const mod = await env.DB.prepare(sql).bind(modId).first();
 
   if (!mod) {
     return notFoundResponse('Mod not found');
