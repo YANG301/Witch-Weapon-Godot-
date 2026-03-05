@@ -13,14 +13,54 @@ var expires_at_unix: int = 0
 var email: String = ""
 var profile: Dictionary = {}
 
+const AUTO_REFRESH_INTERVAL_SEC: float = 15.0
+const REFRESH_LEEWAY_SEC: int = 60
+
+var _auto_refresh_timer: Timer = null
+var _auto_refresh_in_flight: bool = false
+var _request_busy: bool = false
+
 func _ready() -> void:
 	_http = HTTPRequest.new()
 	_http.use_threads = true
 	add_child(_http)
 	_load_from_config()
+	_start_auto_refresh()
 
 func is_logged_in() -> bool:
 	return access_token != "" and Time.get_unix_time_from_system() < expires_at_unix
+
+func has_session() -> bool:
+	return not refresh_token.strip_edges().is_empty()
+
+func _start_auto_refresh() -> void:
+	if _auto_refresh_timer != null:
+		return
+	_auto_refresh_timer = Timer.new()
+	_auto_refresh_timer.one_shot = false
+	_auto_refresh_timer.wait_time = AUTO_REFRESH_INTERVAL_SEC
+	add_child(_auto_refresh_timer)
+	_auto_refresh_timer.timeout.connect(_on_auto_refresh_timeout)
+	_auto_refresh_timer.start()
+	call_deferred("_on_auto_refresh_timeout")
+
+func _on_auto_refresh_timeout() -> void:
+	await _auto_refresh_tick()
+
+func _auto_refresh_tick() -> void:
+	if _auto_refresh_in_flight or _request_busy:
+		return
+	if not has_session():
+		return
+	var now_unix: int = int(Time.get_unix_time_from_system())
+	var needs_refresh: bool = access_token.strip_edges().is_empty() or now_unix >= (expires_at_unix - REFRESH_LEEWAY_SEC)
+	if not needs_refresh:
+		return
+	_auto_refresh_in_flight = true
+	var res: Dictionary = await refresh_access_token()
+	if bool(res.get("ok", false)):
+		await fetch_profile()
+	_auto_refresh_in_flight = false
 
 func is_admin() -> bool:
 	var role_any: Variant = profile.get("role", "")
@@ -200,6 +240,9 @@ func fetch_avatar_options() -> Dictionary:
 	return res
 
 func _request_json(path: String, method: int, payload: Dictionary, extra_headers: PackedStringArray) -> Dictionary:
+	while _request_busy:
+		await get_tree().create_timer(0.05).timeout
+	_request_busy = true
 	var url := BASE_URL + path
 	var headers := PackedStringArray(["Content-Type: application/json"])
 	for h in extra_headers:
@@ -211,9 +254,11 @@ func _request_json(path: String, method: int, payload: Dictionary, extra_headers
 
 	var err := _http.request(url, headers, method, body)
 	if err != OK:
+		_request_busy = false
 		return {"ok": false, "status": 0, "error": "request_failed_%s" % err}
 
 	var completed: Array = await _http.request_completed
+	_request_busy = false
 	var result := int(completed[0])
 	var response_code := int(completed[1])
 	var response_body: PackedByteArray = completed[3]

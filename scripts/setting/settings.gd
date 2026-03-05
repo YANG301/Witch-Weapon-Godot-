@@ -194,7 +194,9 @@ func _read_profile_int(key: String, fallback: int, min_value: int, max_value: in
 			return clampi(_avatar_runtime_bg_id, min_value, max_value)
 
 	if has_node("/root/AuthManager") and AuthManager.has_method("is_logged_in") and not AuthManager.is_logged_in():
-		return clampi(fallback, min_value, max_value)
+		# If a refresh token exists, keep showing cached profile values while auto-refresh runs.
+		if not (AuthManager.has_method("has_session") and AuthManager.has_session()):
+			return clampi(fallback, min_value, max_value)
 
 	var profile_dict: Dictionary = {}
 	if has_node("/root/AuthManager"):
@@ -517,7 +519,11 @@ func _on_user_menu_button_gui_input(event: InputEvent) -> void:
 	get_viewport().set_input_as_handled()
 
 func _is_user_logged_in() -> bool:
-	return has_node("/root/AuthManager") and AuthManager.has_method("is_logged_in") and AuthManager.is_logged_in()
+	if not has_node("/root/AuthManager"):
+		return false
+	if AuthManager.has_method("is_logged_in") and AuthManager.is_logged_in():
+		return true
+	return AuthManager.has_method("has_session") and AuthManager.has_session()
 
 func _open_auth_dialog_from_settings() -> void:
 	if _is_auth_dialog_open:
