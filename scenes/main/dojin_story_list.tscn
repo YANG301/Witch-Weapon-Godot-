@@ -62,10 +62,3 @@ offset_right = 540.0
 offset_bottom = 690.0
 text = "在线模组"
 
-[node name="LoginButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 1080.0
-offset_top = 640.0
-offset_right = 1240.0
-offset_bottom = 690.0
-text = "登录"

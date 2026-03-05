@@ -470,6 +470,34 @@ custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 texture_normal = ExtResource("7_thanks_idle")
 
+[node name="UserMenuButton" type="TextureButton" parent="."]
+z_index = 1
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -182.0
+offset_top = 20.0
+offset_right = -60.0
+offset_bottom = 104.0
+grow_horizontal = 0
+
+[node name="AvatarBackground" type="TextureRect" parent="UserMenuButton"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 20.0
+offset_right = 58.0
+offset_bottom = 64.0
+stretch_mode = 5
+
+[node name="AvatarIcon" type="TextureRect" parent="UserMenuButton"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 34.0
+offset_right = 44.0
+offset_bottom = 50.0
+stretch_mode = 5
+
 [node name="BackButton" type="TextureButton" parent="."]
 z_index = 1
 layout_mode = 0

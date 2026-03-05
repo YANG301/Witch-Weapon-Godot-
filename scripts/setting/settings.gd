@@ -28,6 +28,9 @@ const RESOLUTIONS_16_9 = [
 # 按钮节点
 @onready var setting_button = $MainPanel/SidePanel/VBoxContainer/SettingButton
 @onready var thanks_button = $MainPanel/SidePanel/VBoxContainer/ThanksButton
+@onready var user_menu_button: TextureButton = $UserMenuButton
+@onready var user_menu_bg: TextureRect = $UserMenuButton/AvatarBackground
+@onready var user_menu_icon: TextureRect = $UserMenuButton/AvatarIcon
 
 # 按钮纹理资源
 var setting_idle_texture: Texture2D
@@ -35,12 +38,48 @@ var setting_clicked_texture: Texture2D
 var thanks_idle_texture: Texture2D
 var thanks_clicked_texture: Texture2D
 
+var _avatar_runtime_override_enabled: bool = false
+var _avatar_runtime_icon_id: int = 1
+var _avatar_runtime_bg_id: int = 1
+
+var _avatar_picker_overlay: ColorRect = null
+var _avatar_picker_panel: PanelContainer = null
+var _avatar_picker_bg_option: ItemList = null
+var _avatar_picker_icon_option: ItemList = null
+var _avatar_picker_preview_bg: TextureRect = null
+var _avatar_picker_preview_icon: TextureRect = null
+var _avatar_picker_apply_button: Button = null
+var _avatar_picker_cancel_button: Button = null
+var _avatar_picker_selected_bg_id: int = 1
+var _avatar_picker_selected_icon_id: int = 1
+var _avatar_picker_bg_ids: Array[int] = []
+var _avatar_picker_icon_ids: Array[int] = []
+var _is_auth_dialog_open: bool = false
+var _avatar_picker_options_loading: bool = false
+var _profile_refresh_in_flight: bool = false
+var _avatar_picker_dialog_open: bool = false
+var _ui_font: FontFile = null
+
 # 当前选择的屏幕索引
 var current_screen: int = 0
 # 窗口模式下的分辨率（不包括无边框全屏）
 var windowed_resolution: Vector2i = Vector2i(1280, 720)
 # 窗口顶部最小边距（确保标题栏可见）
 const MIN_TOP_MARGIN: int = 50
+const USER_MENU_BG_PATH: String = "res://assets/gui/settings/Menu.png"
+const USER_AVATAR_BACKGROUND_DIR: String = "res://assets/gui/useravatar/background"
+const USER_AVATAR_ICON_DIR: String = "res://assets/gui/useravatar/icon"
+const USER_AVATAR_DEFAULT_ID: int = 1
+const USER_AVATAR_DEFAULT_BG_ID: int = 1
+const USER_AVATAR_MAX_ID: int = 47
+const USER_AVATAR_BG_MAX_ID: int = 20
+const USER_AVATAR_SLOT_CENTER: Vector2 = Vector2(42, 42)
+const USER_AVATAR_BG_BASE_SIZE: Vector2 = Vector2(44, 44)
+const USER_AVATAR_BG_SCALE: float = 1.575
+const USER_AVATAR_ICON_SCALE: float = 1.575
+const AUTH_DIALOG_SCENE_PATH: String = "res://scenes/main/auth_dialog.tscn"
+const AVATAR_PICKER_DIALOG_SCENE_PATH: String = "res://scenes/setting/avatar_picker_dialog.tscn"
+const USER_UI_FONT_PATH: String = "res://assets/gui/font/方正粗圆_GBK.ttf"
 
 # B站个人主页链接（请在这里填写实际链接）
 var bilibili_urls = {
@@ -57,6 +96,18 @@ func _ready():
 	setting_clicked_texture = load("res://assets/gui/settings/setting_clicked.png")
 	thanks_idle_texture = load("res://assets/gui/settings/thanks_idle.png")
 	thanks_clicked_texture = load("res://assets/gui/settings/thanks_clicked.png")
+	_ui_font = load(USER_UI_FONT_PATH)
+	_apply_user_menu_base_texture()
+	_refresh_user_menu_avatar_preview()
+	call_deferred("_apply_user_avatar_icon_layout")
+	if user_menu_button != null and not user_menu_button.resized.is_connected(_on_user_menu_button_resized):
+		user_menu_button.resized.connect(_on_user_menu_button_resized)
+	if not resized.is_connected(_on_settings_resized):
+		resized.connect(_on_settings_resized)
+	if user_menu_bg != null:
+		user_menu_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if user_menu_icon != null:
+		user_menu_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	# 初始化屏幕列表
 	_populate_screen_list()
@@ -72,6 +123,611 @@ func _ready():
 
 	# 默认显示设置页面
 	_show_settings_page()
+	if has_node("/root/AuthManager") and not AuthManager.profile_changed.is_connected(_on_auth_profile_changed):
+		AuthManager.profile_changed.connect(_on_auth_profile_changed)
+	if has_node("/root/AuthManager") and not AuthManager.auth_state_changed.is_connected(_on_auth_state_changed):
+		AuthManager.auth_state_changed.connect(_on_auth_state_changed)
+	if user_menu_button != null and not user_menu_button.gui_input.is_connected(_on_user_menu_button_gui_input):
+		user_menu_button.gui_input.connect(_on_user_menu_button_gui_input)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if _avatar_picker_overlay == null or not _avatar_picker_overlay.visible:
+		return
+	if event.is_action_pressed("ui_cancel"):
+		_avatar_picker_overlay.visible = false
+		get_viewport().set_input_as_handled()
+
+func _apply_user_menu_base_texture() -> void:
+	if user_menu_button == null:
+		return
+	var menu_texture: Texture2D = _load_image_texture(USER_MENU_BG_PATH)
+	if menu_texture == null:
+		return
+	user_menu_button.texture_normal = menu_texture
+	user_menu_button.texture_hover = menu_texture
+	user_menu_button.texture_pressed = menu_texture
+
+func _on_user_menu_button_resized() -> void:
+	_apply_user_avatar_icon_layout()
+
+func _apply_user_avatar_icon_layout() -> void:
+	if user_menu_bg == null or user_menu_icon == null:
+		return
+
+	var bg_size: Vector2 = USER_AVATAR_BG_BASE_SIZE * USER_AVATAR_BG_SCALE
+	var bg_pos: Vector2 = USER_AVATAR_SLOT_CENTER - bg_size * 0.5
+	user_menu_bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	user_menu_bg.size = bg_size
+	user_menu_bg.position = bg_pos
+
+	var icon_size: Vector2 = USER_AVATAR_BG_BASE_SIZE * USER_AVATAR_ICON_SCALE
+	user_menu_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	user_menu_icon.size = icon_size
+	user_menu_icon.position = USER_AVATAR_SLOT_CENTER - icon_size * 0.5
+
+func _refresh_user_menu_avatar_preview() -> void:
+	if user_menu_button == null:
+		return
+
+	var avatar_id: int = _read_profile_int("avatar_id", USER_AVATAR_DEFAULT_ID, 1, USER_AVATAR_MAX_ID)
+	var avatar_bg_id: int = _read_profile_int("avatar_background_id", USER_AVATAR_DEFAULT_BG_ID, 1, USER_AVATAR_BG_MAX_ID)
+
+	var bg_path: String = "%s/%s.png" % [USER_AVATAR_BACKGROUND_DIR, _avatar_id_to_name(avatar_bg_id)]
+	var icon_path: String = "%s/%s.png" % [USER_AVATAR_ICON_DIR, _avatar_id_to_name(avatar_id)]
+
+	var bg_texture: Texture2D = _load_image_texture(bg_path)
+	if user_menu_bg != null:
+		user_menu_bg.texture = bg_texture
+
+	if user_menu_icon == null:
+		return
+
+	var icon_texture: Texture2D = _load_image_texture(icon_path)
+	user_menu_icon.texture = icon_texture
+	_apply_user_avatar_icon_layout()
+
+func _read_profile_int(key: String, fallback: int, min_value: int, max_value: int) -> int:
+	if _avatar_runtime_override_enabled:
+		if key == "avatar_id":
+			return clampi(_avatar_runtime_icon_id, min_value, max_value)
+		if key == "avatar_background_id":
+			return clampi(_avatar_runtime_bg_id, min_value, max_value)
+
+	if has_node("/root/AuthManager") and AuthManager.has_method("is_logged_in") and not AuthManager.is_logged_in():
+		return clampi(fallback, min_value, max_value)
+
+	var profile_dict: Dictionary = {}
+	if has_node("/root/AuthManager"):
+		profile_dict = AuthManager.profile
+
+	var value_any: Variant = profile_dict.get(key, null)
+	if typeof(value_any) == TYPE_NIL and typeof(profile_dict.get("profile_data", null)) == TYPE_DICTIONARY:
+		var profile_data: Dictionary = profile_dict.get("profile_data", {}) as Dictionary
+		value_any = profile_data.get(key, null)
+	if typeof(value_any) == TYPE_NIL:
+		value_any = fallback
+
+	var value: int = int(value_any)
+	return clampi(value, min_value, max_value)
+
+func _avatar_id_to_name(id: int) -> String:
+	return "%03d" % id
+
+func _load_image_texture(path: String) -> Texture2D:
+	var res_any: Variant = load(path)
+	if res_any is Texture2D:
+		return res_any as Texture2D
+
+	if not FileAccess.file_exists(path):
+		return null
+	var image: Image = Image.load_from_file(path)
+	if image == null or image.is_empty():
+		return null
+	return ImageTexture.create_from_image(image)
+
+func _on_auth_profile_changed(_profile: Dictionary) -> void:
+	_avatar_runtime_override_enabled = false
+	_refresh_user_menu_avatar_preview()
+
+func _on_auth_state_changed(is_logged_in: bool) -> void:
+	if not is_logged_in:
+		_avatar_runtime_override_enabled = false
+		_refresh_user_menu_avatar_preview()
+		return
+	call_deferred("_fetch_profile_and_refresh_avatar")
+
+func _fetch_profile_and_refresh_avatar() -> void:
+	if _profile_refresh_in_flight:
+		return
+	_profile_refresh_in_flight = true
+	if has_node("/root/AuthManager") and AuthManager.has_method("fetch_profile"):
+		await AuthManager.fetch_profile()
+	_profile_refresh_in_flight = false
+	_refresh_user_menu_avatar_preview()
+
+func _ensure_avatar_picker_ui() -> void:
+	if _avatar_picker_overlay != null:
+		return
+
+	_avatar_picker_overlay = ColorRect.new()
+	_avatar_picker_overlay.visible = false
+	_avatar_picker_overlay.anchors_preset = PRESET_FULL_RECT
+	_avatar_picker_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	_avatar_picker_overlay.color = Color(0, 0, 0, 0.55)
+	_avatar_picker_overlay.z_index = 2300
+	_avatar_picker_overlay.gui_input.connect(_on_avatar_picker_overlay_gui_input)
+	add_child(_avatar_picker_overlay)
+
+	_avatar_picker_panel = PanelContainer.new()
+	_avatar_picker_panel.custom_minimum_size = Vector2(620, 340)
+	_avatar_picker_panel.anchors_preset = PRESET_TOP_LEFT
+	_avatar_picker_panel.size = _avatar_picker_panel.custom_minimum_size
+	_avatar_picker_panel.clip_contents = true
+	var panel_style: StyleBoxFlat = StyleBoxFlat.new()
+	panel_style.bg_color = Color(0.16, 0.16, 0.16, 0.95)
+	panel_style.border_width_left = 1
+	panel_style.border_width_top = 1
+	panel_style.border_width_right = 1
+	panel_style.border_width_bottom = 1
+	panel_style.border_color = Color(1, 1, 1, 0.1)
+	panel_style.corner_radius_top_left = 14
+	panel_style.corner_radius_top_right = 14
+	panel_style.corner_radius_bottom_right = 14
+	panel_style.corner_radius_bottom_left = 14
+	_avatar_picker_panel.add_theme_stylebox_override("panel", panel_style)
+	_avatar_picker_overlay.add_child(_avatar_picker_panel)
+
+	var margin: MarginContainer = MarginContainer.new()
+	margin.anchors_preset = PRESET_FULL_RECT
+	margin.add_theme_constant_override("margin_left", 20)
+	margin.add_theme_constant_override("margin_top", 16)
+	margin.add_theme_constant_override("margin_right", 20)
+	margin.add_theme_constant_override("margin_bottom", 16)
+	_avatar_picker_panel.add_child(margin)
+
+	var root: VBoxContainer = VBoxContainer.new()
+	root.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	root.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	root.add_theme_constant_override("separation", 12)
+	margin.add_child(root)
+
+	var header: HBoxContainer = HBoxContainer.new()
+	header.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	header.add_theme_constant_override("separation", 8)
+	root.add_child(header)
+
+	var title: Label = Label.new()
+	title.text = "切换头像与背景"
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.add_theme_font_override("font", _ui_font)
+	title.add_theme_font_size_override("font_size", 24)
+	title.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+	header.add_child(title)
+
+	var close_button: Button = Button.new()
+	close_button.text = "关闭"
+	close_button.custom_minimum_size = Vector2(96, 34)
+	close_button.add_theme_font_override("font", _ui_font)
+	close_button.add_theme_font_size_override("font_size", 18)
+	close_button.size_flags_horizontal = Control.SIZE_SHRINK_END
+	close_button.pressed.connect(func():
+		if _avatar_picker_overlay != null:
+			_avatar_picker_overlay.visible = false
+	)
+	header.add_child(close_button)
+
+	var scroll: ScrollContainer = ScrollContainer.new()
+	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	root.add_child(scroll)
+
+	var content: HBoxContainer = HBoxContainer.new()
+	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content.add_theme_constant_override("separation", 18)
+	scroll.add_child(content)
+
+	var preview_wrap: CenterContainer = CenterContainer.new()
+	preview_wrap.custom_minimum_size = Vector2(190, 0)
+	content.add_child(preview_wrap)
+
+	var preview_button: TextureButton = TextureButton.new()
+	preview_button.custom_minimum_size = Vector2(122, 84)
+	preview_button.texture_normal = _load_image_texture(USER_MENU_BG_PATH)
+	preview_button.texture_hover = preview_button.texture_normal
+	preview_button.texture_pressed = preview_button.texture_normal
+	preview_wrap.add_child(preview_button)
+
+	_avatar_picker_preview_bg = TextureRect.new()
+	_avatar_picker_preview_bg.position = Vector2(7.35, 7.35)
+	_avatar_picker_preview_bg.size = Vector2(69.3, 69.3)
+	_avatar_picker_preview_bg.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_avatar_picker_preview_bg.stretch_mode = TextureRect.STRETCH_SCALE
+	preview_button.add_child(_avatar_picker_preview_bg)
+
+	_avatar_picker_preview_icon = TextureRect.new()
+	_avatar_picker_preview_icon.position = Vector2(7.35, 7.35)
+	_avatar_picker_preview_icon.size = Vector2(69.3, 69.3)
+	_avatar_picker_preview_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_avatar_picker_preview_icon.stretch_mode = TextureRect.STRETCH_SCALE
+	preview_button.add_child(_avatar_picker_preview_icon)
+
+	var form: VBoxContainer = VBoxContainer.new()
+	form.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	form.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	form.add_theme_constant_override("separation", 12)
+	content.add_child(form)
+
+	var bg_label: Label = Label.new()
+	bg_label.text = "背景列表"
+	bg_label.add_theme_font_override("font", _ui_font)
+	bg_label.add_theme_font_size_override("font_size", 18)
+	bg_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.9))
+	form.add_child(bg_label)
+
+	_avatar_picker_bg_option = ItemList.new()
+	_avatar_picker_bg_option.icon_mode = ItemList.ICON_MODE_TOP
+	_avatar_picker_bg_option.fixed_icon_size = Vector2i(48, 48)
+	_avatar_picker_bg_option.max_columns = 10
+	_avatar_picker_bg_option.same_column_width = true
+	_avatar_picker_bg_option.select_mode = ItemList.SELECT_SINGLE
+	_avatar_picker_bg_option.custom_minimum_size = Vector2(0, 90)
+	_avatar_picker_bg_option.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	_avatar_picker_bg_option.add_theme_font_override("font", _ui_font)
+	_avatar_picker_bg_option.add_theme_font_size_override("font_size", 14)
+	_avatar_picker_bg_option.add_theme_color_override("font_color", Color(1, 1, 1, 0.9))
+	_avatar_picker_bg_option.add_theme_color_override("font_selected_color", Color(1, 1, 1, 1))
+	_avatar_picker_bg_option.add_theme_color_override("selection_color", Color(0.25, 0.5, 0.9, 0.55))
+	_avatar_picker_bg_option.item_selected.connect(_on_avatar_picker_bg_selected)
+	form.add_child(_avatar_picker_bg_option)
+
+	var icon_label: Label = Label.new()
+	icon_label.text = "头像列表"
+	icon_label.add_theme_font_override("font", _ui_font)
+	icon_label.add_theme_font_size_override("font_size", 18)
+	icon_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.9))
+	form.add_child(icon_label)
+
+	_avatar_picker_icon_option = ItemList.new()
+	_avatar_picker_icon_option.icon_mode = ItemList.ICON_MODE_TOP
+	_avatar_picker_icon_option.fixed_icon_size = Vector2i(48, 48)
+	_avatar_picker_icon_option.max_columns = 10
+	_avatar_picker_icon_option.same_column_width = true
+	_avatar_picker_icon_option.select_mode = ItemList.SELECT_SINGLE
+	_avatar_picker_icon_option.custom_minimum_size = Vector2(0, 90)
+	_avatar_picker_icon_option.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	_avatar_picker_icon_option.add_theme_font_override("font", _ui_font)
+	_avatar_picker_icon_option.add_theme_font_size_override("font_size", 14)
+	_avatar_picker_icon_option.add_theme_color_override("font_color", Color(1, 1, 1, 0.9))
+	_avatar_picker_icon_option.add_theme_color_override("font_selected_color", Color(1, 1, 1, 1))
+	_avatar_picker_icon_option.add_theme_color_override("selection_color", Color(0.25, 0.5, 0.9, 0.55))
+	_avatar_picker_icon_option.item_selected.connect(_on_avatar_picker_icon_selected)
+	form.add_child(_avatar_picker_icon_option)
+
+	var hint: Label = Label.new()
+	hint.text = "点击图标预览，点“保存”生效（Esc/点空白关闭）"
+	hint.add_theme_font_override("font", _ui_font)
+	hint.add_theme_font_size_override("font_size", 16)
+	hint.add_theme_color_override("font_color", Color(1, 1, 1, 0.7))
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	hint.modulate = Color(1, 1, 1, 0.7)
+	form.add_child(hint)
+
+	var footer: HBoxContainer = HBoxContainer.new()
+	footer.add_theme_constant_override("separation", 10)
+	footer.size_flags_vertical = Control.SIZE_SHRINK_END
+	root.add_child(footer)
+
+	var spacer: Control = Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	footer.add_child(spacer)
+
+	_avatar_picker_cancel_button = Button.new()
+	_avatar_picker_cancel_button.text = "取消"
+	_avatar_picker_cancel_button.custom_minimum_size = Vector2(120, 34)
+	_avatar_picker_cancel_button.add_theme_font_override("font", _ui_font)
+	_avatar_picker_cancel_button.add_theme_font_size_override("font_size", 18)
+	_avatar_picker_cancel_button.pressed.connect(_on_avatar_picker_cancel_pressed)
+	footer.add_child(_avatar_picker_cancel_button)
+
+	_avatar_picker_apply_button = Button.new()
+	_avatar_picker_apply_button.text = "保存"
+	_avatar_picker_apply_button.custom_minimum_size = Vector2(120, 34)
+	_avatar_picker_apply_button.add_theme_font_override("font", _ui_font)
+	_avatar_picker_apply_button.add_theme_font_size_override("font_size", 18)
+	_avatar_picker_apply_button.pressed.connect(_on_avatar_picker_apply_pressed)
+	footer.add_child(_avatar_picker_apply_button)
+
+	_avatar_picker_bg_ids = _load_local_avatar_ids(USER_AVATAR_BACKGROUND_DIR, USER_AVATAR_BG_MAX_ID)
+	_avatar_picker_icon_ids = _load_local_avatar_ids(USER_AVATAR_ICON_DIR, USER_AVATAR_MAX_ID)
+	_populate_avatar_picker_options()
+	call_deferred("_center_avatar_picker_panel")
+
+func _build_default_id_list(max_count: int) -> Array[int]:
+	var out: Array[int] = []
+	for i in range(1, max_count + 1):
+		out.append(i)
+	return out
+
+func _load_local_avatar_ids(dir_path: String, max_count: int) -> Array[int]:
+	var ids: Array[int] = []
+	var dir: DirAccess = DirAccess.open(dir_path)
+	if dir == null:
+		return _build_default_id_list(max_count)
+	dir.list_dir_begin()
+	var file_name: String = dir.get_next()
+	while file_name != "":
+		if not dir.current_is_dir() and file_name.to_lower().ends_with(".png"):
+			var base: String = file_name.get_basename()
+			if base.is_valid_int():
+				var id_value: int = int(base)
+				if id_value >= 1 and id_value <= max_count and not ids.has(id_value):
+					ids.append(id_value)
+		file_name = dir.get_next()
+	dir.list_dir_end()
+	ids.sort()
+	if ids.is_empty():
+		return _build_default_id_list(max_count)
+	return ids
+
+func _populate_avatar_picker_options() -> void:
+	if _avatar_picker_bg_option == null or _avatar_picker_icon_option == null:
+		return
+
+	_avatar_picker_bg_option.clear()
+	for id_value in _avatar_picker_bg_ids:
+		var bg_path: String = "%s/%s.png" % [USER_AVATAR_BACKGROUND_DIR, _avatar_id_to_name(id_value)]
+		var bg_tex: Texture2D = _load_image_texture(bg_path)
+		var label_text: String = "背景 %d" % id_value
+		_avatar_picker_bg_option.add_item(label_text, bg_tex)
+		_avatar_picker_bg_option.set_item_metadata(_avatar_picker_bg_option.get_item_count() - 1, id_value)
+
+	_avatar_picker_icon_option.clear()
+	for id_value in _avatar_picker_icon_ids:
+		var icon_path: String = "%s/%s.png" % [USER_AVATAR_ICON_DIR, _avatar_id_to_name(id_value)]
+		var icon_tex: Texture2D = _load_image_texture(icon_path)
+		var label_text: String = "头像 %d" % id_value
+		_avatar_picker_icon_option.add_item(label_text, icon_tex)
+		_avatar_picker_icon_option.set_item_metadata(_avatar_picker_icon_option.get_item_count() - 1, id_value)
+
+func _on_user_menu_button_gui_input(event: InputEvent) -> void:
+	if not (event is InputEventMouseButton):
+		return
+	var mouse_event: InputEventMouseButton = event as InputEventMouseButton
+	if not mouse_event.pressed or mouse_event.button_index != MOUSE_BUTTON_LEFT:
+		return
+
+	if not _is_user_logged_in():
+		_open_auth_dialog_from_settings()
+		get_viewport().set_input_as_handled()
+		return
+
+	var local_pos: Vector2 = mouse_event.position
+	var avatar_rect: Rect2 = Rect2(Vector2.ZERO, Vector2.ZERO)
+	if user_menu_bg != null:
+		avatar_rect = Rect2(user_menu_bg.position, user_menu_bg.size)
+
+	if avatar_rect.has_point(local_pos):
+		_on_user_menu_button_pressed()
+	else:
+		_open_auth_dialog_from_settings()
+
+	get_viewport().set_input_as_handled()
+
+func _is_user_logged_in() -> bool:
+	return has_node("/root/AuthManager") and AuthManager.has_method("is_logged_in") and AuthManager.is_logged_in()
+
+func _open_auth_dialog_from_settings() -> void:
+	if _is_auth_dialog_open:
+		return
+
+	var auth_scene: PackedScene = load(AUTH_DIALOG_SCENE_PATH)
+	if auth_scene == null:
+		push_error("无法加载登录窗口场景: " + AUTH_DIALOG_SCENE_PATH)
+		return
+
+	var auth_dialog: Node = auth_scene.instantiate()
+	_is_auth_dialog_open = true
+	auth_dialog.tree_exited.connect(func():
+		_is_auth_dialog_open = false
+		_refresh_user_menu_avatar_preview()
+	)
+	if auth_dialog is Control:
+		(auth_dialog as Control).z_index = 2500
+		(auth_dialog as Control).mouse_filter = Control.MOUSE_FILTER_STOP
+
+	var host: Node = get_parent() if get_parent() != null else self
+	host.add_child(auth_dialog)
+	host.move_child(auth_dialog, host.get_child_count() - 1)
+
+func _on_settings_resized() -> void:
+	_center_avatar_picker_panel()
+
+func _center_avatar_picker_panel() -> void:
+	if _avatar_picker_overlay == null or _avatar_picker_panel == null:
+		return
+	var overlay_size: Vector2 = _avatar_picker_overlay.size
+	if overlay_size == Vector2.ZERO:
+		overlay_size = get_viewport().get_visible_rect().size
+	if overlay_size == Vector2.ZERO:
+		overlay_size = size
+
+	var margin_px: float = 16.0
+	var max_size: Vector2 = overlay_size - Vector2(margin_px * 2.0, margin_px * 2.0)
+	var desired: Vector2 = _avatar_picker_panel.custom_minimum_size
+	var final_size: Vector2 = Vector2(min(desired.x, max_size.x), min(desired.y, max_size.y))
+	final_size.x = max(final_size.x, 240.0)
+	final_size.y = max(final_size.y, 180.0)
+	_avatar_picker_panel.size = final_size
+
+	var pos: Vector2 = (overlay_size - final_size) * 0.5
+	pos.x = clamp(pos.x, margin_px, overlay_size.x - final_size.x - margin_px)
+	pos.y = clamp(pos.y, margin_px, overlay_size.y - final_size.y - margin_px)
+	_avatar_picker_panel.position = pos
+
+func _refresh_avatar_picker_options_async() -> void:
+	if _avatar_picker_options_loading or not _is_user_logged_in():
+		return
+	if not has_node("/root/AuthManager") or not AuthManager.has_method("fetch_avatar_options"):
+		return
+	_avatar_picker_options_loading = true
+	var result: Dictionary = await AuthManager.fetch_avatar_options()
+	_avatar_picker_options_loading = false
+	if not bool(result.get("ok", false)):
+		return
+
+	var parsed: Variant = result.get("data")
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return
+	var payload: Dictionary = parsed as Dictionary
+	if typeof(payload.get("data", null)) == TYPE_DICTIONARY:
+		payload = payload.get("data", {}) as Dictionary
+
+	var new_bg_ids: Array[int] = _extract_avatar_ids(payload.get("avatar_background_ids", []), USER_AVATAR_BG_MAX_ID)
+	var new_icon_ids: Array[int] = _extract_avatar_ids(payload.get("avatar_ids", []), USER_AVATAR_MAX_ID)
+	if new_bg_ids.is_empty() or new_icon_ids.is_empty():
+		return
+
+	_avatar_picker_bg_ids = new_bg_ids
+	_avatar_picker_icon_ids = new_icon_ids
+	_populate_avatar_picker_options()
+	_select_avatar_picker_option(_avatar_picker_bg_option, _avatar_picker_selected_bg_id)
+	_select_avatar_picker_option(_avatar_picker_icon_option, _avatar_picker_selected_icon_id)
+	_update_avatar_picker_preview()
+
+func _extract_avatar_ids(values: Variant, max_id: int) -> Array[int]:
+	var output: Array[int] = []
+	if typeof(values) != TYPE_ARRAY:
+		return output
+	for value in values:
+		var id_value: int = int(value)
+		if id_value >= 1 and id_value <= max_id:
+			output.append(id_value)
+	if output.is_empty():
+		return _build_default_id_list(max_id)
+	return output
+
+func _on_user_menu_button_pressed() -> void:
+	if not _is_user_logged_in():
+		_open_auth_dialog_from_settings()
+		return
+
+	if _avatar_picker_dialog_open:
+		return
+
+	var scene_any: Variant = load(AVATAR_PICKER_DIALOG_SCENE_PATH)
+	if not (scene_any is PackedScene):
+		push_error("无法加载头像编辑窗口场景: " + AVATAR_PICKER_DIALOG_SCENE_PATH)
+		return
+
+	var dialog: Node = (scene_any as PackedScene).instantiate()
+	_avatar_picker_dialog_open = true
+	dialog.tree_exited.connect(func():
+		_avatar_picker_dialog_open = false
+		_refresh_user_menu_avatar_preview()
+	)
+
+	var avatar_id: int = _read_profile_int("avatar_id", USER_AVATAR_DEFAULT_ID, 1, USER_AVATAR_MAX_ID)
+	var bg_id: int = _read_profile_int("avatar_background_id", USER_AVATAR_DEFAULT_BG_ID, 1, USER_AVATAR_BG_MAX_ID)
+	if dialog.has_method("setup"):
+		dialog.call("setup", avatar_id, bg_id)
+
+	if dialog.has_signal("confirmed"):
+		dialog.connect("confirmed", func(new_avatar_id: int, new_bg_id: int):
+			await _save_profile_avatar_and_refresh(new_avatar_id, new_bg_id)
+			dialog.queue_free()
+		)
+	if dialog.has_signal("canceled"):
+		dialog.connect("canceled", func():
+			dialog.queue_free()
+		)
+
+	if dialog is Control:
+		(dialog as Control).z_index = 2600
+		(dialog as Control).mouse_filter = Control.MOUSE_FILTER_STOP
+
+	var host: Node = get_parent() if get_parent() != null else self
+	host.add_child(dialog)
+	host.move_child(dialog, host.get_child_count() - 1)
+
+func _save_profile_avatar_and_refresh(avatar_id: int, avatar_background_id: int) -> void:
+	if not _is_user_logged_in():
+		_open_auth_dialog_from_settings()
+		return
+	if has_node("/root/AuthManager") and AuthManager.has_method("update_profile_avatar"):
+		var result: Dictionary = await AuthManager.update_profile_avatar(avatar_id, avatar_background_id)
+		if not bool(result.get("ok", false)):
+			print("Update avatar failed: %s" % str(result.get("raw", result.get("error", "unknown"))))
+	_refresh_user_menu_avatar_preview()
+
+func _select_avatar_picker_option(option: ItemList, target_id: int) -> void:
+	if option == null:
+		return
+	for i in range(option.get_item_count()):
+		if int(option.get_item_metadata(i)) == target_id:
+			option.select(i)
+			return
+
+func _on_avatar_picker_bg_selected(index: int) -> void:
+	if _avatar_picker_bg_option == null:
+		return
+	_avatar_picker_selected_bg_id = int(_avatar_picker_bg_option.get_item_metadata(index))
+	_update_avatar_picker_preview()
+
+func _on_avatar_picker_icon_selected(index: int) -> void:
+	if _avatar_picker_icon_option == null:
+		return
+	_avatar_picker_selected_icon_id = int(_avatar_picker_icon_option.get_item_metadata(index))
+	_update_avatar_picker_preview()
+
+func _update_avatar_picker_preview() -> void:
+	if _avatar_picker_preview_bg == null or _avatar_picker_preview_icon == null:
+		return
+
+	var bg_path: String = "%s/%s.png" % [USER_AVATAR_BACKGROUND_DIR, _avatar_id_to_name(_avatar_picker_selected_bg_id)]
+	var icon_path: String = "%s/%s.png" % [USER_AVATAR_ICON_DIR, _avatar_id_to_name(_avatar_picker_selected_icon_id)]
+	_avatar_picker_preview_bg.texture = _load_image_texture(bg_path)
+	_avatar_picker_preview_icon.texture = _load_image_texture(icon_path)
+
+func _on_avatar_picker_cancel_pressed() -> void:
+	if _avatar_picker_overlay != null:
+		_avatar_picker_overlay.visible = false
+
+func _on_avatar_picker_apply_pressed() -> void:
+	if _avatar_picker_apply_button != null:
+		_avatar_picker_apply_button.disabled = true
+
+	if has_node("/root/AuthManager") and AuthManager.has_method("is_logged_in") and AuthManager.is_logged_in() and AuthManager.has_method("update_profile_avatar"):
+		var result: Dictionary = await AuthManager.update_profile_avatar(_avatar_picker_selected_icon_id, _avatar_picker_selected_bg_id)
+		if not bool(result.get("ok", false)):
+			print("Update avatar failed: %s" % str(result.get("raw", result.get("error", "unknown"))))
+		else:
+			_avatar_runtime_override_enabled = false
+	else:
+		if _avatar_picker_overlay != null:
+			_avatar_picker_overlay.visible = false
+		if _avatar_picker_apply_button != null:
+			_avatar_picker_apply_button.disabled = false
+		_open_auth_dialog_from_settings()
+		return
+
+	_refresh_user_menu_avatar_preview()
+	if _avatar_picker_overlay != null:
+		_avatar_picker_overlay.visible = false
+	if _avatar_picker_apply_button != null:
+		_avatar_picker_apply_button.disabled = false
+
+func _on_avatar_picker_overlay_gui_input(event: InputEvent) -> void:
+	if _avatar_picker_overlay == null or not _avatar_picker_overlay.visible:
+		return
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		var pos: Vector2 = _avatar_picker_overlay.get_local_mouse_position()
+		if _avatar_picker_panel != null:
+			var rect := Rect2(_avatar_picker_panel.position, _avatar_picker_panel.size)
+			if not rect.has_point(pos):
+				_avatar_picker_overlay.visible = false
 
 func _populate_screen_list():
 	screen_list.clear()
