@@ -89,6 +89,8 @@ func refresh_access_token() -> Dictionary:
 	var payload := {"refresh_token": refresh_token}
 	var res := await _request_json("/api/auth/refresh", HTTPClient.METHOD_POST, payload, PackedStringArray())
 	if not res.get("ok", false):
+		if int(res.get("status", 0)) == 401:
+			logout()
 		return res
 
 	var parsed: Variant = res.get("data")
@@ -104,11 +106,24 @@ func refresh_access_token() -> Dictionary:
 		return {"ok": false, "status": 500, "error": "refresh_response_missing_access_token", "data": parsed}
 
 	access_token = new_access_token
+	var new_refresh_token: String = str(token_payload.get("refresh_token", "")).strip_edges()
+	if not new_refresh_token.is_empty():
+		refresh_token = new_refresh_token
 	var expires_in: int = int(token_payload.get("expires_in", 0))
 	expires_at_unix = int(Time.get_unix_time_from_system()) + max(expires_in, 0)
 	_save_to_config()
 	auth_state_changed.emit(is_logged_in())
 	return res
+
+func _unwrap_api_payload(parsed: Variant) -> Dictionary:
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return {}
+	var payload: Dictionary = parsed as Dictionary
+	if typeof(payload.get("data", null)) == TYPE_DICTIONARY:
+		payload = payload.get("data", {}) as Dictionary
+	if typeof(payload.get("profile", null)) == TYPE_DICTIONARY:
+		payload = payload.get("profile", {}) as Dictionary
+	return payload
 
 func fetch_profile() -> Dictionary:
 	if not await ensure_valid_token():
@@ -118,17 +133,70 @@ func fetch_profile() -> Dictionary:
 	])
 	var res := await _request_json("/api/user/profile", HTTPClient.METHOD_GET, {}, headers)
 	var parsed: Variant = res.get("data")
-	var profile_payload: Dictionary = {}
-	if typeof(parsed) == TYPE_DICTIONARY:
-		if typeof(parsed.get("data")) == TYPE_DICTIONARY:
-			profile_payload = parsed["data"]
-		else:
-			profile_payload = parsed
+	var profile_payload: Dictionary = _unwrap_api_payload(parsed)
 
-	if res.get("ok", false) and not profile_payload.is_empty():
-		profile = profile_payload
+	if bool(res.get("ok", false)):
+		# Some API variants wrap the payload or return partial fields; keep existing profile if payload is empty.
+		if not profile_payload.is_empty():
+			profile = profile_payload
 		_save_to_config()
 		profile_changed.emit(profile)
+	return res
+
+func update_profile_avatar(avatar_id: int, avatar_background_id: int) -> Dictionary:
+	if not await ensure_valid_token():
+		return {"ok": false, "status": 401, "error": "not_logged_in"}
+
+	var headers := PackedStringArray([
+		"Authorization: Bearer %s" % access_token,
+	])
+	var payload: Dictionary = {
+		"avatar_id": avatar_id,
+		"avatar_background_id": avatar_background_id,
+	}
+	var res: Dictionary = await _request_json("/api/user/profile", HTTPClient.METHOD_PUT, payload, headers)
+	if int(res.get("status", 0)) == 401:
+		var refreshed: Dictionary = await refresh_access_token()
+		if bool(refreshed.get("ok", false)):
+			headers = PackedStringArray([
+				"Authorization: Bearer %s" % access_token,
+			])
+			res = await _request_json("/api/user/profile", HTTPClient.METHOD_PUT, payload, headers)
+
+	if bool(res.get("ok", false)):
+		var parsed: Variant = res.get("data")
+		var profile_payload: Dictionary = _unwrap_api_payload(parsed)
+		if not profile_payload.is_empty():
+			profile = profile_payload
+		else:
+			# Keep local cache in sync even if the server returns no payload.
+			if typeof(profile.get("profile_data", null)) == TYPE_DICTIONARY:
+				var profile_data: Dictionary = profile.get("profile_data", {}) as Dictionary
+				profile_data["avatar_id"] = avatar_id
+				profile_data["avatar_background_id"] = avatar_background_id
+				profile["profile_data"] = profile_data
+			else:
+				profile["avatar_id"] = avatar_id
+				profile["avatar_background_id"] = avatar_background_id
+		_save_to_config()
+		profile_changed.emit(profile)
+	return res
+
+func fetch_avatar_options() -> Dictionary:
+	if not await ensure_valid_token():
+		return {"ok": false, "status": 401, "error": "not_logged_in"}
+
+	var headers := PackedStringArray([
+		"Authorization: Bearer %s" % access_token,
+	])
+	var res: Dictionary = await _request_json("/api/user/profile/avatar-options", HTTPClient.METHOD_GET, {}, headers)
+	if int(res.get("status", 0)) == 401:
+		var refreshed: Dictionary = await refresh_access_token()
+		if bool(refreshed.get("ok", false)):
+			headers = PackedStringArray([
+				"Authorization: Bearer %s" % access_token,
+			])
+			res = await _request_json("/api/user/profile/avatar-options", HTTPClient.METHOD_GET, {}, headers)
 	return res
 
 func _request_json(path: String, method: int, payload: Dictionary, extra_headers: PackedStringArray) -> Dictionary:
