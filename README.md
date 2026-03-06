@@ -1,4 +1,4 @@
-# [Godot]魔女兵器
+﻿# [Godot]魔女兵器
 
 基于 Godot 引擎重制的《魔女兵器》同人项目。
 
@@ -29,7 +29,7 @@
 
 ### 技术特点
 
-- 使用 Godot 4.5 引擎开发
+- 使用 Godot 4.6 引擎开发
 - GDScript 脚本语言编写
 - 场景化的项目结构设计
 - 集成 godot-vlc 插件实现高质量视频播放
@@ -41,7 +41,7 @@
 
 ### 环境要求
 
-- **Godot 引擎**：4.5 或更高版本
+- **Godot 引擎**：4.6 或更高版本
 - **操作系统**：Windows 10/11（推荐）、Linux、macOS
 - **godot-vlc 插件**：已包含在项目 `addons/` 目录中
 - **最低配置**：
@@ -62,7 +62,7 @@ cd Witch-Weapon-Godot-
 ```
 
 2. **下载并安装 Godot 引擎**
-   - 访问 [Godot 官网](https://godotengine.org/download) 下载 Godot 4.5 或更高版本
+   - 访问 [Godot 官网](https://godotengine.org/download) 下载 Godot 4.6 或更高版本
    - 推荐下载标准版（Standard version）
 
 3. **打开项目**
@@ -146,7 +146,7 @@ cd Witch-Weapon-Godot-
 </td>
 <td align="center" width="33.33%">
 <a href="https://space.bilibili.com/3546683193428662">
-<img src="https://i1.hdslb.com/bfs/face/cff2b11ae8495ab602153e4ada205f6ee7f5486f.jpg" width="100px;" alt="ageace"/>
+<img src="https://i1.hdslb.com/bfs/face/cff2b11ae8495ab602153e4ada205f6ee7f5486f.jpg" width="100px;" alt="白烛Official"/>
 <br />
 <sub><b>白烛Official</b></sub>
 </a>
@@ -175,8 +175,23 @@ cd Witch-Weapon-Godot-
 </a>
 </td>
 </tr>
-</table>
+<tr>
+<td align="center" width="33.33%">
+<a href="https://github.com/basket-ball">
+<img src="https://avatars.githubusercontent.com/u/53385583?v=4" width="100px;" alt="basket_ball"/>
+<br />
+<sub><b>basket_ball</b></sub>
+</a>
+</td>
+<td align="center" width="33.33%"></td>
+<td align="center" width="33.33%"></td>
+</tr>`n</table>
+
+- QQ群：1078249413 魔女兵器编辑器测试群
 
 ---
 
 **再次强调：本项目仅供学习交流，严禁商业使用。请尊重原作版权。**
+
+
+

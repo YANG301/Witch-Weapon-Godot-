@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://5xfq5tpgqce"
-path="res://.godot/imported/雪凌殇.webp-e2a413850014c496458762f2cc32befa.ctex"
+path="res://.godot/imported/雪凌殇.webp-9004fecf7dafc73cb31a62cd57787064.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gui/settings/雪凌殇.webp"
-dest_files=["res://.godot/imported/雪凌殇.webp-e2a413850014c496458762f2cc32befa.ctex"]
+source_file="res://assets/gui/settings/credits/雪凌殇.webp"
+dest_files=["res://.godot/imported/雪凌殇.webp-9004fecf7dafc73cb31a62cd57787064.ctex"]
 
 [params]
 

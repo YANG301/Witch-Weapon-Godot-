@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://488lsr0s1sa6"
-path="res://.godot/imported/樱天澈.webp-f0a91c81e571556bcbd081ef61fafdc8.ctex"
+uid="uid://cvpopg2aw4cko"
+path="res://.godot/imported/basket_ball.png-ddb420f8f0bef09042f6432d20fb3af8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gui/settings/樱天澈.webp"
-dest_files=["res://.godot/imported/樱天澈.webp-f0a91c81e571556bcbd081ef61fafdc8.ctex"]
+source_file="res://assets/gui/settings/credits/basket_ball.png"
+dest_files=["res://.godot/imported/basket_ball.png-ddb420f8f0bef09042f6432d20fb3af8.ctex"]
 
 [params]
 

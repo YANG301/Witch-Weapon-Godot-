@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cgko5uvkl13mb"]
+[gd_scene load_steps=9 format=3 uid="uid://cgko5uvkl13mb"]
 
 [ext_resource type="Script" uid="uid://c6c6ua607swe0" path="res://scripts/setting/settings.gd" id="1_settings"]
 [ext_resource type="FontFile" uid="uid://ckp1oydq2vsvy" path="res://assets/gui/font/方正粗圆_GBK.ttf" id="2_font"]
@@ -6,22 +6,17 @@
 [ext_resource type="Texture2D" uid="uid://dyhhk4ebvan1h" path="res://assets/gui/settings/back_btn_click.png" id="4_back_click"]
 [ext_resource type="Texture2D" uid="uid://dkkramn5ubma6" path="res://assets/gui/settings/setting_clicked.png" id="6_setting_clicked"]
 [ext_resource type="Texture2D" uid="uid://dg0u1j5v7vuhq" path="res://assets/gui/settings/thanks_idle.png" id="7_thanks_idle"]
-[ext_resource type="Texture2D" uid="uid://d3uinks8q3rl3" path="res://assets/gui/settings/YANG-301.webp" id="10_yang"]
-[ext_resource type="Texture2D" uid="uid://b8686g535glnv" path="res://assets/gui/settings/不死扶苏233.webp" id="11_fusu"]
-[ext_resource type="Texture2D" uid="uid://488lsr0s1sa6" path="res://assets/gui/settings/樱天澈.webp" id="12_sakura"]
-[ext_resource type="Texture2D" uid="uid://5xfq5tpgqce" path="res://assets/gui/settings/雪凌殇.webp" id="13_snow"]
-[ext_resource type="Texture2D" uid="uid://coc6ap2fff287" path="res://assets/gui/settings/见习食神懒羊羊.webp" id="14_lazy"]
 [ext_resource type="Shader" uid="uid://dade0aiy7255o" path="res://scripts/shader/circle_avatar.gdshader" id="16_circle_shader"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avatar_shadow"]
-bg_color = Color(0, 0, 0, 0.2)
-corner_radius_top_left = 50
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
-shadow_color = Color(0, 0, 0, 0.3)
-shadow_size = 8
-shadow_offset = Vector2(0, 4)
+bg_color = Color(0, 0, 0, 0.08)
+corner_radius_top_left = 80
+corner_radius_top_right = 80
+corner_radius_bottom_right = 80
+corner_radius_bottom_left = 80
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 14
+shadow_offset = Vector2(0, 8)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_circle"]
 shader = ExtResource("16_circle_shader")
@@ -226,94 +221,6 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 40
 
-[node name="Contributor1" type="VBoxContainer" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="AvatarContainer" type="Control" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor1"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-
-[node name="Shadow" type="Panel" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor1/AvatarContainer"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_avatar_shadow")
-
-[node name="AvatarButton" type="TextureButton" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor1/AvatarContainer"]
-material = SubResource("ShaderMaterial_circle")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture_normal = ExtResource("11_fusu")
-stretch_mode = 5
-
-[node name="Name" type="Label" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor1"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
-theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 20
-text = "不死扶苏233"
-horizontal_alignment = 1
-
-[node name="Description" type="Label" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor1"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
-theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 14
-text = "测试与部分脚本编写"
-horizontal_alignment = 1
-
-[node name="Contributor2" type="VBoxContainer" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="AvatarContainer" type="Control" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor2"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-
-[node name="Shadow" type="Panel" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor2/AvatarContainer"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_avatar_shadow")
-
-[node name="AvatarButton" type="TextureButton" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor2/AvatarContainer"]
-material = SubResource("ShaderMaterial_circle")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture_normal = ExtResource("10_yang")
-stretch_mode = 5
-
-[node name="Name" type="Label" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor2"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
-theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 20
-text = "YANG-301"
-horizontal_alignment = 1
-
-[node name="Description" type="Label" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor2"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
-theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 14
-text = "游戏主程序"
-horizontal_alignment = 1
-
 [node name="HSeparator1" type="HSeparator" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer"]
 layout_mode = 2
 
@@ -330,112 +237,15 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 40
 
-[node name="Thanks1" type="VBoxContainer" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="AvatarContainer" type="Control" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks1"]
-custom_minimum_size = Vector2(100, 100)
+[node name="HSeparator2" type="HSeparator" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer"]
 layout_mode = 2
 
-[node name="Shadow" type="Panel" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks1/AvatarContainer"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_avatar_shadow")
-
-[node name="AvatarButton" type="TextureButton" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks1/AvatarContainer"]
-material = SubResource("ShaderMaterial_circle")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture_normal = ExtResource("12_sakura")
-stretch_mode = 5
-
-[node name="Name" type="Label" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks1"]
+[node name="QQGroupLabel" type="Label" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_colors/font_color = Color(0.35, 0.35, 0.35, 1)
 theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 18
-text = "樱天澈"
-horizontal_alignment = 1
-
-[node name="Thanks2" type="VBoxContainer" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="AvatarContainer" type="Control" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks2"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-
-[node name="Shadow" type="Panel" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks2/AvatarContainer"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_avatar_shadow")
-
-[node name="AvatarButton" type="TextureButton" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks2/AvatarContainer"]
-material = SubResource("ShaderMaterial_circle")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture_normal = ExtResource("13_snow")
-stretch_mode = 5
-
-[node name="Name" type="Label" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks2"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
-theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 18
-text = "雪凌殇"
-horizontal_alignment = 1
-
-[node name="Thanks3" type="VBoxContainer" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="AvatarContainer" type="Control" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks3"]
-custom_minimum_size = Vector2(100, 100)
-layout_mode = 2
-
-[node name="Shadow" type="Panel" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks3/AvatarContainer"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_avatar_shadow")
-
-[node name="AvatarButton" type="TextureButton" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks3/AvatarContainer"]
-material = SubResource("ShaderMaterial_circle")
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture_normal = ExtResource("14_lazy")
-stretch_mode = 5
-
-[node name="Name" type="Label" parent="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks3"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
-theme_override_fonts/font = ExtResource("2_font")
-theme_override_font_sizes/font_size = 18
-text = "见习食神懒羊羊"
+theme_override_font_sizes/font_size = 16
+text = "QQ群：1078249413  魔女兵器编辑器测试群"
 horizontal_alignment = 1
 
 [node name="SidePanel" type="ColorRect" parent="MainPanel"]
@@ -498,6 +308,56 @@ offset_right = 44.0
 offset_bottom = 50.0
 stretch_mode = 5
 
+[node name="CreditCardTemplate" type="VBoxContainer" parent="."]
+visible = false
+process_mode = 4
+theme_override_constants/separation = 10
+
+[node name="AvatarContainer" type="Control" parent="CreditCardTemplate"]
+custom_minimum_size = Vector2(100, 100)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+layout_mode = 2
+
+[node name="Shadow" type="Panel" parent="CreditCardTemplate/AvatarContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_avatar_shadow")
+
+[node name="AvatarButton" type="TextureButton" parent="CreditCardTemplate/AvatarContainer"]
+material = SubResource("ShaderMaterial_circle")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="CreditCardTemplate"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.2, 0.2, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 20
+text = "Template"
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="CreditCardTemplate"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.4, 0.4, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 14
+text = ""
+horizontal_alignment = 1
+
 [node name="BackButton" type="TextureButton" parent="."]
 z_index = 1
 layout_mode = 0
@@ -515,21 +375,6 @@ texture_pressed = ExtResource("4_back_click")
 [connection signal="value_changed" from="MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings/MasterVolumeSlider" to="." method="_on_master_volume_changed"]
 [connection signal="value_changed" from="MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings/MusicVolumeSlider" to="." method="_on_music_volume_changed"]
 [connection signal="value_changed" from="MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings/SFXVolumeSlider" to="." method="_on_sfx_volume_changed"]
-[connection signal="mouse_entered" from="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor1/AvatarContainer/AvatarButton" to="." method="_on_avatar_fusu_entered"]
-[connection signal="mouse_exited" from="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor1/AvatarContainer/AvatarButton" to="." method="_on_avatar_fusu_exited"]
-[connection signal="pressed" from="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor1/AvatarContainer/AvatarButton" to="." method="_on_contributor_fusu_pressed"]
-[connection signal="mouse_entered" from="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor2/AvatarContainer/AvatarButton" to="." method="_on_avatar_yang_entered"]
-[connection signal="mouse_exited" from="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor2/AvatarContainer/AvatarButton" to="." method="_on_avatar_yang_exited"]
-[connection signal="pressed" from="MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor2/AvatarContainer/AvatarButton" to="." method="_on_contributor_yang_pressed"]
-[connection signal="mouse_entered" from="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks1/AvatarContainer/AvatarButton" to="." method="_on_avatar_sakura_entered"]
-[connection signal="mouse_exited" from="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks1/AvatarContainer/AvatarButton" to="." method="_on_avatar_sakura_exited"]
-[connection signal="pressed" from="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks1/AvatarContainer/AvatarButton" to="." method="_on_thanks_sakura_pressed"]
-[connection signal="mouse_entered" from="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks2/AvatarContainer/AvatarButton" to="." method="_on_avatar_snow_entered"]
-[connection signal="mouse_exited" from="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks2/AvatarContainer/AvatarButton" to="." method="_on_avatar_snow_exited"]
-[connection signal="pressed" from="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks2/AvatarContainer/AvatarButton" to="." method="_on_thanks_snow_pressed"]
-[connection signal="mouse_entered" from="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks3/AvatarContainer/AvatarButton" to="." method="_on_avatar_lazy_entered"]
-[connection signal="mouse_exited" from="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks3/AvatarContainer/AvatarButton" to="." method="_on_avatar_lazy_exited"]
-[connection signal="pressed" from="MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks3/AvatarContainer/AvatarButton" to="." method="_on_thanks_lazy_pressed"]
 [connection signal="pressed" from="MainPanel/SidePanel/VBoxContainer/SettingButton" to="." method="_on_setting_button_pressed"]
 [connection signal="pressed" from="MainPanel/SidePanel/VBoxContainer/ThanksButton" to="." method="_on_thanks_button_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

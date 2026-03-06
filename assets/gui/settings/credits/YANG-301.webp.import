@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://coc6ap2fff287"
-path="res://.godot/imported/见习食神懒羊羊.webp-fba51d9abcab1cf1bf7990bfa8999d8e.ctex"
+uid="uid://d3uinks8q3rl3"
+path="res://.godot/imported/YANG-301.webp-5d78aa82d9b58e757b02210afee77284.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gui/settings/见习食神懒羊羊.webp"
-dest_files=["res://.godot/imported/见习食神懒羊羊.webp-fba51d9abcab1cf1bf7990bfa8999d8e.ctex"]
+source_file="res://assets/gui/settings/credits/YANG-301.webp"
+dest_files=["res://.godot/imported/YANG-301.webp-5d78aa82d9b58e757b02210afee77284.ctex"]
 
 [params]
 

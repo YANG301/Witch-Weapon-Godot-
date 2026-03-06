@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xwe32ewvyo81"
-path="res://.godot/imported/ageace.webp-e111383fd56cba28ea040c37ebd188a5.ctex"
+uid="uid://b8686g535glnv"
+path="res://.godot/imported/不死扶苏233.webp-dbe67b5eb975deb80f4e31597b88523d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gui/settings/ageace.webp"
-dest_files=["res://.godot/imported/ageace.webp-e111383fd56cba28ea040c37ebd188a5.ctex"]
+source_file="res://assets/gui/settings/credits/不死扶苏233.webp"
+dest_files=["res://.godot/imported/不死扶苏233.webp-dbe67b5eb975deb80f4e31597b88523d.ctex"]
 
 [params]
 

@@ -1,4 +1,4 @@
-extends Control
+﻿extends Control
 
 signal back_pressed
 
@@ -24,6 +24,11 @@ const RESOLUTIONS_16_9 = [
 # 面板节点
 @onready var settings_content = $MainPanel/ContentArea/SettingsContent
 @onready var thanks_content = $MainPanel/ContentArea/ThanksContent
+
+@onready var credits_contributors_grid: HBoxContainer = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid
+@onready var credits_thanks_grid: HBoxContainer = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid
+@onready var credit_card_template: VBoxContainer = $CreditCardTemplate
+@onready var qq_group_label: Label = $MainPanel/ContentArea/ThanksContent/VBoxContainer/QQGroupLabel
 
 # 按钮节点
 @onready var setting_button = $MainPanel/SidePanel/VBoxContainer/SettingButton
@@ -81,14 +86,21 @@ const AUTH_DIALOG_SCENE_PATH: String = "res://scenes/main/auth_dialog.tscn"
 const AVATAR_PICKER_DIALOG_SCENE_PATH: String = "res://scenes/setting/avatar_picker_dialog.tscn"
 const USER_UI_FONT_PATH: String = "res://assets/gui/font/方正粗圆_GBK.ttf"
 
-# B站个人主页链接（请在这里填写实际链接）
-var bilibili_urls = {
-	"yang": "https://space.bilibili.com/157725171",  # YANG-301的B站主页
-	"fusu": "https://space.bilibili.com/364706064",  # 不死扶苏233的B站主页
-	"sakura": "https://space.bilibili.com/28626",  # 樱天澈的B站主页
-	"snow": "https://space.bilibili.com/6105216",  # 雪凌殇的B站主页
-	"lazy": "https://space.bilibili.com/274983449"  # 见习食神懒羊羊的B站主页
-}
+# 致谢页数据（数据驱动生成）
+const CREDITS_CONTRIBUTORS: Array[Dictionary] = [
+    {"id": "yang", "name": "YANG-301", "desc": "游戏主程序", "texture": "res://assets/gui/settings/credits/YANG-301.webp", "url": "https://space.bilibili.com/157725171"},
+    {"id": "fusu", "name": "不死扶苏233", "desc": "测试与部分脚本编写", "texture": "res://assets/gui/settings/credits/不死扶苏233.webp", "url": "https://space.bilibili.com/364706064"},
+    {"id": "projektming", "name": "ProjektMing", "desc": "Github贡献", "texture": "res://assets/gui/settings/credits/projektming.jpg", "url": "https://github.com/ProjektMing"},
+    {"id": "basket_ball", "name": "basket_ball", "desc": "Github贡献、安全性测试", "texture": "res://assets/gui/settings/credits/basket_ball.png", "url": "https://github.com/basket-ball"},
+    {"id": "baizhu", "name": "白烛Official", "desc": "多语言支持", "texture": "res://assets/gui/settings/credits/baizhu_official.jpg", "url": "https://space.bilibili.com/3546683193428662"},
+]
+
+const CREDITS_SPECIAL_THANKS: Array[Dictionary] = [
+    {"id": "sakura", "name": "樱天澈", "desc": "", "texture": "res://assets/gui/settings/credits/樱天澈.webp", "url": "https://space.bilibili.com/28626"},
+    {"id": "snow", "name": "雪凌殇", "desc": "", "texture": "res://assets/gui/settings/credits/雪凌殇.webp", "url": "https://space.bilibili.com/6105216"},
+    {"id": "lazy", "name": "见习食神懒羊羊", "desc": "", "texture": "res://assets/gui/settings/credits/见习食神懒羊羊.webp", "url": "https://space.bilibili.com/274983449"},
+]
+
 
 func _ready():
 	# 加载按钮纹理资源
@@ -123,12 +135,16 @@ func _ready():
 
 	# 默认显示设置页面
 	_show_settings_page()
+	if qq_group_label != null:
+		qq_group_label.text = "QQ群：1078249413  魔女兵器编辑器测试群"
 	if has_node("/root/AuthManager") and not AuthManager.profile_changed.is_connected(_on_auth_profile_changed):
 		AuthManager.profile_changed.connect(_on_auth_profile_changed)
 	if has_node("/root/AuthManager") and not AuthManager.auth_state_changed.is_connected(_on_auth_state_changed):
 		AuthManager.auth_state_changed.connect(_on_auth_state_changed)
 	if user_menu_button != null and not user_menu_button.gui_input.is_connected(_on_user_menu_button_gui_input):
 		user_menu_button.gui_input.connect(_on_user_menu_button_gui_input)
+
+	_rebuild_credits_ui()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _avatar_picker_overlay == null or not _avatar_picker_overlay.visible:
@@ -1035,26 +1051,74 @@ func _show_thanks_page():
 	thanks_button.texture_normal = thanks_clicked_texture
 
 # B站链接点击处理
-func _open_bilibili_url(url: String):
-	if url == "":
-		print("该用户的B站链接尚未配置")
+func _open_external_url(url: String) -> void:
+	if url.strip_edges().is_empty():
 		return
 	OS.shell_open(url)
 
-func _on_contributor_fusu_pressed():
-	_open_bilibili_url(bilibili_urls["fusu"])
+func _on_credit_avatar_pressed(url: String) -> void:
+	_open_external_url(url)
 
-func _on_contributor_yang_pressed():
-	_open_bilibili_url(bilibili_urls["yang"])
+func _on_credit_avatar_entered(avatar_container: Control) -> void:
+	_float_avatar_up(avatar_container)
 
-func _on_thanks_sakura_pressed():
-	_open_bilibili_url(bilibili_urls["sakura"])
+func _on_credit_avatar_exited(avatar_container: Control) -> void:
+	_float_avatar_down(avatar_container)
 
-func _on_thanks_snow_pressed():
-	_open_bilibili_url(bilibili_urls["snow"])
+func _rebuild_credits_ui() -> void:
+	if credits_contributors_grid == null or credits_thanks_grid == null or credit_card_template == null:
+		return
 
-func _on_thanks_lazy_pressed():
-	_open_bilibili_url(bilibili_urls["lazy"])
+	_clear_container_children(credits_contributors_grid)
+	_clear_container_children(credits_thanks_grid)
+
+	for entry in CREDITS_CONTRIBUTORS:
+		var card := _instantiate_credit_card(entry)
+		credits_contributors_grid.add_child(card)
+
+	for entry in CREDITS_SPECIAL_THANKS:
+		var card := _instantiate_credit_card(entry)
+		credits_thanks_grid.add_child(card)
+
+func _clear_container_children(container: Node) -> void:
+	for child in container.get_children():
+		container.remove_child(child)
+		child.queue_free()
+
+func _instantiate_credit_card(entry: Dictionary) -> VBoxContainer:
+	var card := credit_card_template.duplicate() as VBoxContainer
+	card.visible = true
+	card.process_mode = Node.PROCESS_MODE_INHERIT
+	if entry.has("id"):
+		card.name = "CreditCard_%s" % str(entry["id"])
+
+	var avatar_container := card.get_node("AvatarContainer") as Control
+	var avatar_button := card.get_node("AvatarContainer/AvatarButton") as TextureButton
+	var name_label := card.get_node("Name") as Label
+	var desc_label := card.get_node("Description") as Label
+
+	name_label.text = str(entry.get("name", ""))
+	var desc := str(entry.get("desc", ""))
+	desc_label.text = desc
+	desc_label.visible = not desc.strip_edges().is_empty()
+
+	var texture_path := str(entry.get("texture", ""))
+	if not texture_path.is_empty() and ResourceLoader.exists(texture_path):
+		avatar_button.texture_normal = load(texture_path)
+
+	avatar_button.focus_mode = Control.FOCUS_NONE
+	avatar_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	avatar_button.mouse_entered.connect(_on_credit_avatar_entered.bind(avatar_container))
+	avatar_button.mouse_exited.connect(_on_credit_avatar_exited.bind(avatar_container))
+
+	var url := str(entry.get("url", ""))
+	if url.strip_edges().is_empty():
+		avatar_button.disabled = true
+		avatar_button.mouse_default_cursor_shape = Control.CURSOR_ARROW
+	else:
+		avatar_button.pressed.connect(_on_credit_avatar_pressed.bind(url))
+
+	return card
 
 # 头像浮动动画辅助函数
 func _float_avatar_up(avatar_container: Control):
@@ -1087,47 +1151,6 @@ func _float_avatar_down(avatar_container: Control):
 	# 恢复原始大小
 	tween.tween_property(avatar_container, "scale", Vector2(1.0, 1.0), 0.3)
 
-# 各个头像的悬停事件处理
-func _on_avatar_yang_entered():
-	var container = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor2/AvatarContainer
-	_float_avatar_up(container)
-
-func _on_avatar_yang_exited():
-	var container = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor2/AvatarContainer
-	_float_avatar_down(container)
-
-func _on_avatar_fusu_entered():
-	var container = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor1/AvatarContainer
-	_float_avatar_up(container)
-
-func _on_avatar_fusu_exited():
-	var container = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid/Contributor1/AvatarContainer
-	_float_avatar_down(container)
-
-func _on_avatar_sakura_entered():
-	var container = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks1/AvatarContainer
-	_float_avatar_up(container)
-
-func _on_avatar_sakura_exited():
-	var container = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks1/AvatarContainer
-	_float_avatar_down(container)
-
-func _on_avatar_snow_entered():
-	var container = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks2/AvatarContainer
-	_float_avatar_up(container)
-
-func _on_avatar_snow_exited():
-	var container = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks2/AvatarContainer
-	_float_avatar_down(container)
-
-func _on_avatar_lazy_entered():
-	var container = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks3/AvatarContainer
-	_float_avatar_up(container)
-
-func _on_avatar_lazy_exited():
-	var container = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid/Thanks3/AvatarContainer
-	_float_avatar_down(container)
-
 # 显示设置界面（带淡入动画）
 func show_settings():
 	visible = true
@@ -1143,3 +1166,4 @@ func hide_settings():
 
 	await tween.finished
 	visible = false
+

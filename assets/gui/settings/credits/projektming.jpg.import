@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3uinks8q3rl3"
-path="res://.godot/imported/YANG-301.webp-ffdedd2405b194969d23808b6275d57a.ctex"
+uid="uid://qxaxwm4amfqb"
+path="res://.godot/imported/projektming.jpg-bb8fc0bdf660270473719f9c2fdf37ec.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gui/settings/YANG-301.webp"
-dest_files=["res://.godot/imported/YANG-301.webp-ffdedd2405b194969d23808b6275d57a.ctex"]
+source_file="res://assets/gui/settings/credits/projektming.jpg"
+dest_files=["res://.godot/imported/projektming.jpg-bb8fc0bdf660270473719f9c2fdf37ec.ctex"]
 
 [params]
 

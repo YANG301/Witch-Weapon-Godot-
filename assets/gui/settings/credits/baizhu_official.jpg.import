@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8686g535glnv"
-path="res://.godot/imported/不死扶苏233.webp-a2fd4249137121a66b33a8ea35a4c5a5.ctex"
+uid="uid://bvckduwdlr1s8"
+path="res://.godot/imported/baizhu_official.jpg-2674a2223f4bd548451713e5a6cb8386.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gui/settings/不死扶苏233.webp"
-dest_files=["res://.godot/imported/不死扶苏233.webp-a2fd4249137121a66b33a8ea35a4c5a5.ctex"]
+source_file="res://assets/gui/settings/credits/baizhu_official.jpg"
+dest_files=["res://.godot/imported/baizhu_official.jpg-2674a2223f4bd548451713e5a6cb8386.ctex"]
 
 [params]
 
