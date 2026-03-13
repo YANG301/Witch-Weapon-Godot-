@@ -4,12 +4,7 @@
 [ext_resource type="Texture2D" path="res://assets/gui/settings/Menu.png" id="2_menu"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_window"]
-bg_color = Color(0.16, 0.16, 0.16, 0.95)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(1, 1, 1, 0.1)
+bg_color = Color(0.08, 0.08, 0.1, 0.92)
 corner_radius_top_left = 14
 corner_radius_top_right = 14
 corner_radius_bottom_right = 14
@@ -32,7 +27,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
-color = Color(0, 0, 0, 0.55)
+color = Color(0.05, 0.05, 0.1, 0.85)
 
 [node name="WindowPanel" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -41,10 +36,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -420.0
-offset_top = -260.0
-offset_right = 420.0
-offset_bottom = 260.0
+offset_left = -410.0
+offset_top = -220.0
+offset_right = 410.0
+offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
 clip_contents = true
@@ -57,25 +52,25 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 18
-theme_override_constants/margin_top = 18
-theme_override_constants/margin_right = 18
-theme_override_constants/margin_bottom = 18
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 20
 
 [node name="Root" type="VBoxContainer" parent="WindowPanel/Margin"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 12
+theme_override_constants/separation = 16
 
 [node name="Header" type="HBoxContainer" parent="WindowPanel/Margin/Root"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 12
 
 [node name="TitleLabel" type="Label" parent="WindowPanel/Margin/Root/Header"]
 layout_mode = 2
-text = "编辑头像"
-vertical_alignment = 1
+text = "更换头像与背景"
+vertical_alignment = 0
 
 [node name="Spacer" type="Control" parent="WindowPanel/Margin/Root/Header"]
 layout_mode = 2
@@ -83,60 +78,46 @@ size_flags_horizontal = 3
 
 [node name="CloseButton" type="Button" parent="WindowPanel/Margin/Root/Header"]
 layout_mode = 2
-custom_minimum_size = Vector2(96, 34)
-text = "头像"
+custom_minimum_size = Vector2(150, 38)
+text = "关闭"
 
 [node name="Body" type="HBoxContainer" parent="WindowPanel/Margin/Root"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 18
+theme_override_constants/separation = 26
 
-[node name="PreviewPanel" type="PanelContainer" parent="WindowPanel/Margin/Root/Body"]
+[node name="PreviewPanel" type="CenterContainer" parent="WindowPanel/Margin/Root/Body"]
 layout_mode = 2
-custom_minimum_size = Vector2(260, 0)
+custom_minimum_size = Vector2(190, 0)
+size_flags_vertical = 4
 
 [node name="PreviewButton" type="TextureButton" parent="WindowPanel/Margin/Root/Body/PreviewPanel"]
 layout_mode = 2
-custom_minimum_size = Vector2(192, 132)
+custom_minimum_size = Vector2(134, 92)
 texture_normal = ExtResource("2_menu")
 stretch_mode = 5
 
 [node name="AvatarBackground" type="TextureRect" parent="WindowPanel/Margin/Root/Body/PreviewPanel/PreviewButton"]
 layout_mode = 0
-offset_left = 11.0
-offset_top = 11.0
-offset_right = 121.0
-offset_bottom = 121.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 85.0
+offset_bottom = 85.0
 stretch_mode = 5
 
 [node name="AvatarIcon" type="TextureRect" parent="WindowPanel/Margin/Root/Body/PreviewPanel/PreviewButton"]
 layout_mode = 0
-offset_left = 11.0
-offset_top = 11.0
-offset_right = 121.0
-offset_bottom = 121.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 85.0
+offset_bottom = 85.0
 stretch_mode = 5
 
 [node name="RightPanel" type="VBoxContainer" parent="WindowPanel/Margin/Root/Body"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 10
-
-[node name="Tabs" type="HBoxContainer" parent="WindowPanel/Margin/Root/Body/RightPanel"]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="AvatarTab" type="Button" parent="WindowPanel/Margin/Root/Body/RightPanel/Tabs"]
-layout_mode = 2
-custom_minimum_size = Vector2(120, 34)
-text = "头像"
-
-[node name="BackgroundTab" type="Button" parent="WindowPanel/Margin/Root/Body/RightPanel/Tabs"]
-layout_mode = 2
-custom_minimum_size = Vector2(140, 34)
-text = "关闭"
 
 [node name="GridScroll" type="ScrollContainer" parent="WindowPanel/Margin/Root/Body/RightPanel"]
 layout_mode = 2
@@ -149,30 +130,37 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 icon_mode = 1
-fixed_icon_size = Vector2i(86, 86)
-max_columns = 4
+fixed_icon_size = Vector2i(76, 76)
+max_columns = 6
 same_column_width = true
 select_mode = 0
 
 [node name="Footer" type="HBoxContainer" parent="WindowPanel/Margin/Root"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 12
+alignment = 0
+
+[node name="ConfirmButton" type="Button" parent="WindowPanel/Margin/Root/Footer"]
+layout_mode = 2
+custom_minimum_size = Vector2(132, 38)
+text = "确认保存"
 
 [node name="HintLabel" type="Label" parent="WindowPanel/Margin/Root/Footer"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = ""
+vertical_alignment = 0
 
-[node name="Buttons" type="HBoxContainer" parent="WindowPanel/Margin/Root/Footer"]
+[node name="Tabs" type="HBoxContainer" parent="WindowPanel/Margin/Root/Footer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="CancelButton" type="Button" parent="WindowPanel/Margin/Root/Footer/Buttons"]
+[node name="AvatarTab" type="Button" parent="WindowPanel/Margin/Root/Footer/Tabs"]
 layout_mode = 2
-custom_minimum_size = Vector2(120, 34)
+custom_minimum_size = Vector2(112, 38)
 text = "头像"
 
-[node name="ConfirmButton" type="Button" parent="WindowPanel/Margin/Root/Footer/Buttons"]
+[node name="BackgroundTab" type="Button" parent="WindowPanel/Margin/Root/Footer/Tabs"]
 layout_mode = 2
-custom_minimum_size = Vector2(120, 34)
-text = "头像"
+custom_minimum_size = Vector2(112, 38)
+text = "头像背景"
