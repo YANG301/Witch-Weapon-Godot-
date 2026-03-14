@@ -8,16 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://dg0u1j5v7vuhq" path="res://assets/gui/settings/thanks_idle.png" id="7_thanks_idle"]
 [ext_resource type="Shader" uid="uid://dade0aiy7255o" path="res://scripts/shader/circle_avatar.gdshader" id="16_circle_shader"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avatar_shadow"]
-bg_color = Color(0, 0, 0, 0.08)
-corner_radius_top_left = 80
-corner_radius_top_right = 80
-corner_radius_bottom_right = 80
-corner_radius_bottom_left = 80
-shadow_color = Color(0, 0, 0, 0.45)
-shadow_size = 14
-shadow_offset = Vector2(0, 8)
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_circle"]
 shader = ExtResource("16_circle_shader")
 
@@ -318,19 +308,6 @@ custom_minimum_size = Vector2(100, 100)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 layout_mode = 2
-
-[node name="Shadow" type="Panel" parent="CreditCardTemplate/AvatarContainer"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-offset_left = -10.0
-offset_top = -10.0
-offset_right = 10.0
-offset_bottom = 10.0
-theme_override_styles/panel = SubResource("StyleBoxFlat_avatar_shadow")
 
 [node name="AvatarButton" type="TextureButton" parent="CreditCardTemplate/AvatarContainer"]
 material = SubResource("ShaderMaterial_circle")
