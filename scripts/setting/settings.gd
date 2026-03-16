@@ -1,4 +1,4 @@
-﻿extends Control
+extends Control
 
 signal back_pressed
 
@@ -88,17 +88,17 @@ const USER_UI_FONT_PATH: String = "res://assets/gui/font/方正粗圆_GBK.ttf"
 
 # 致谢页数据（数据驱动生成）
 const CREDITS_CONTRIBUTORS: Array[Dictionary] = [
-    {"id": "yang", "name": "YANG-301", "desc": "游戏主程序", "texture": "res://assets/gui/settings/credits/YANG-301.webp", "url": "https://space.bilibili.com/157725171"},
-    {"id": "fusu", "name": "不死扶苏233", "desc": "测试与部分脚本编写", "texture": "res://assets/gui/settings/credits/不死扶苏233.webp", "url": "https://space.bilibili.com/364706064"},
-    {"id": "projektming", "name": "ProjektMing", "desc": "Github贡献", "texture": "res://assets/gui/settings/credits/projektming.jpg", "url": "https://github.com/ProjektMing"},
-    {"id": "basket_ball", "name": "basket_ball", "desc": "Github贡献、安全性测试", "texture": "res://assets/gui/settings/credits/basket_ball.png", "url": "https://github.com/basket-ball"},
-    {"id": "baizhu", "name": "白烛Official", "desc": "多语言支持", "texture": "res://assets/gui/settings/credits/baizhu_official.jpg", "url": "https://space.bilibili.com/3546683193428662"},
+	{"id": "yang", "name": "YANG-301", "desc": "游戏主程序", "texture": "res://assets/gui/settings/credits/YANG-301.webp", "url": "https://space.bilibili.com/157725171"},
+	{"id": "fusu", "name": "不死扶苏233", "desc": "测试与部分脚本编写", "texture": "res://assets/gui/settings/credits/不死扶苏233.webp", "url": "https://space.bilibili.com/364706064"},
+	{"id": "projektming", "name": "ProjektMing", "desc": "Github贡献", "texture": "res://assets/gui/settings/credits/projektming.jpg", "url": "https://github.com/ProjektMing"},
+	{"id": "basket_ball", "name": "basket_ball", "desc": "Github贡献、安全性测试", "texture": "res://assets/gui/settings/credits/basket_ball.png", "url": "https://github.com/basket-ball"},
+	{"id": "baizhu", "name": "白烛Official", "desc": "多语言支持", "texture": "res://assets/gui/settings/credits/baizhu_official.jpg", "url": "https://space.bilibili.com/3546683193428662"},
 ]
 
 const CREDITS_SPECIAL_THANKS: Array[Dictionary] = [
-    {"id": "sakura", "name": "樱天澈", "desc": "", "texture": "res://assets/gui/settings/credits/樱天澈.webp", "url": "https://space.bilibili.com/28626"},
-    {"id": "snow", "name": "雪凌殇", "desc": "", "texture": "res://assets/gui/settings/credits/雪凌殇.webp", "url": "https://space.bilibili.com/6105216"},
-    {"id": "lazy", "name": "见习食神懒羊羊", "desc": "", "texture": "res://assets/gui/settings/credits/见习食神懒羊羊.webp", "url": "https://space.bilibili.com/274983449"},
+	{"id": "sakura", "name": "樱天澈", "desc": "", "texture": "res://assets/gui/settings/credits/樱天澈.webp", "url": "https://space.bilibili.com/28626"},
+	{"id": "snow", "name": "雪凌殇", "desc": "", "texture": "res://assets/gui/settings/credits/雪凌殇.webp", "url": "https://space.bilibili.com/6105216"},
+	{"id": "lazy", "name": "见习食神懒羊羊", "desc": "", "texture": "res://assets/gui/settings/credits/见习食神懒羊羊.webp", "url": "https://space.bilibili.com/274983449"},
 ]
 
 
@@ -1166,4 +1166,3 @@ func hide_settings():
 
 	await tween.finished
 	visible = false
-

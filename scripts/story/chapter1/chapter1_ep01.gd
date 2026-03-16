@@ -50,8 +50,8 @@ func chapter1_ep1_script():
 		60
 	)
 	await novel_interface.enter_video_performance_mode([
-		"res://assets/video/00001_1.mp4",
-		"res://assets/video/00001_2.mp4"
+		"res://assets/video/00001_1.ogv",
+		"res://assets/video/00001_2.ogv"
 	])
 	novel_interface.change_music("res://assets/audio/music/Whisky.mp3")
 	await novel_interface.enter_center_performance_mode([
@@ -72,7 +72,7 @@ func chapter1_ep1_script():
 	await novel_interface.show_dialog("请核对您的身份。", "系统")
 	await novel_interface.stop_music()
 	await novel_interface.enter_video_performance_mode([
-		"res://assets/video/00002_1.mp4",
+		"res://assets/video/00002_1.ogv",
 	])
 	var _player_name = await novel_interface.enter_name_input_mode()
 	print("=== 第一章第1话结束 ===")
