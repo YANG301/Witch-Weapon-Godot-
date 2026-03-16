@@ -32,7 +32,7 @@
 - 使用 Godot 4.6 引擎开发
 - GDScript 脚本语言编写
 - 场景化的项目结构设计
-- 集成 godot-vlc 插件实现高质量视频播放
+- 使用 Godot 原生 VideoStreamPlayer 实现视频播放（资源统一为 OGV）
 - 全局单例系统管理游戏配置和状态
 - 支持 GL Compatibility 渲染模式
 - 自定义 UI 交互和点击特效系统
@@ -43,7 +43,7 @@
 
 - **Godot 引擎**：4.6 或更高版本
 - **操作系统**：Windows 10/11（推荐）、Linux、macOS
-- **godot-vlc 插件**：已包含在项目 `addons/` 目录中
+- **视频播放**：已改为 Godot 原生 VideoStreamPlayer，无需额外插件
 - **最低配置**：
   - CPU: 双核处理器
   - 内存: 4GB RAM
@@ -54,6 +54,9 @@
   - 显卡: 支持 OpenGL 4.5 或更高版本
 
 ### 运行项目
+
+> 注意：项目视频资源已统一为 `res://assets/video/*.ogv`（Theora/Vorbis）。
+
 
 1. **克隆本仓库**
 ```bash
@@ -122,7 +125,7 @@ cd Witch-Weapon-Godot-
 ## 🙏 致谢
 
 - 感谢 [Godot Engine](https://godotengine.org/) 提供优秀的开源游戏引擎
-- 感谢 [godot-vlc](https://github.com/xiSage/godot-vlc) (LGPL-2.1) 提供视频播放支持
+- 感谢 Godot Engine 生态社区的工具与资料（本项目已迁移为原生视频播放方案，无需 godot-vlc）
 - 感谢《魔女兵器》原作为我们提供学习灵感
 - 感谢所有为本项目做出贡献的开发者
 
@@ -185,7 +188,8 @@ cd Witch-Weapon-Godot-
 </td>
 <td align="center" width="33.33%"></td>
 <td align="center" width="33.33%"></td>
-</tr>`n</table>
+</tr>
+</table>
 
 - QQ群：1078249413 魔女兵器编辑器测试群
 
