@@ -116,7 +116,7 @@ var briefing_line2_text: String = ""  # 第二行完整文字
 
 # 视频演出模式相关
 var is_video_performance_mode: bool = false  # 是否处于视频演出模式
-var video_player = null  # VLC视频播放器 (使用VLCMediaPlayer)
+var video_player = null  # 视频播放器（已改为 Godot 原生 VideoStreamPlayer）
 var video_texture_rect: TextureRect = null  # 视频纹理显示
 var skip_progress_bar: ProgressBar = null  # 跳过进度条
 var skip_progress_container: Control = null  # 跳过进度条容器
@@ -2719,13 +2719,14 @@ func enter_video_performance_mode(video_paths) -> void:
 
 	# 清理旧的视频播放器（如果存在）
 	if video_player and is_instance_valid(video_player):
-		if video_player.is_playing():
-			video_player.pause()
-		if video_player.has_signal("end_reached") and video_player.end_reached.is_connected(_on_video_finished):
-			video_player.end_reached.disconnect(_on_video_finished)
+		# 原生 VideoStreamPlayer
+		if video_player.has_method("stop"):
+			video_player.stop()
+		if video_player.has_signal("finished") and video_player.finished.is_connected(_on_video_finished):
+			video_player.finished.disconnect(_on_video_finished)
 		if video_player.get_parent():
 			video_player.get_parent().remove_child(video_player)
-		video_player.free()
+		video_player.queue_free()
 		video_player = null
 
 	if video_texture_rect and is_instance_valid(video_texture_rect):
@@ -2750,9 +2751,10 @@ func enter_video_performance_mode(video_paths) -> void:
 	_create_video_player()
 	_create_skip_progress_bar()
 
-	# 检查VLC插件是否可用
-	if not ClassDB.class_exists("VLCMediaPlayer"):
-		push_error("VLC插件未加载！请在项目设置中启用 'Godot VLC' 插件")
+	# 检查 Godot 原生视频播放类是否可用
+	if not ClassDB.class_exists("VideoStreamPlayer"):
+		push_error("未找到 VideoStreamPlayer（Godot 原生视频播放不可用）。")
+		# 为了不阻塞剧情，直接跳过视频演出
 		exit_video_performance_mode()
 		video_performance_completed.emit()
 		return
@@ -2784,13 +2786,13 @@ func exit_video_performance_mode() -> void:
 
 	# 停止并清理视频播放器
 	if video_player and is_instance_valid(video_player):
-		# VLCMediaPlayer使用pause()停止，或者设置media为null
-		if video_player.is_playing():
-			video_player.pause()
-		video_player.media = null
+		if video_player.has_method("stop"):
+			video_player.stop()
+		if video_player.has_method("set"):
+			video_player.set("stream", null)
 		# 断开信号连接
-		if video_player.has_signal("end_reached") and video_player.end_reached.is_connected(_on_video_finished):
-			video_player.end_reached.disconnect(_on_video_finished)
+		if video_player.has_signal("finished") and video_player.finished.is_connected(_on_video_finished):
+			video_player.finished.disconnect(_on_video_finished)
 
 	# 隐藏视频纹理
 	if video_texture_rect and is_instance_valid(video_texture_rect):
@@ -2810,6 +2812,37 @@ func exit_video_performance_mode() -> void:
 	if skip_progress_tween:
 		skip_progress_tween.kill()
 
+func _resolve_video_path_compatible(path: String) -> String:
+	"""兼容旧脚本用法：
+	- chapter 脚本里仍然传 .mp4 路径，但资源已替换为 .ogv
+	- 这里自动尝试将 .mp4/.webm/.mkv 等替换为 .ogv
+	返回：可用的 res:// 路径；若找不到则返回空字符串
+	"""
+	var p := path.strip_edges()
+	if p.is_empty():
+		return ""
+
+	# 1) 原路径存在
+	if ResourceLoader.exists(p) or ResourceLoader.exists(p + ".remap"):
+		return p
+
+	# 2) 尝试替换为 .ogv
+	var base := p
+	var dot := p.rfind(".")
+	if dot != -1:
+		base = p.substr(0, dot)
+	var ogv := base + ".ogv"
+	if ResourceLoader.exists(ogv) or ResourceLoader.exists(ogv + ".remap"):
+		return ogv
+
+	# 3) 兜底：如果本来没扩展名，也尝试直接加 .ogv
+	if dot == -1:
+		ogv = p + ".ogv"
+		if ResourceLoader.exists(ogv) or ResourceLoader.exists(ogv + ".remap"):
+			return ogv
+
+	return ""
+
 func _play_video_at_index(index: int) -> void:
 	"""播放指定索引的视频
 	参数:
@@ -2819,24 +2852,35 @@ func _play_video_at_index(index: int) -> void:
 		push_error("视频索引越界: ", index)
 		return
 
-	var video_path = video_playlist[index]
-	print("开始播放视频 [", index + 1, "/", video_playlist.size(), "]: ", video_path)
+	var requested_path: String = video_playlist[index]
+	var resolved_path := _resolve_video_path_compatible(requested_path)
+	print("开始播放视频 [", index + 1, "/", video_playlist.size(), "]: ", requested_path, " -> ", resolved_path)
 
 	# 重置播放状态
 	video_was_playing = false
 	skip_progress = 0.0
 
-	# 加载视频文件
-	var media = load(video_path)
-	if not media:
-		push_error("无法加载视频文件: " + video_path)
-		# 尝试播放下一个视频
+	if resolved_path.is_empty():
+		push_error("无法找到可用的视频文件（已尝试 .ogv 替换）: " + requested_path)
 		_on_single_video_finished()
 		return
 
-	# 设置媒体并播放
-	video_player.media = media
-	video_player.play()
+	# 加载视频流资源
+	var stream_res = load(resolved_path)
+	if not stream_res:
+		push_error("无法加载视频文件: " + resolved_path)
+		_on_single_video_finished()
+		return
+
+	# 设置流并播放（原生 VideoStreamPlayer）
+	if not (video_player and is_instance_valid(video_player)):
+		push_error("视频播放器未创建")
+		_on_single_video_finished()
+		return
+
+	video_player.set("stream", stream_res)
+	if video_player.has_method("play"):
+		video_player.play()
 
 func _on_single_video_finished() -> void:
 	"""单个视频播放完成，播放下一个或结束"""
@@ -2888,49 +2932,49 @@ func _restore_ui_after_video_performance() -> void:
 		show_text_label.visible = true
 
 func _create_video_player() -> void:
-	"""创建VLC视频播放器"""
-	# Web 平台不支持 VLC
+	"""创建 Godot 原生视频播放器"""
+	# Web 平台通常不支持该项目的视频播放链路，保持原逻辑：自动跳过
 	if OS.get_name() == "Web":
-		push_warning("Web 平台不支持 VLC 视频播放器")
+		push_warning("Web 平台不支持视频演出模式，自动跳过")
 		return
 
-	# 检查VLC插件是否可用
-	if not ClassDB.class_exists("VLCMediaPlayer"):
-		push_error("VLCMediaPlayer类不存在，请确保VLC插件已启用")
+	# 检查原生播放器类是否存在
+	if not ClassDB.class_exists("VideoStreamPlayer"):
+		push_error("VideoStreamPlayer 类不存在（当前 Godot 构建未包含原生视频播放）")
 		return
 
-	# 创建VLCMediaPlayer节点
-	video_player = VLCMediaPlayer.new()
-	if not video_player:
-		push_error("无法创建VLCMediaPlayer实例")
-		return
-
-	# 设置播放器为不可见（因为我们用TextureRect显示）
+	# 创建原生 VideoStreamPlayer
+	video_player = VideoStreamPlayer.new()
 	add_child(video_player)
 
-	# 创建TextureRect用于显示视频
-	video_texture_rect = TextureRect.new()
-	video_texture_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	video_texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	video_texture_rect.z_index = 99  # 在背景之上，但在UI之下
+	# 以全屏方式显示
+	if video_player is Control:
+		video_player.set_anchors_preset(Control.PRESET_FULL_RECT)
+		video_player.offset_left = 0
+		video_player.offset_top = 0
+		video_player.offset_right = 0
+		video_player.offset_bottom = 0
+		# 常见属性：保持比例居中（若属性不存在也不报错）
+		if video_player.has_method("set"):
+			video_player.set("stretch_mode", 1) # STRETCH_KEEP_ASPECT_CENTERED（尽量）
+	else:
+		# 如果不是 Control，就尽量放到左上角（多数情况下 VideoStreamPlayer 是 Control）
+		video_player.position = Vector2.ZERO
 
-	# 设置视频显示的位置和尺寸（全屏）
-	var screen_size = get_viewport().get_visible_rect().size
-	video_texture_rect.position = Vector2.ZERO
-	video_texture_rect.size = screen_size
+	# 置于背景之上、UI之下（尽量复用你原来的层级）
+	if video_player is CanvasItem:
+		video_player.z_index = 99
 
-	add_child(video_texture_rect)
+	# 原生播放结束信号
+	if video_player.has_signal("finished"):
+		video_player.finished.connect(_on_video_finished)
 
-	# 将VLCMediaPlayer的纹理连接到TextureRect
-	var video_texture = video_player.get_texture()
-	if video_texture:
-		video_texture_rect.texture = video_texture
+	# 不再需要 VLC 的 TextureRect 输出
+	if video_texture_rect and is_instance_valid(video_texture_rect):
+		video_texture_rect.queue_free()
+	video_texture_rect = null
 
-	# 连接视频播放完成信号
-	if video_player.has_signal("end_reached"):
-		video_player.end_reached.connect(_on_video_finished)
-
-	print("VLC视频播放器已创建")
+	print("原生视频播放器已创建 (VideoStreamPlayer)")
 
 
 func _create_skip_progress_bar() -> void:
@@ -3036,8 +3080,8 @@ func _on_skip_text_button_pressed() -> void:
 	video_performance_completed.emit()
 
 func _on_video_finished() -> void:
-	"""视频播放完成回调（VLC信号）"""
-	print("收到VLC视频播放完成信号")
+	"""视频播放完成回调（原生 finished 信号）"""
+	print("收到视频播放完成信号")
 	_on_single_video_finished()
 
 func _process_video_skip_input(delta: float) -> void:
@@ -3045,36 +3089,22 @@ func _process_video_skip_input(delta: float) -> void:
 	if not is_video_performance_mode:
 		return
 
-	# 检查视频是否播放完成（手动检测）
+	# 检查视频是否播放完成（原生播放器优先走 finished 信号；这里做兜底检测）
 	if video_player and is_instance_valid(video_player):
-		var current_time = video_player.get_time()
-		var video_length = video_player.get_length()
-		var is_playing = video_player.is_playing()
+		var is_playing := false
+		if video_player.has_method("is_playing"):
+			is_playing = video_player.is_playing()
 
 		# 如果视频正在播放，标记为已播放
 		if is_playing:
 			video_was_playing = true
 
-		# 每5秒打印一次状态（用于调试）
-		var elapsed_time = Time.get_ticks_msec() / 1000.0
-		if int(elapsed_time) % 5 == 0 and int(elapsed_time * 10) % 10 == 0:
-			print("[视频状态] 播放中: ", is_playing, " | 当前时间: ", current_time, " | 视频长度: ", video_length, " | 曾经播放: ", video_was_playing)
-
-		# 检测视频播放完成的多种情况：
-		# 1. 视频曾经播放过，但现在停止了（current_time 和 length 都变为 0）
-		# 2. 视频接近结束（剩余时间小于0.5秒）
-		if video_was_playing and not is_playing and current_time == 0 and video_length == 0:
-			# 情况1：视频播放完成后 VLC 重置了时间和长度
-			print("!!! 检测到视频播放完成（VLC已重置）")
+		# 如果视频曾经播放过，但现在停止了，认为播放结束
+		# （避免某些情况下 finished 信号未触发）
+		if video_was_playing and not is_playing:
+			print("!!! 兜底检测到视频播放结束（is_playing=false）")
 			_on_single_video_finished()
 			return
-		elif video_length > 0:
-			var time_remaining = video_length - current_time
-			if time_remaining <= 0.5 and time_remaining >= 0:
-				# 情况2：视频接近结束
-				print("!!! 检测到视频播放完成（接近结束: 剩余 ", time_remaining, " 秒）")
-				_on_single_video_finished()
-				return
 
 	if is_mouse_pressed:
 		# 停止延迟隐藏计时器

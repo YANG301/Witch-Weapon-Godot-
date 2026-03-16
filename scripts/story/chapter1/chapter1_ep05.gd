@@ -12,7 +12,7 @@ func play_script():
 
 func chapter1_ep5_script():
 	await novel_interface.enter_video_performance_mode([
-		"res://assets/video/5-1.mp4"
+		"res://assets/video/5-1.ogv"
 	])
 	novel_interface.change_music("res://assets/audio/music/Everything's gonna be Okay.mp3")
 	novel_interface.change_background("res://assets/images/bg/Shot/BG_Home_bedroom.png")
@@ -155,7 +155,7 @@ func chapter1_ep5_script():
 	await novel_interface.hide_background()
 	await novel_interface.stop_music()
 	await novel_interface.enter_video_performance_mode([
-		"res://assets/video/10005_2.mp4"
+		"res://assets/video/10005_2.ogv"
 	])
 	novel_interface.change_music("res://assets/audio/music/Conspiracy.mp3")
 	novel_interface.change_background("res://assets/images/bg/Shot/BG_RC_outside_blue.png")

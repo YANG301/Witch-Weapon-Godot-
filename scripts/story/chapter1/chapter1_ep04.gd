@@ -12,7 +12,7 @@ func play_script():
 
 func chapter1_ep4_script():
 	await novel_interface.enter_video_performance_mode([
-		"res://assets/video/4-1.mp4"
+		"res://assets/video/4-1.ogv"
 	])
 	await novel_interface.show_text_only("……")
 	novel_interface.change_music("res://assets/audio/music/Sewer.mp3")
@@ -29,7 +29,7 @@ func chapter1_ep4_script():
 	await novel_interface.stop_music()
 	await novel_interface.hide_character()
 	await novel_interface.enter_video_performance_mode([
-		"res://assets/video/4-2.mp4"
+		"res://assets/video/4-2.ogv"
 	])
 	novel_interface.change_music("res://assets/audio/music/Sewer.mp3")
 	novel_interface.change_background("res://assets/images/bg/Shot/cityCrash_salt.png")
