@@ -1,0 +1,86 @@
+# chapter1_ep6.gd - Chapter 1 Episode 6
+extends Node2D
+
+@onready var novel_interface = $NovelInterface
+
+func _ready():
+	await get_tree().process_frame
+	chapter1_ep6_script()
+
+func play_script():
+	pass
+
+func chapter1_ep6_script():
+	novel_interface.change_music("res://assets/audio/music/Black Market.mp3")
+	novel_interface.change_background("res://assets/images/bg/Shot/BG_RC_outside.png")
+	novel_interface.show_character("ren_battle","normal1")
+	await novel_interface.show_dialog("……후, 하……어떻게 된 건진 모르겠지만\\n이긴 건가……?",GameConfig.player_name)
+	novel_interface.character_move_left(-0.25)
+	novel_interface.show_2nd_character("anne_battle","normal",0.25)
+	await novel_interface.show_dialog("……그런 것 같네.","애니")
+	novel_interface.character_light(0.35,"awkward")
+	novel_interface.character_2nd_dark()
+	await novel_interface.show_dialog("너, 넌 도대체 누구야!?\\n어디서 나타난 거야!?",GameConfig.player_name)
+	await novel_interface.show_dialog("날 공격한 저놈들은 대체 뭐야!?\n그리고 이 배트는 또 뭐고!?",GameConfig.player_name)
+	await novel_interface.show_dialog("여긴 대체 어떻게 된 거야?!",GameConfig.player_name)
+	novel_interface.character_dark()
+	novel_interface.character_2nd_light(0.35,"perspire")
+	await novel_interface.show_dialog("진정해!\\n내가 알고 있는 범위 안에서 대답해줄게.", "애니")
+	novel_interface.change_2nd_expression("worry")
+	await novel_interface.show_dialog("하지만 나도 너랑 똑같이 상황을 잘 몰라.\n오히려 네가 누군지 나도 알고 싶을 정도야……", "애니")
+	novel_interface.character_light(0.35,"normal1")
+	novel_interface.character_2nd_dark()
+	await novel_interface.show_dialog("미안. 너무 당황해서……",GameConfig.player_name)
+	novel_interface.character_dark()
+	novel_interface.character_2nd_light(0.35,"smile")
+	await novel_interface.show_dialog("괜찮아.\n아참, 아직 제대로 자기소개도 안 했네.", "애니")
+	novel_interface.change_2nd_expression("normal")
+	await novel_interface.show_dialog("내 이름은 애니 바스.\n그냥 애니라고 불러~", "애니")
+	novel_interface.character_light(0.35,"worry")
+	novel_interface.character_2nd_dark()
+	await novel_interface.show_dialog("……나는 "+GameConfig.player_name+". 잘 부탁해.",GameConfig.player_name)
+	novel_interface.character_dark()
+	novel_interface.character_2nd_light()
+	await novel_interface.show_dialog("아, "+GameConfig.player_name+"구나…… 나도 잘 부탁해.", "애니")
+	novel_interface.change_2nd_expression("happy")
+	await novel_interface.show_dialog("남자 이름 같네. 멋진데~", "애니")
+	novel_interface.character_light(0.35,"awkward")
+	novel_interface.character_2nd_dark()
+	await novel_interface.show_dialog("!?", GameConfig.player_name)
+	novel_interface.character_dark()
+	novel_interface.character_2nd_light(0.35,"normal")
+	await novel_interface.show_dialog("왜 그래? 왜 그렇게 놀라?","애니")
+	novel_interface.character_light(0.35,"shy")
+	novel_interface.character_2nd_dark()
+	await novel_interface.show_dialog("아, 그러고보니 난……\\n여자였지……",GameConfig.player_name)
+	novel_interface.character_dark()
+	novel_interface.character_2nd_light()
+	await novel_interface.show_dialog("응? 넌 여자잖아\\n이 옷 정말 어울리지 않아?", "애니")
+	novel_interface.change_2nd_expression("uneasy")
+	await novel_interface.show_dialog("귀여워, 귀여워……\\n이 『전투복』은 우리의 첫 만남 기념 선물이야~", "애니")
+	novel_interface.character_light(0.35,"normal1")
+	novel_interface.character_2nd_dark()
+	await novel_interface.show_dialog("……전투복?",GameConfig.player_name)
+	novel_interface.change_expression("awkward")
+	await novel_interface.show_dialog("아아——아아아아아아아아!!!!",GameConfig.player_name)
+	await novel_interface.hide_all_characters()
+	novel_interface.change_background("res://assets/images/bg/Shot/BG_Shot_girlchar_battleWearingShy.png")
+	await novel_interface.show_text_only("정신을 차리고 보니\n나는 완전히 여자 옷을 입고 있었다!!")
+	await novel_interface.show_text_only("세일러복……\\n그리고 엄청나게 짧은 치마……!")
+	await novel_interface.show_text_only("스타킹이라는 건 원래 이렇게 미묘한 느낌인가……?")
+	await novel_interface.show_dialog("게다가 가슴을 조여 오는 이 감각은 설마……",GameConfig.player_name)
+	await novel_interface.show_dialog("으아아아아!!!",GameConfig.player_name)
+	novel_interface.change_background("res://assets/images/bg/Shot/BG_RC_outside.png")
+	novel_interface.show_character("anne_battle","normal")
+	await novel_interface.show_dialog("겉옷도 네 머리색이랑 잘 어울려~
+움직이기에도 딱 좋은 스타일이거든.", "애니")
+	novel_interface.change_expression("worry")
+	await novel_interface.show_dialog("응……? 왜 그래~~?", "애니")
+	novel_interface.character_move_left(-0.25)
+	novel_interface.show_2nd_character("ren_battle","shy",0.25)
+	await novel_interface.show_dialog("그……\\n그게……",GameConfig.player_name)
+
+	print("=== Chapter 1 Episode 6 End ===")
+
+	# episode end
+	await novel_interface.end_story_episode(0.5)
