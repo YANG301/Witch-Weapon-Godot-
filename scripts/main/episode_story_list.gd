@@ -55,6 +55,13 @@ var current_story_id := ""
 var story_config: Dictionary = {}
 var list_items: Array[MarginContainer] = []  # 存储所有列表项的引用
 var is_exiting := false  # 新增：标记是否正在退出
+var mobile_pressed_visual: TextureRect = null
+var mobile_pressed_scene_path := ""
+var mobile_pressed_episode_name := ""
+var mobile_pressed_touch_index := -1
+var mobile_press_start_pos := Vector2.ZERO
+var mobile_press_moved := false
+var mobile_press_uses_mouse := false
 
 # 滚动状态
 var scroll_state := {
@@ -86,6 +93,11 @@ func _input(event: InputEvent) -> void:
 	if main_menu and main_menu.has_method("is_settings_open") and main_menu.is_settings_open():
 		if scroll_state.is_dragging:
 			_end_drag()
+		_clear_mobile_press()
+		return
+
+	if _is_mobile_platform():
+		_handle_mobile_input(event, main_menu)
 		return
 
 	# 处理鼠标左键松开事件（无论鼠标在哪里）
@@ -153,6 +165,72 @@ func _setup_initial_positions() -> void:
 	# 底部UI从下方进入
 	story_list_bottom_ui.set_meta("target_y", story_list_bottom_ui.position.y)
 	story_list_bottom_ui.position.y = viewport_size.y + bottom_offset
+
+func _is_mobile_platform() -> bool:
+	return OS.get_name() == "Android" or OS.get_name() == "iOS"
+
+func _is_story_scene_open(main_menu: Node) -> bool:
+	return main_menu != null and main_menu.story_scene_layer.get_child_count() > 0
+
+func _set_mobile_press_visual(visual: TextureRect, pressed: bool) -> void:
+	if not is_instance_valid(visual):
+		return
+	visual.texture = button_textures["hover"] if pressed else button_textures["normal"]
+
+func _clear_mobile_press() -> void:
+	if is_instance_valid(mobile_pressed_visual):
+		_set_mobile_press_visual(mobile_pressed_visual, false)
+	mobile_pressed_visual = null
+	mobile_pressed_scene_path = ""
+	mobile_pressed_episode_name = ""
+	mobile_pressed_touch_index = -1
+	mobile_press_start_pos = Vector2.ZERO
+	mobile_press_moved = false
+	mobile_press_uses_mouse = false
+
+func _begin_mobile_press(visual: TextureRect, scene_path: String, episode_name: String, touch_index: int, pos: Vector2, uses_mouse: bool) -> void:
+	_clear_mobile_press()
+	mobile_pressed_visual = visual
+	mobile_pressed_scene_path = scene_path
+	mobile_pressed_episode_name = episode_name
+	mobile_pressed_touch_index = touch_index
+	mobile_press_start_pos = pos
+	mobile_press_moved = false
+	mobile_press_uses_mouse = uses_mouse
+	_set_mobile_press_visual(visual, true)
+
+func _handle_mobile_input(event: InputEvent, main_menu: Node) -> void:
+	if _is_story_scene_open(main_menu):
+		_clear_mobile_press()
+		return
+
+	if mobile_pressed_visual == null:
+		return
+
+	if mobile_press_uses_mouse:
+		if event is InputEventMouseMotion:
+			if event.position.distance_to(mobile_press_start_pos) > DRAG_THRESHOLD:
+				mobile_press_moved = true
+				_clear_mobile_press()
+		elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
+			var scene_path := mobile_pressed_scene_path
+			var episode_name := mobile_pressed_episode_name
+			var should_activate := not mobile_press_moved
+			_clear_mobile_press()
+			if should_activate:
+				_activate_episode(scene_path, episode_name)
+	else:
+		if event is InputEventScreenDrag and event.index == mobile_pressed_touch_index:
+			if event.position.distance_to(mobile_press_start_pos) > DRAG_THRESHOLD:
+				mobile_press_moved = true
+				_clear_mobile_press()
+		elif event is InputEventScreenTouch and not event.pressed and event.index == mobile_pressed_touch_index:
+			var scene_path := mobile_pressed_scene_path
+			var episode_name := mobile_pressed_episode_name
+			var should_activate := not mobile_press_moved
+			_clear_mobile_press()
+			if should_activate:
+				_activate_episode(scene_path, episode_name)
 #endregion
 
 #region 动画
@@ -486,33 +564,72 @@ func _create_list_item(episode_name: String, scene_path: String) -> MarginContai
 	container.add_theme_constant_override("margin_top", 11)
 	container.add_theme_constant_override("margin_bottom", -4)
 
-	# 按钮
-	var button := TextureButton.new()
-	button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
-	button.texture_normal = button_textures["normal"]
-	button.texture_hover = button_textures["hover"]
-	button.texture_disabled = button_textures["disabled"]
-	button.mouse_filter = Control.MOUSE_FILTER_PASS
-	button.focus_mode = Control.FOCUS_NONE
-	button.pressed.connect(_on_episode_selected.bind(scene_path, episode_name))
+	if _is_mobile_platform():
+		container.custom_minimum_size = Vector2(538, 114)
 
-	# 标签容器
-	var center := CenterContainer.new()
-	center.custom_minimum_size = Vector2(538, 114)
-	center.mouse_filter = Control.MOUSE_FILTER_PASS
+		var visual := TextureRect.new()
+		visual.name = "ItemVisual"
+		visual.texture = button_textures["normal"]
+		visual.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		visual.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		visual.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		visual.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		container.add_child(visual)
 
-	# 标签
-	var label := Label.new()
-	label.text = episode_name
-	label.label_settings = label_settings
-	label.mouse_filter = Control.MOUSE_FILTER_PASS
+		var hit_area := Control.new()
+		hit_area.name = "HitArea"
+		hit_area.mouse_filter = Control.MOUSE_FILTER_PASS
+		hit_area.custom_minimum_size = Vector2(538, 114)
+		hit_area.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		hit_area.gui_input.connect(_on_mobile_item_gui_input.bind(visual, scene_path, episode_name))
+		container.add_child(hit_area)
 
-	# 组装节点
-	center.add_child(label)
-	button.add_child(center)
-	container.add_child(button)
+		var center := CenterContainer.new()
+		center.custom_minimum_size = Vector2(538, 114)
+		center.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		center.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+
+		var label := Label.new()
+		label.text = episode_name
+		label.label_settings = label_settings
+		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+		center.add_child(label)
+		container.add_child(center)
+	else:
+		# 按钮
+		var button := TextureButton.new()
+		button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
+		button.texture_normal = button_textures["normal"]
+		button.texture_hover = button_textures["hover"]
+		button.texture_disabled = button_textures["disabled"]
+		button.mouse_filter = Control.MOUSE_FILTER_PASS
+		button.focus_mode = Control.FOCUS_NONE
+		button.pressed.connect(_on_episode_selected.bind(scene_path, episode_name))
+
+		# 标签容器
+		var center := CenterContainer.new()
+		center.custom_minimum_size = Vector2(538, 114)
+		center.mouse_filter = Control.MOUSE_FILTER_PASS
+
+		# 标签
+		var label := Label.new()
+		label.text = episode_name
+		label.label_settings = label_settings
+		label.mouse_filter = Control.MOUSE_FILTER_PASS
+
+		# 组装节点
+		center.add_child(label)
+		button.add_child(center)
+		container.add_child(button)
 
 	return container
+
+func _on_mobile_item_gui_input(event: InputEvent, visual: TextureRect, scene_path: String, episode_name: String) -> void:
+	if event is InputEventScreenTouch and event.pressed:
+		_begin_mobile_press(visual, scene_path, episode_name, event.index, event.position, false)
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		_begin_mobile_press(visual, scene_path, episode_name, -1, event.position, true)
 
 ## 处理剧集选择
 func _on_episode_selected(scene_path: String, episode_name: String) -> void:
@@ -520,6 +637,9 @@ func _on_episode_selected(scene_path: String, episode_name: String) -> void:
 	if scroll_state.is_dragging or scroll_state.has_moved:
 		return
 
+	_activate_episode(scene_path, episode_name)
+
+func _activate_episode(scene_path: String, episode_name: String) -> void:
 	print("选择剧集: %s -> %s" % [episode_name, scene_path])
 
 	# 获取主菜单场景
