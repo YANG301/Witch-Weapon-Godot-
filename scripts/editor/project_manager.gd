@@ -206,6 +206,8 @@ func _ready():
 
 	if project_title_input:
 		project_title_input.text_changed.connect(_on_project_title_changed)
+		if project_title_input.has_signal("text_submitted") and not project_title_input.text_submitted.is_connected(_on_project_title_submitted):
+			project_title_input.text_submitted.connect(_on_project_title_submitted)
 	if project_desc_input:
 		project_desc_input.text_changed.connect(_on_project_desc_changed)
 	if add_episode_button:
@@ -810,6 +812,12 @@ func _refresh_project_item_ui() -> void:
 
 func _on_project_selected(project_name: String):
 	"""选择工程"""
+	var previous_selection := selected_project
+	if not _commit_pending_project_rename_if_needed():
+		return
+	if project_name == previous_selection and project_name != selected_project:
+		project_name = selected_project
+
 	selected_project = project_name
 
 	_refresh_project_item_ui()
@@ -836,6 +844,11 @@ func _begin_delete_project(project_name: String) -> void:
 	_on_delete_confirmed()
 
 func _on_project_delete_row_pressed(project_name: String) -> void:
+	var previous_selection := selected_project
+	if not _commit_pending_project_rename_if_needed():
+		return
+	if project_name == previous_selection and project_name != selected_project:
+		project_name = selected_project
 	_on_project_selected(project_name)
 	_begin_delete_project(project_name)
 
@@ -873,6 +886,11 @@ func _update_project_action_dialog_state() -> void:
 		_project_action_dialog_upload_button.tooltip_text = "上传中..." if _upload_busy else ""
 
 func _on_project_actions_pressed(project_name: String) -> void:
+	var previous_selection := selected_project
+	if not _commit_pending_project_rename_if_needed():
+		return
+	if project_name == previous_selection and project_name != selected_project:
+		project_name = selected_project
 	_on_project_selected(project_name)
 	_pending_project_action = project_name
 	_ensure_project_action_dialog()
@@ -1012,7 +1030,7 @@ func _load_project_details(project_name: String) -> void:
 
 	if project_title_input:
 		project_title_input.editable = true
-		project_title_input.text = str(config.get("title", project_name))
+		project_title_input.text = project_name
 	if project_desc_input:
 		project_desc_input.editable = true
 		project_desc_input.text = str(config.get("description", ""))
@@ -1288,6 +1306,8 @@ func _on_preview_file_selected(path: String) -> void:
 		project_preview.texture = ImageTexture.create_from_image(thumb)
 
 func _on_install_to_mods_pressed() -> void:
+	if not _commit_pending_project_rename_if_needed():
+		return
 	if selected_project.is_empty():
 		return
 	_begin_install_to_mods_for_project(selected_project)
@@ -1978,11 +1998,14 @@ func _build_mod_folder(project_name: String, out_root: String, mod_folder: Strin
 	var normalized_episodes: Dictionary = {}
 	var src_episodes: Dictionary = config.get("episodes", {})
 	if typeof(src_episodes) == TYPE_DICTIONARY:
-		for episode_title in (src_episodes as Dictionary).keys():
-			var episode_idx := _parse_episode_index(str(episode_title))
-			if episode_idx <= 0:
+		for episode_title_any in (src_episodes as Dictionary).keys():
+			var episode_title := str(episode_title_any)
+			var src_scene_rel := str((src_episodes as Dictionary).get(episode_title_any, "")).strip_edges().replace("\\", "/")
+			var export_ep_name := _resolve_export_episode_name(episode_title, src_scene_rel)
+			if export_ep_name.is_empty():
+				push_warning("跳过无法识别的剧情节导出路径: %s -> %s" % [episode_title, src_scene_rel])
 				continue
-			normalized_episodes[str(episode_title)] = "story/ep%02d.tscn" % episode_idx
+			normalized_episodes[episode_title] = "story/%s.tscn" % export_ep_name
 	config["episodes"] = normalized_episodes
 	_save_json_file(out_mod_root + "/mod_config.json", config)
 
@@ -2014,36 +2037,17 @@ func _build_mod_folder(project_name: String, out_root: String, mod_folder: Strin
 	if story_dir:
 		story_dir.make_dir("story")
 
-	for episode_title in normalized_episodes.keys():
-		var episode_idx := _parse_episode_index(str(episode_title))
-		if episode_idx <= 0:
+	for episode_title_any in normalized_episodes.keys():
+		var out_scene_rel := str(normalized_episodes.get(episode_title_any, ""))
+		var out_ep_name := _extract_ep_name_from_path(out_scene_rel)
+		if out_ep_name.is_empty():
 			continue
 
-		var out_ep_name := "ep%02d" % episode_idx
 		var src_scene_rel := ""
 		if typeof(src_episodes) == TYPE_DICTIONARY:
-			src_scene_rel = str((src_episodes as Dictionary).get(episode_title, ""))
+			src_scene_rel = str((src_episodes as Dictionary).get(episode_title_any, "")).strip_edges().replace("\\", "/")
 
-		var episode_project := ""
-		var root_candidate := _get_project_root(project_name) + "/project.json"
-		var from_path := _extract_ep_name_from_path(src_scene_rel)
-		var folder := from_path if not from_path.is_empty() else out_ep_name
-
-		# 优先尝试根目录（兼容旧结构/导出结构）；不存在时再尝试 episodes/<ep>/project.json
-		if FileAccess.file_exists(root_candidate) and (src_scene_rel.begins_with("export/") or episode_idx == 1):
-			episode_project = root_candidate
-		else:
-			var candidate := _get_project_root(project_name) + "/episodes/%s/project.json" % folder
-			if FileAccess.file_exists(candidate):
-				episode_project = candidate
-			elif FileAccess.file_exists(root_candidate):
-				episode_project = root_candidate
-			else:
-				# 兼容老结构：episode 文件夹可能在根目录下
-				candidate = _get_project_root(project_name) + "/%s/project.json" % folder
-				if FileAccess.file_exists(candidate):
-					episode_project = candidate
-
+		var episode_project := _resolve_episode_project_json_for_packaging(_get_project_root(project_name), src_scene_rel)
 		var episode_data := _load_json_file(episode_project) if not episode_project.is_empty() else {}
 		var scripts_any: Variant = episode_data.get("scripts", [])
 		var scripts: Array = scripts_any as Array
@@ -2188,6 +2192,18 @@ func _extract_ep_name_from_path(path: String) -> String:
 	var base := path.get_file().get_basename()
 	if base.begins_with("ep") and base.length() == 4 and base.substr(2, 2).is_valid_int():
 		return base
+	return ""
+
+func _resolve_export_episode_name(title: String, src_scene_rel: String) -> String:
+	var rel := src_scene_rel.strip_edges().replace("\\", "/")
+	var from_path := _extract_ep_name_from_path(rel)
+	if not from_path.is_empty():
+		return from_path
+	if rel.is_empty() or rel.begins_with("export/"):
+		return "ep01"
+	var from_title := _episode_folder_from_title(title)
+	if not from_title.is_empty():
+		return from_title
 	return ""
 
 func _copy_file(from_abs: String, to_path: String) -> void:
@@ -2427,9 +2443,116 @@ func _on_project_title_changed(new_text: String) -> void:
 		project_title_input.text = sanitized
 		_is_sanitizing_text = false
 
-	var config := _ensure_mod_config(selected_project)
-	config["title"] = sanitized
-	_touch_config(selected_project, config)
+func _on_project_title_submitted(_text: String) -> void:
+	_commit_project_rename()
+
+func _on_project_title_focus_exited() -> void:
+	pass
+
+func _get_pending_project_rename_target() -> String:
+	if _is_loading_details:
+		return ""
+	if selected_project.is_empty():
+		return ""
+	if project_title_input == null:
+		return ""
+	return _sanitize_project_title(project_title_input.text)
+
+func _commit_pending_project_rename_if_needed() -> bool:
+	var pending_name := _get_pending_project_rename_target()
+	if pending_name.is_empty() or pending_name == selected_project:
+		return true
+	return _commit_project_rename()
+
+func _commit_project_rename() -> bool:
+	if _is_loading_details:
+		return false
+	if selected_project.is_empty():
+		return false
+	if project_title_input == null:
+		return false
+	if _is_sanitizing_text:
+		return false
+
+	var old_project_name := selected_project
+	var new_project_name := _sanitize_project_title(project_title_input.text)
+	if project_title_input.text != new_project_name:
+		_is_sanitizing_text = true
+		project_title_input.text = new_project_name
+		_is_sanitizing_text = false
+
+	if new_project_name.is_empty():
+		_is_sanitizing_text = true
+		project_title_input.text = old_project_name
+		_is_sanitizing_text = false
+		_show_info_dialog("重命名失败", "工程名称不能为空。")
+		return false
+
+	if not _is_valid_project_folder_name(new_project_name):
+		_is_sanitizing_text = true
+		project_title_input.text = old_project_name
+		_is_sanitizing_text = false
+		_show_info_dialog("重命名失败", "工程名称仅支持中文/英文/数字/下划线/短横线，长度不超过%d。" % MAX_PROJECT_FOLDER_NAME_LENGTH)
+		return false
+
+	if new_project_name == old_project_name:
+		return true
+
+	var dir := DirAccess.open(PROJECTS_PATH)
+	if dir == null:
+		_show_info_dialog("重命名失败", "无法打开工程目录。")
+		return false
+	if dir.dir_exists(new_project_name):
+		_is_sanitizing_text = true
+		project_title_input.text = old_project_name
+		_is_sanitizing_text = false
+		_show_info_dialog("重命名失败", "目标工程名已存在，请换一个名称。")
+		return false
+
+	var old_root := _get_project_root(old_project_name)
+	var new_root := PROJECTS_PATH + "/" + new_project_name
+	var rename_err := DirAccess.rename_absolute(ProjectSettings.globalize_path(old_root), ProjectSettings.globalize_path(new_root))
+	if rename_err != OK:
+		_is_sanitizing_text = true
+		project_title_input.text = old_project_name
+		_is_sanitizing_text = false
+		_show_info_dialog("重命名失败", "工程目录重命名失败：%s" % error_string(rename_err))
+		return false
+
+	var config := _ensure_mod_config(new_project_name)
+	config["title"] = new_project_name
+	config["mod_id"] = new_project_name
+	_touch_config(new_project_name, config)
+	_sync_project_identity_metadata(new_project_name, config)
+
+	selected_project = new_project_name
+	_load_projects()
+	_select_project_and_show_details(new_project_name)
+	return true
+
+func _sync_project_identity_metadata(project_name: String, config: Dictionary) -> void:
+	var project_root := _get_project_root(project_name)
+	var root_project_json := project_root + "/project.json"
+	if FileAccess.file_exists(root_project_json):
+		var root_data := _load_json_file(root_project_json)
+		root_data["project_name"] = project_name
+		_save_json_file(root_project_json, root_data)
+
+	var episodes_any: Variant = config.get("episodes", {})
+	if typeof(episodes_any) != TYPE_DICTIONARY:
+		return
+
+	var touched: Dictionary = {}
+	for episode_title_any in (episodes_any as Dictionary).keys():
+		var episode_title := str(episode_title_any)
+		var src_scene_rel := str((episodes_any as Dictionary).get(episode_title_any, "")).strip_edges().replace("\\", "/")
+		var episode_project := _resolve_episode_project_json_for_packaging(project_root, src_scene_rel)
+		if episode_project.is_empty() or touched.has(episode_project):
+			continue
+		touched[episode_project] = true
+		var episode_data := _load_json_file(episode_project)
+		episode_data["project_name"] = "%s - %s" % [project_name, episode_title]
+		_save_json_file(episode_project, episode_data)
 
 func _on_project_desc_changed() -> void:
 	if _is_loading_details:
@@ -2466,6 +2589,8 @@ func _episode_folder_from_title(title: String) -> String:
 	return "ep%02d" % idx
 
 func _on_add_episode_pressed() -> void:
+	if not _commit_pending_project_rename_if_needed():
+		return
 	if selected_project.is_empty():
 		return
 	var config := _ensure_mod_config(selected_project)
@@ -2744,6 +2869,8 @@ func _on_cancel_new_project():
 
 func _on_open_project_button_pressed():
 	"""打开选中剧情节"""
+	if not _commit_pending_project_rename_if_needed():
+		return
 	if selected_project.is_empty():
 		return
 	if _selected_episode_path.is_empty():
