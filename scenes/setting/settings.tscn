@@ -58,38 +58,43 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 40
-theme_override_constants/margin_top = 80
+theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 40
 theme_override_constants/margin_bottom = 40
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainPanel/ContentArea/SettingsContent"]
+[node name="SettingsLayout" type="VBoxContainer" parent="MainPanel/ContentArea/SettingsContent"]
 layout_mode = 2
-theme_override_constants/separation = 50
+size_flags_horizontal = 3
+theme_override_constants/separation = 30
 
-[node name="DisplaySettings" type="VBoxContainer" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout"]
+layout_mode = 2
+theme_override_constants/separation = 36
+
+[node name="DisplaySettings" type="VBoxContainer" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
-[node name="DisplayTitle" type="Label" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings"]
+[node name="DisplayTitle" type="Label" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.411765, 0.419608, 0.431373, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 28
 text = "显示"
 
-[node name="ModeLabel" type="Label" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings"]
+[node name="ModeLabel" type="Label" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.411765, 0.419608, 0.431373, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 18
 text = "窗口模式"
 
-[node name="ModeButtons" type="HBoxContainer" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings"]
+[node name="ModeButtons" type="HBoxContainer" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="BorderlessBtn" type="Button" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings/ModeButtons"]
+[node name="BorderlessBtn" type="Button" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ModeButtons"]
 custom_minimum_size = Vector2(100, 35)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -97,7 +102,7 @@ theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 16
 text = "无边框全屏"
 
-[node name="WindowedBtn" type="Button" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings/ModeButtons"]
+[node name="WindowedBtn" type="Button" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ModeButtons"]
 custom_minimum_size = Vector2(100, 35)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -105,81 +110,94 @@ theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 16
 text = "窗口"
 
-[node name="ScreenLabel" type="Label" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings"]
+[node name="ScreenLabel" type="Label" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.411765, 0.419608, 0.431373, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 18
 text = "显示器"
 
-[node name="ScreenList" type="OptionButton" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings"]
+[node name="ScreenList" type="OptionButton" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 16
 
-[node name="ResolutionLabel" type="Label" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings"]
+[node name="ResolutionLabel" type="Label" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.411765, 0.419608, 0.431373, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 18
 text = "分辨率"
 
-[node name="ResolutionList" type="OptionButton" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings"]
+[node name="ResolutionList" type="OptionButton" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings"]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 16
 
-[node name="AudioSettings" type="VBoxContainer" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer"]
+[node name="AudioSettings" type="VBoxContainer" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 15
 
-[node name="AudioTitle" type="Label" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings"]
+[node name="AudioTitle" type="Label" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.411765, 0.419608, 0.431373, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 28
 text = "声音"
 
-[node name="MasterVolumeLabel" type="Label" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings"]
+[node name="MasterVolumeLabel" type="Label" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.411765, 0.419608, 0.431373, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 18
 text = "主音量"
 
-[node name="MasterVolumeSlider" type="HSlider" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings"]
+[node name="MasterVolumeSlider" type="HSlider" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 value = 100.0
 
-[node name="MusicVolumeLabel" type="Label" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings"]
+[node name="MusicVolumeLabel" type="Label" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.411765, 0.419608, 0.431373, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 18
 text = "音乐"
 
-[node name="MusicVolumeSlider" type="HSlider" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings"]
+[node name="MusicVolumeSlider" type="HSlider" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 value = 100.0
 
-[node name="SFXVolumeLabel" type="Label" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings"]
+[node name="SFXVolumeLabel" type="Label" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.411765, 0.419608, 0.431373, 1)
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 18
 text = "音效"
 
-[node name="SFXVolumeSlider" type="HSlider" parent="MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings"]
+[node name="SFXVolumeSlider" type="HSlider" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 value = 100.0
+
+[node name="LanguageSettings" type="VBoxContainer" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="LanguageButtons" type="GridContainer" parent="MainPanel/ContentArea/SettingsContent/SettingsLayout/LanguageSettings"]
+custom_minimum_size = Vector2(0, 158)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 10
+columns = 6
 
 [node name="ThanksContent" type="MarginContainer" parent="MainPanel/ContentArea"]
 visible = false
@@ -345,13 +363,13 @@ offset_bottom = 84.0
 texture_normal = ExtResource("3_back_idle")
 texture_pressed = ExtResource("4_back_click")
 
-[connection signal="pressed" from="MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings/ModeButtons/BorderlessBtn" to="." method="_on_borderless_btn_pressed"]
-[connection signal="pressed" from="MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings/ModeButtons/WindowedBtn" to="." method="_on_windowed_btn_pressed"]
-[connection signal="item_selected" from="MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings/ScreenList" to="." method="_on_screen_selected"]
-[connection signal="item_selected" from="MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings/ResolutionList" to="." method="_on_resolution_selected"]
-[connection signal="value_changed" from="MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings/MasterVolumeSlider" to="." method="_on_master_volume_changed"]
-[connection signal="value_changed" from="MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings/MusicVolumeSlider" to="." method="_on_music_volume_changed"]
-[connection signal="value_changed" from="MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings/SFXVolumeSlider" to="." method="_on_sfx_volume_changed"]
+[connection signal="pressed" from="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ModeButtons/BorderlessBtn" to="." method="_on_borderless_btn_pressed"]
+[connection signal="pressed" from="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ModeButtons/WindowedBtn" to="." method="_on_windowed_btn_pressed"]
+[connection signal="item_selected" from="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ScreenList" to="." method="_on_screen_selected"]
+[connection signal="item_selected" from="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ResolutionList" to="." method="_on_resolution_selected"]
+[connection signal="value_changed" from="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings/MasterVolumeSlider" to="." method="_on_master_volume_changed"]
+[connection signal="value_changed" from="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings/MusicVolumeSlider" to="." method="_on_music_volume_changed"]
+[connection signal="value_changed" from="MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings/SFXVolumeSlider" to="." method="_on_sfx_volume_changed"]
 [connection signal="pressed" from="MainPanel/SidePanel/VBoxContainer/SettingButton" to="." method="_on_setting_button_pressed"]
 [connection signal="pressed" from="MainPanel/SidePanel/VBoxContainer/ThanksButton" to="." method="_on_thanks_button_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

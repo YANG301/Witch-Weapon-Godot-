@@ -13,13 +13,52 @@ const RESOLUTIONS_16_9 = [
 	Vector2i(854, 480)
 ]
 
-@onready var borderless_btn = $MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings/ModeButtons/BorderlessBtn
-@onready var windowed_btn = $MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings/ModeButtons/WindowedBtn
-@onready var screen_list = $MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings/ScreenList
-@onready var resolution_list = $MainPanel/ContentArea/SettingsContent/HBoxContainer/DisplaySettings/ResolutionList
-@onready var master_volume_slider = $MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings/MasterVolumeSlider
-@onready var music_volume_slider = $MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings/MusicVolumeSlider
-@onready var sfx_volume_slider = $MainPanel/ContentArea/SettingsContent/HBoxContainer/AudioSettings/SFXVolumeSlider
+const LANGUAGE_OPTIONS: Array[Dictionary] = [
+	{"code": "zh", "native_name": "简体中文", "alternate_native_name": "繁體中文", "english_name": "Chinese", "enabled": true},
+	{"code": "en", "native_name": "English", "english_name": "English", "enabled": true},
+	{"code": "ja", "native_name": "日本語", "english_name": "Japanese", "enabled": true},
+	{"code": "ko", "native_name": "한국어", "english_name": "Korean", "enabled": true},
+	{"code": "de", "native_name": "Deutsch", "english_name": "German", "enabled": false},
+	{"code": "es", "native_name": "Español", "english_name": "Spanish", "enabled": false},
+	{"code": "fr", "native_name": "Français", "english_name": "French", "enabled": false},
+	{"code": "it", "native_name": "Italiano", "english_name": "Italian", "enabled": false},
+	{"code": "pt", "native_name": "Português", "english_name": "Portuguese", "enabled": false},
+	{"code": "ru", "native_name": "Русский", "english_name": "Russian", "enabled": false},
+	{"code": "th", "native_name": "ไทย", "english_name": "Thai", "enabled": false},
+	{"code": "vi", "native_name": "Tiếng Việt", "english_name": "Vietnamese", "enabled": false},
+]
+const DEFAULT_LANGUAGE_CODE: String = "zh"
+const CHINESE_LANGUAGE_CODE: String = "zh"
+const LANGUAGE_BUTTON_COLUMNS: int = 6
+const LANGUAGE_BUTTON_SIZE: Vector2 = Vector2(130, 74)
+const LANGUAGE_BUTTON_CONTENT_MARGIN_HORIZONTAL: int = 10
+const LANGUAGE_BUTTON_CONTENT_MARGIN_VERTICAL: int = 6
+const LANGUAGE_BUTTON_LABEL_SEPARATION: int = 1
+const LANGUAGE_BUTTON_PRIMARY_FONT_SIZE: int = 16
+const LANGUAGE_BUTTON_SECONDARY_FONT_SIZE: int = 13
+const LANGUAGE_BUTTON_FONT_EMBOLDEN: float = 0.14
+const LANGUAGE_BUTTON_VISUAL_OFFSET_Y: float = 8.0
+const LANGUAGE_BUTTON_IDLE_BG: Color = Color(0.427, 0.455, 0.502, 1.0)
+const LANGUAGE_BUTTON_IDLE_HOVER_BG: Color = Color(0.49, 0.522, 0.573, 1.0)
+const LANGUAGE_BUTTON_SELECTED_BG: Color = Color(0.255, 0.463, 0.722, 1.0)
+const LANGUAGE_BUTTON_SELECTED_HOVER_BG: Color = Color(0.31, 0.522, 0.784, 1.0)
+const LANGUAGE_BUTTON_DISABLED_BG: Color = Color(0.79, 0.81, 0.84, 0.72)
+const LANGUAGE_BUTTON_IDLE_BORDER: Color = Color(0.337, 0.357, 0.4, 1.0)
+const LANGUAGE_BUTTON_SELECTED_BORDER: Color = Color(0.18, 0.345, 0.573, 1.0)
+const LANGUAGE_BUTTON_DISABLED_BORDER: Color = Color(0.65, 0.69, 0.74, 0.9)
+const LANGUAGE_BUTTON_PRIMARY_COLOR: Color = Color.WHITE
+const LANGUAGE_BUTTON_SECONDARY_COLOR: Color = Color(0.88, 0.93, 0.98, 1.0)
+const LANGUAGE_BUTTON_DISABLED_PRIMARY_COLOR: Color = Color(0.44, 0.47, 0.51, 1.0)
+const LANGUAGE_BUTTON_DISABLED_SECONDARY_COLOR: Color = Color(0.48, 0.5, 0.54, 1.0)
+
+@onready var borderless_btn = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ModeButtons/BorderlessBtn
+@onready var windowed_btn = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ModeButtons/WindowedBtn
+@onready var screen_list = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ScreenList
+@onready var resolution_list = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ResolutionList
+@onready var master_volume_slider = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings/MasterVolumeSlider
+@onready var music_volume_slider = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings/MusicVolumeSlider
+@onready var sfx_volume_slider = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings/SFXVolumeSlider
+@onready var language_buttons_container: GridContainer = $MainPanel/ContentArea/SettingsContent/SettingsLayout/LanguageSettings/LanguageButtons
 
 # 面板节点
 @onready var settings_content = $MainPanel/ContentArea/SettingsContent
@@ -42,6 +81,10 @@ var setting_idle_texture: Texture2D
 var setting_clicked_texture: Texture2D
 var thanks_idle_texture: Texture2D
 var thanks_clicked_texture: Texture2D
+var _selected_language_code: String = DEFAULT_LANGUAGE_CODE
+var _is_traditional_chinese_selected: bool = false
+var _language_buttons: Dictionary = {}
+var _language_options_by_code: Dictionary = {}
 
 var _avatar_runtime_override_enabled: bool = false
 var _avatar_runtime_icon_id: int = 1
@@ -64,6 +107,8 @@ var _avatar_picker_options_loading: bool = false
 var _profile_refresh_in_flight: bool = false
 var _avatar_picker_dialog_open: bool = false
 var _ui_font: FontFile = null
+var _language_button_font: FontFile = null
+var _language_button_display_font: Font = null
 
 # 当前选择的屏幕索引
 var current_screen: int = 0
@@ -85,6 +130,7 @@ const USER_AVATAR_ICON_SCALE: float = 1.575
 const AUTH_DIALOG_SCENE_PATH: String = "res://scenes/main/auth_dialog.tscn"
 const AVATAR_PICKER_DIALOG_SCENE_PATH: String = "res://scenes/setting/avatar_picker_dialog.tscn"
 const USER_UI_FONT_PATH: String = "res://assets/gui/font/方正粗圆_GBK.ttf"
+const LANGUAGE_BUTTON_FONT_PATH: String = "res://assets/gui/font/SourceHanSansLite.ttf"
 
 # 致谢页数据（数据驱动生成）
 const CREDITS_CONTRIBUTORS: Array[Dictionary] = [
@@ -109,6 +155,15 @@ func _ready():
 	thanks_idle_texture = load("res://assets/gui/settings/thanks_idle.png")
 	thanks_clicked_texture = load("res://assets/gui/settings/thanks_clicked.png")
 	_ui_font = load(USER_UI_FONT_PATH)
+	_language_button_font = load(LANGUAGE_BUTTON_FONT_PATH)
+	if _language_button_font != null:
+		var language_font_variation := FontVariation.new()
+		language_font_variation.base_font = _language_button_font
+		language_font_variation.variation_embolden = LANGUAGE_BUTTON_FONT_EMBOLDEN
+		_language_button_display_font = language_font_variation
+	else:
+		_language_button_display_font = _ui_font
+	_setup_language_buttons()
 	_apply_user_menu_base_texture()
 	_refresh_user_menu_avatar_preview()
 	call_deferred("_apply_user_avatar_icon_layout")
@@ -803,6 +858,175 @@ func _update_window_mode_buttons():
 		windowed_btn.button_pressed = true
 
 # 辅助函数：安全地居中窗口到屏幕（确保标题栏可见）
+func _setup_language_buttons() -> void:
+	if language_buttons_container == null:
+		return
+
+	_clear_container_children(language_buttons_container)
+	_language_buttons.clear()
+	_language_options_by_code.clear()
+	language_buttons_container.columns = LANGUAGE_BUTTON_COLUMNS
+
+	for language_option in LANGUAGE_OPTIONS:
+		var language_code := str(language_option.get("code", ""))
+		if language_code.is_empty():
+			continue
+		_language_options_by_code[language_code] = language_option
+		_language_buttons[language_code] = _create_language_button(language_option)
+
+	_apply_language_button_selection(DEFAULT_LANGUAGE_CODE)
+
+func _on_language_button_pressed(language_code: String) -> void:
+	if language_code == CHINESE_LANGUAGE_CODE and _selected_language_code == CHINESE_LANGUAGE_CODE:
+		_is_traditional_chinese_selected = not _is_traditional_chinese_selected
+	_apply_language_button_selection(language_code)
+	_on_language_selection_preview_requested(language_code)
+
+func _apply_language_button_selection(language_code: String) -> void:
+	if not _language_options_by_code.has(language_code):
+		language_code = DEFAULT_LANGUAGE_CODE
+
+	_selected_language_code = language_code
+	for button_code in _language_buttons.keys():
+		var button_code_str := String(button_code)
+		var button_view: Dictionary = _language_buttons.get(button_code_str, {})
+		var language_option: Dictionary = _language_options_by_code.get(button_code_str, {})
+		var is_selected := button_code_str == _selected_language_code
+		_update_language_button_content(button_view, language_option)
+		_update_language_button_layout(button_view)
+		_apply_language_button_style(button_view, language_option, is_selected)
+
+func _create_language_button(language_option: Dictionary) -> Dictionary:
+	var language_code := str(language_option.get("code", ""))
+	var language_font: Font = _language_button_display_font if _language_button_display_font != null else _ui_font
+	var language_button := Button.new()
+	language_button.custom_minimum_size = LANGUAGE_BUTTON_SIZE
+	language_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	language_button.focus_mode = Control.FOCUS_NONE
+	language_button.toggle_mode = true
+	language_button.text = ""
+	language_button.clip_contents = true
+	language_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	language_button.pressed.connect(_on_language_button_pressed.bind(language_code))
+	language_buttons_container.add_child(language_button)
+
+	var content_root := Control.new()
+	content_root.anchors_preset = PRESET_FULL_RECT
+	content_root.offset_left = LANGUAGE_BUTTON_CONTENT_MARGIN_HORIZONTAL
+	content_root.offset_top = LANGUAGE_BUTTON_CONTENT_MARGIN_VERTICAL
+	content_root.offset_right = -LANGUAGE_BUTTON_CONTENT_MARGIN_HORIZONTAL
+	content_root.offset_bottom = -LANGUAGE_BUTTON_CONTENT_MARGIN_VERTICAL
+	content_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	language_button.add_child(content_root)
+
+	var label_container := VBoxContainer.new()
+	label_container.custom_minimum_size = Vector2(LANGUAGE_BUTTON_SIZE.x - LANGUAGE_BUTTON_CONTENT_MARGIN_HORIZONTAL * 2, 0)
+	label_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label_container.alignment = BoxContainer.ALIGNMENT_CENTER
+	label_container.add_theme_constant_override("separation", LANGUAGE_BUTTON_LABEL_SEPARATION)
+	content_root.add_child(label_container)
+
+	var native_label := Label.new()
+	native_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	native_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	native_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	native_label.add_theme_font_override("font", language_font)
+	native_label.add_theme_font_size_override("font_size", LANGUAGE_BUTTON_PRIMARY_FONT_SIZE)
+	label_container.add_child(native_label)
+
+	var english_label := Label.new()
+	english_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	english_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	english_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	english_label.add_theme_font_override("font", language_font)
+	english_label.add_theme_font_size_override("font_size", LANGUAGE_BUTTON_SECONDARY_FONT_SIZE)
+	label_container.add_child(english_label)
+
+	language_button.resized.connect(_on_language_button_resized.bind(language_code))
+
+	return {
+		"button": language_button,
+		"content_root": content_root,
+		"label_container": label_container,
+		"primary_label": native_label,
+		"secondary_label": english_label,
+	}
+
+func _update_language_button_content(button_view: Dictionary, language_option: Dictionary) -> void:
+	var primary_label := button_view.get("primary_label") as Label
+	var secondary_label := button_view.get("secondary_label") as Label
+	if primary_label == null or secondary_label == null:
+		return
+
+	primary_label.text = _get_language_native_name(language_option)
+	secondary_label.text = str(language_option.get("english_name", ""))
+
+func _on_language_button_resized(language_code: String) -> void:
+	_update_language_button_layout(_language_buttons.get(language_code, {}))
+
+func _update_language_button_layout(button_view: Dictionary) -> void:
+	var content_root := button_view.get("content_root") as Control
+	var label_container := button_view.get("label_container") as VBoxContainer
+	if content_root == null or label_container == null:
+		return
+
+	var label_size: Vector2 = label_container.get_combined_minimum_size()
+	var available_width: float = maxf(content_root.size.x, label_size.x)
+	var available_height: float = content_root.size.y
+	label_container.size = Vector2(available_width, label_size.y)
+	label_container.position = Vector2(0.0, floor(maxf((available_height - label_size.y) * 0.5, 0.0)) + LANGUAGE_BUTTON_VISUAL_OFFSET_Y)
+
+func _get_language_native_name(language_option: Dictionary) -> String:
+	var language_code := str(language_option.get("code", ""))
+	if language_code == CHINESE_LANGUAGE_CODE and _is_traditional_chinese_selected:
+		return str(language_option.get("alternate_native_name", language_option.get("native_name", language_code)))
+	return str(language_option.get("native_name", language_code))
+
+func _apply_language_button_style(button_view: Dictionary, language_option: Dictionary, is_selected: bool) -> void:
+	var language_button := button_view.get("button") as Button
+	var primary_label := button_view.get("primary_label") as Label
+	var secondary_label := button_view.get("secondary_label") as Label
+	if language_button == null or primary_label == null or secondary_label == null:
+		return
+
+	var is_enabled := bool(language_option.get("enabled", false))
+	var normal_bg := LANGUAGE_BUTTON_SELECTED_BG if is_selected else LANGUAGE_BUTTON_IDLE_BG
+	var hover_bg := LANGUAGE_BUTTON_SELECTED_HOVER_BG if is_selected else LANGUAGE_BUTTON_IDLE_HOVER_BG
+	var border_color := LANGUAGE_BUTTON_SELECTED_BORDER if is_selected else LANGUAGE_BUTTON_IDLE_BORDER
+	var disabled_style := _build_language_button_style(LANGUAGE_BUTTON_DISABLED_BG, LANGUAGE_BUTTON_DISABLED_BORDER)
+
+	language_button.disabled = not is_enabled
+	language_button.button_pressed = is_selected and is_enabled
+	language_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if is_enabled else Control.CURSOR_ARROW
+	language_button.add_theme_stylebox_override("normal", _build_language_button_style(normal_bg, border_color))
+	language_button.add_theme_stylebox_override("hover", _build_language_button_style(hover_bg, border_color))
+	language_button.add_theme_stylebox_override("pressed", _build_language_button_style(LANGUAGE_BUTTON_SELECTED_BG, LANGUAGE_BUTTON_SELECTED_BORDER))
+	language_button.add_theme_stylebox_override("focus", _build_language_button_style(normal_bg, border_color))
+	language_button.add_theme_stylebox_override("disabled", disabled_style)
+	primary_label.add_theme_color_override("font_color", LANGUAGE_BUTTON_PRIMARY_COLOR if is_enabled else LANGUAGE_BUTTON_DISABLED_PRIMARY_COLOR)
+	secondary_label.add_theme_color_override("font_color", LANGUAGE_BUTTON_SECONDARY_COLOR if is_enabled else LANGUAGE_BUTTON_DISABLED_SECONDARY_COLOR)
+
+func _build_language_button_style(background_color: Color, border_color: Color) -> StyleBoxFlat:
+	var style_box := StyleBoxFlat.new()
+	style_box.bg_color = background_color
+	style_box.border_color = border_color
+	style_box.border_width_left = 1
+	style_box.border_width_top = 1
+	style_box.border_width_right = 1
+	style_box.border_width_bottom = 1
+	style_box.corner_radius_top_left = 10
+	style_box.corner_radius_top_right = 10
+	style_box.corner_radius_bottom_right = 10
+	style_box.corner_radius_bottom_left = 10
+	style_box.content_margin_left = 0
+	style_box.content_margin_right = 0
+	style_box.content_margin_top = 0
+	style_box.content_margin_bottom = 0
+	return style_box
+
+func _on_language_selection_preview_requested(_language_code: String) -> void:
+	pass
+
 func _center_window_to_screen(window_size: Vector2i, screen_index: int) -> Vector2i:
 	var screen_size = DisplayServer.screen_get_size(screen_index)
 	var screen_position = DisplayServer.screen_get_position(screen_index)
