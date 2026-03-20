@@ -394,7 +394,7 @@ func _update_dojin_hit_proxy_rect() -> void:
 	_dojin_hit_proxy.size = rect.size
 	_dojin_hit_proxy.visible = true
 
-func load_story_scene(scene_path: String) -> bool:
+func load_story_scene(scene_path: String, script_override_path: String = "") -> bool:
 	"""加载剧情场景到CanvasLayer中，带有渐变动画"""
 	# 隐藏设置按钮
 	settings_button.visible = false
@@ -421,12 +421,27 @@ func load_story_scene(scene_path: String) -> bool:
 
 	# 实例化并添加到CanvasLayer
 	var story_instance = story_scene.instantiate()
+	_apply_story_script_override(story_instance, script_override_path)
 	story_scene_layer.add_child(story_instance)
 
 	# 剧情场景加载完成后，清除主菜单的黑色遮罩，让NovelInterface接管后续动画
 	_clear_black_overlay()
 
 	return true
+
+func _apply_story_script_override(story_instance: Node, script_override_path: String) -> void:
+	if story_instance == null or script_override_path.is_empty():
+		return
+
+	if not ResourceLoader.exists(script_override_path):
+		push_warning("语言脚本不存在，保留原始脚本: " + script_override_path)
+		return
+
+	var loaded_script: Variant = load(script_override_path)
+	if loaded_script is Script:
+		story_instance.set_script(loaded_script)
+	else:
+		push_warning("语言脚本加载失败，保留原始脚本: " + script_override_path)
 
 func _load_mod_scene(scene_path: String) -> PackedScene:
 	"""加载mod场景，处理路径引用问题

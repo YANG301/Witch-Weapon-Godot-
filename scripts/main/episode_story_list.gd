@@ -40,6 +40,10 @@ extends Control
 
 #region 常量
 const STORY_CONFIG_PATH := "res://scripts/set/story_config.json"
+const DEFAULT_LANGUAGE_CODE := "zh"
+const SUPPORTED_LANGUAGE_CODES := [
+	"zh", "tc", "en", "jp", "kr", "de", "es", "fr", "it", "pt", "ru", "th", "vi"
+]
 const VELOCITY_SAMPLE_SIZE := 5
 const SMOOTH_SCROLL_TIME := 0.15
 const PHYSICS_DELTA_MULTIPLIER := 60.0
@@ -56,8 +60,7 @@ var story_config: Dictionary = {}
 var list_items: Array[MarginContainer] = []  # 存储所有列表项的引用
 var is_exiting := false  # 新增：标记是否正在退出
 var mobile_pressed_visual: TextureRect = null
-var mobile_pressed_scene_path := ""
-var mobile_pressed_episode_name := ""
+var mobile_pressed_episode_data: Dictionary = {}
 var mobile_pressed_touch_index := -1
 var mobile_press_start_pos := Vector2.ZERO
 var mobile_press_moved := false
@@ -141,8 +144,159 @@ func _load_story_config() -> void:
 	if parse_result != OK:
 		push_error("解析故事配置失败: " + json.get_error_message())
 		return
-	
-	story_config = json.data
+
+	story_config.clear()
+	for story_id_variant in json.data.keys():
+		var story_id := str(story_id_variant)
+		var raw_story: Dictionary = json.data[story_id_variant]
+		story_config[story_id] = {
+			"title": str(raw_story.get("title", "")),
+			"title_i18n": _normalize_i18n_map(raw_story.get("title_i18n", {})),
+			"episodes": _normalize_episode_collection(raw_story.get("episodes", {}))
+		}
+
+func _normalize_episode_collection(raw_episodes: Variant) -> Array[Dictionary]:
+	var normalized_episodes: Array[Dictionary] = []
+	if typeof(raw_episodes) != TYPE_DICTIONARY:
+		return normalized_episodes
+
+	var episodes: Dictionary = raw_episodes
+	for display_name_variant in episodes.keys():
+		var episode_data := _normalize_episode_data(str(display_name_variant), episodes[display_name_variant])
+		if episode_data.is_empty():
+			push_warning("跳过无效剧情配置: " + str(display_name_variant))
+			continue
+		normalized_episodes.append(episode_data)
+
+	return normalized_episodes
+
+func _normalize_episode_data(display_name: String, raw_episode: Variant) -> Dictionary:
+	var scene_path := ""
+	var script_paths: Dictionary = {}
+	var name_i18n: Dictionary = {}
+
+	if typeof(raw_episode) == TYPE_STRING:
+		scene_path = str(raw_episode).strip_edges()
+	elif typeof(raw_episode) == TYPE_DICTIONARY:
+		var episode_dict: Dictionary = raw_episode
+		scene_path = str(episode_dict.get("scene", "")).strip_edges()
+		name_i18n = _normalize_i18n_map(episode_dict.get("name_i18n", {}))
+		script_paths = _normalize_script_paths(episode_dict.get("scripts", {}))
+
+	if scene_path.is_empty():
+		return {}
+
+	if script_paths.is_empty():
+		script_paths = _derive_script_paths(scene_path)
+
+	return {
+		"display_name": display_name,
+		"name_i18n": name_i18n,
+		"scene_path": scene_path,
+		"script_paths": script_paths
+	}
+
+func _normalize_i18n_map(raw_i18n: Variant) -> Dictionary:
+	var normalized_i18n: Dictionary = {}
+	if typeof(raw_i18n) != TYPE_DICTIONARY:
+		return normalized_i18n
+
+	var i18n_map: Dictionary = raw_i18n
+	for language_code_variant in i18n_map.keys():
+		var language_code := _normalize_language_code(str(language_code_variant))
+		var localized_text := str(i18n_map[language_code_variant]).strip_edges()
+		if language_code.is_empty() or localized_text.is_empty():
+			continue
+		normalized_i18n[language_code] = localized_text
+
+	return normalized_i18n
+
+func _normalize_script_paths(raw_script_paths: Variant) -> Dictionary:
+	var normalized_paths: Dictionary = {}
+	if typeof(raw_script_paths) != TYPE_DICTIONARY:
+		return normalized_paths
+
+	var script_paths: Dictionary = raw_script_paths
+	for language_code_variant in script_paths.keys():
+		var language_code := _normalize_language_code(str(language_code_variant))
+		var script_path := str(script_paths[language_code_variant]).strip_edges()
+		if language_code.is_empty() or script_path.is_empty():
+			continue
+		normalized_paths[language_code] = script_path
+
+	return normalized_paths
+
+func _derive_script_paths(scene_path: String) -> Dictionary:
+	var script_paths: Dictionary = {}
+	if not scene_path.begins_with("res://scenes/story/"):
+		return script_paths
+
+	var base_script_path := scene_path.replace("res://scenes/story/", "res://scripts/story/").replace(".tscn", ".gd")
+	if not ResourceLoader.exists(base_script_path):
+		return script_paths
+
+	script_paths[DEFAULT_LANGUAGE_CODE] = base_script_path
+	var base_script_stem := base_script_path.trim_suffix(".gd")
+	for language_code in SUPPORTED_LANGUAGE_CODES:
+		if language_code == DEFAULT_LANGUAGE_CODE:
+			continue
+
+		var localized_script_path := "%s_%s.gd" % [base_script_stem, language_code]
+		if ResourceLoader.exists(localized_script_path):
+			script_paths[language_code] = localized_script_path
+
+	return script_paths
+
+func _normalize_language_code(language_code: String) -> String:
+	var normalized_code := language_code.strip_edges().to_lower()
+
+	match normalized_code:
+		"ja":
+			normalized_code = "jp"
+		"ko":
+			normalized_code = "kr"
+
+	if SUPPORTED_LANGUAGE_CODES.has(normalized_code):
+		return normalized_code
+
+	return ""
+
+func _get_current_language_code() -> String:
+	var current_language := DEFAULT_LANGUAGE_CODE
+	if GameConfig != null:
+		current_language = GameConfig.current_language
+
+	return _fallback_language_code(current_language)
+
+func _fallback_language_code(language_code: String) -> String:
+	var normalized_code := _normalize_language_code(language_code)
+	return DEFAULT_LANGUAGE_CODE if normalized_code.is_empty() else normalized_code
+
+func _resolve_localized_text(i18n_map: Dictionary, fallback_text: String) -> String:
+	var current_language := _get_current_language_code()
+	var localized_text := str(i18n_map.get(current_language, "")).strip_edges()
+	if not localized_text.is_empty():
+		return localized_text
+
+	localized_text = str(i18n_map.get(DEFAULT_LANGUAGE_CODE, "")).strip_edges()
+	if not localized_text.is_empty():
+		return localized_text
+
+	return fallback_text
+
+func _resolve_script_override_path(episode_data: Dictionary) -> String:
+	var script_paths: Dictionary = episode_data.get("script_paths", {})
+	if script_paths.is_empty():
+		return ""
+
+	var current_language := _get_current_language_code()
+	if script_paths.has(current_language):
+		return str(script_paths[current_language])
+
+	if script_paths.has(DEFAULT_LANGUAGE_CODE):
+		return str(script_paths[DEFAULT_LANGUAGE_CODE])
+
+	return ""
 
 ## 设置滚动容器
 func _setup_scroll_container() -> void:
@@ -181,18 +335,16 @@ func _clear_mobile_press() -> void:
 	if is_instance_valid(mobile_pressed_visual):
 		_set_mobile_press_visual(mobile_pressed_visual, false)
 	mobile_pressed_visual = null
-	mobile_pressed_scene_path = ""
-	mobile_pressed_episode_name = ""
+	mobile_pressed_episode_data.clear()
 	mobile_pressed_touch_index = -1
 	mobile_press_start_pos = Vector2.ZERO
 	mobile_press_moved = false
 	mobile_press_uses_mouse = false
 
-func _begin_mobile_press(visual: TextureRect, scene_path: String, episode_name: String, touch_index: int, pos: Vector2, uses_mouse: bool) -> void:
+func _begin_mobile_press(visual: TextureRect, episode_data: Dictionary, touch_index: int, pos: Vector2, uses_mouse: bool) -> void:
 	_clear_mobile_press()
 	mobile_pressed_visual = visual
-	mobile_pressed_scene_path = scene_path
-	mobile_pressed_episode_name = episode_name
+	mobile_pressed_episode_data = episode_data.duplicate(true)
 	mobile_pressed_touch_index = touch_index
 	mobile_press_start_pos = pos
 	mobile_press_moved = false
@@ -213,24 +365,22 @@ func _handle_mobile_input(event: InputEvent, main_menu: Node) -> void:
 				mobile_press_moved = true
 				_clear_mobile_press()
 		elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
-			var scene_path := mobile_pressed_scene_path
-			var episode_name := mobile_pressed_episode_name
+			var episode_data := mobile_pressed_episode_data.duplicate(true)
 			var should_activate := not mobile_press_moved
 			_clear_mobile_press()
 			if should_activate:
-				_activate_episode(scene_path, episode_name)
+				_activate_episode(episode_data)
 	else:
 		if event is InputEventScreenDrag and event.index == mobile_pressed_touch_index:
 			if event.position.distance_to(mobile_press_start_pos) > DRAG_THRESHOLD:
 				mobile_press_moved = true
 				_clear_mobile_press()
 		elif event is InputEventScreenTouch and not event.pressed and event.index == mobile_pressed_touch_index:
-			var scene_path := mobile_pressed_scene_path
-			var episode_name := mobile_pressed_episode_name
+			var episode_data := mobile_pressed_episode_data.duplicate(true)
 			var should_activate := not mobile_press_moved
 			_clear_mobile_press()
 			if should_activate:
-				_activate_episode(scene_path, episode_name)
+				_activate_episode(episode_data)
 #endregion
 
 #region 动画
@@ -487,7 +637,10 @@ func set_story(story_id: String) -> void:
 
 	# 更新标题
 	if episode_name_label:
-		episode_name_label.text = story_data["title"]
+		episode_name_label.text = _resolve_localized_text(
+			story_data.get("title_i18n", {}),
+			str(story_data.get("title", ""))
+		)
 
 	# 更新剧集列表
 	_update_episode_list(story_data["episodes"])
@@ -501,16 +654,18 @@ func set_mod_story(mod_title: String, episodes: Dictionary, mod_path: String) ->
 		episode_name_label.text = mod_title
 
 	# 更新剧集列表（需要处理mod路径）
-	# ???????????mod???
-	var full_path_episodes := {}
+	var full_path_episodes: Array[Dictionary] = []
 	for episode_name in episodes:
 		var relative_path: String = str(episodes[episode_name]).strip_edges().replace("\\", "/")
 		if not _is_safe_mod_episode_rel_path(relative_path):
-			push_warning("??????????: %s" % relative_path)
+			push_warning("非法mod剧情路径: %s" % relative_path)
 			continue
-		# ????????????
 		var full_path := mod_path + "/" + relative_path
-		full_path_episodes[episode_name] = full_path
+		full_path_episodes.append({
+			"display_name": str(episode_name),
+			"scene_path": full_path,
+			"script_paths": {}
+		})
 
 	_update_episode_list(full_path_episodes)
 
@@ -528,16 +683,15 @@ func _is_safe_mod_episode_rel_path(path: String) -> bool:
 			return false
 	return true
 
-func _update_episode_list(episodes: Dictionary) -> void:
+func _update_episode_list(episodes: Array[Dictionary]) -> void:
 	# 清空现有列表
 	for child in story_list_container.get_children():
 		child.queue_free()
 	list_items.clear()
 
 	# 创建新的列表项
-	for episode_name in episodes:
-		var scene_path: String = episodes[episode_name]
-		var list_item := _create_list_item(episode_name, scene_path)
+	for episode_data in episodes:
+		var list_item := _create_list_item(episode_data)
 		# 立即设置为完全透明，避免第一帧闪现
 		list_item.modulate.a = 0.0
 		story_list_container.add_child(list_item)
@@ -558,7 +712,12 @@ func _update_episode_list(episodes: Dictionary) -> void:
 	_animate_list_items_entrance()
 
 ## 创建列表项
-func _create_list_item(episode_name: String, scene_path: String) -> MarginContainer:
+func _create_list_item(episode_data: Dictionary) -> MarginContainer:
+	var episode_name := _resolve_localized_text(
+		episode_data.get("name_i18n", {}),
+		str(episode_data.get("display_name", ""))
+	)
+
 	# 主容器
 	var container := MarginContainer.new()
 	container.add_theme_constant_override("margin_top", 11)
@@ -581,7 +740,7 @@ func _create_list_item(episode_name: String, scene_path: String) -> MarginContai
 		hit_area.mouse_filter = Control.MOUSE_FILTER_PASS
 		hit_area.custom_minimum_size = Vector2(538, 114)
 		hit_area.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-		hit_area.gui_input.connect(_on_mobile_item_gui_input.bind(visual, scene_path, episode_name))
+		hit_area.gui_input.connect(_on_mobile_item_gui_input.bind(visual, episode_data))
 		container.add_child(hit_area)
 
 		var center := CenterContainer.new()
@@ -605,7 +764,7 @@ func _create_list_item(episode_name: String, scene_path: String) -> MarginContai
 		button.texture_disabled = button_textures["disabled"]
 		button.mouse_filter = Control.MOUSE_FILTER_PASS
 		button.focus_mode = Control.FOCUS_NONE
-		button.pressed.connect(_on_episode_selected.bind(scene_path, episode_name))
+		button.pressed.connect(_on_episode_selected.bind(episode_data))
 
 		# 标签容器
 		var center := CenterContainer.new()
@@ -625,21 +784,27 @@ func _create_list_item(episode_name: String, scene_path: String) -> MarginContai
 
 	return container
 
-func _on_mobile_item_gui_input(event: InputEvent, visual: TextureRect, scene_path: String, episode_name: String) -> void:
+func _on_mobile_item_gui_input(event: InputEvent, visual: TextureRect, episode_data: Dictionary) -> void:
 	if event is InputEventScreenTouch and event.pressed:
-		_begin_mobile_press(visual, scene_path, episode_name, event.index, event.position, false)
+		_begin_mobile_press(visual, episode_data, event.index, event.position, false)
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		_begin_mobile_press(visual, scene_path, episode_name, -1, event.position, true)
+		_begin_mobile_press(visual, episode_data, -1, event.position, true)
 
 ## 处理剧集选择
-func _on_episode_selected(scene_path: String, episode_name: String) -> void:
+func _on_episode_selected(episode_data: Dictionary) -> void:
 	# 防止拖拽时误触发 - 检查是否正在拖拽或已经发生了拖拽移动
 	if scroll_state.is_dragging or scroll_state.has_moved:
 		return
 
-	_activate_episode(scene_path, episode_name)
+	_activate_episode(episode_data)
 
-func _activate_episode(scene_path: String, episode_name: String) -> void:
+func _activate_episode(episode_data: Dictionary) -> void:
+	var episode_name := _resolve_localized_text(
+		episode_data.get("name_i18n", {}),
+		str(episode_data.get("display_name", ""))
+	)
+	var scene_path := str(episode_data.get("scene_path", ""))
+	var script_override_path := _resolve_script_override_path(episode_data)
 	print("选择剧集: %s -> %s" % [episode_name, scene_path])
 
 	# 获取主菜单场景
@@ -652,7 +817,7 @@ func _activate_episode(scene_path: String, episode_name: String) -> void:
 
 	if main_menu and main_menu.has_method("load_story_scene"):
 		# 使用主菜单的方法加载剧情到CanvasLayer
-		var success = await main_menu.load_story_scene(scene_path)
+		var success = await main_menu.load_story_scene(scene_path, script_override_path)
 		if success:
 			print("成功加载剧情场景到CanvasLayer")
 		else:

@@ -2,6 +2,10 @@ extends Node
 
 # 配置文件路径
 const CONFIG_FILE_PATH = "user://game_config.cfg"
+const DEFAULT_LANGUAGE_CODE := "zh"
+const SUPPORTED_LANGUAGE_CODES := [
+	"zh", "tc", "en", "jp", "kr", "de", "es", "fr", "it", "pt", "ru", "th", "vi"
+]
 
 # ConfigFile 实例
 var config = ConfigFile.new()
@@ -21,6 +25,9 @@ var default_config = {
 		"screen": 0,
 		"resolution_x": 1280,
 		"resolution_y": 720
+	},
+	"language": {
+		"current": DEFAULT_LANGUAGE_CODE
 	},
 	"gameplay": {
 		# 未来的游戏设置可以在这里添加
@@ -78,6 +85,13 @@ var resolution_y: int:
 	set(value):
 		config.set_value("display", "resolution_y", value)
 
+# ==================== 语言设置 ====================
+var current_language: String:
+	get:
+		return _normalize_language_code(config.get_value("language", "current", default_config["language"]["current"]))
+	set(value):
+		config.set_value("language", "current", _normalize_language_code(value))
+
 # ==================== 核心方法 ====================
 func _ready():
 	load_settings()
@@ -92,6 +106,8 @@ func load_settings():
 		reset_to_default()
 		save()
 	else:
+		_ensure_default_config_values()
+		config.set_value("language", "current", current_language)
 		print("配置文件加载成功: ", CONFIG_FILE_PATH)
 
 # 保存配置到文件
@@ -163,6 +179,31 @@ func reset_to_default():
 	var system_username = get_system_username()
 	config.set_value("player", "name", system_username)
 	print("配置已重置为默认值（玩家名: ", system_username, "）")
+
+func _ensure_default_config_values() -> void:
+	for section in default_config.keys():
+		if not config.has_section(section):
+			for key in default_config[section].keys():
+				config.set_value(section, key, default_config[section][key])
+			continue
+
+		for key in default_config[section].keys():
+			if not config.has_section_key(section, key):
+				config.set_value(section, key, default_config[section][key])
+
+func _normalize_language_code(value: Variant) -> String:
+	var language_code := str(value).strip_edges().to_lower()
+
+	match language_code:
+		"ja":
+			language_code = "jp"
+		"ko":
+			language_code = "kr"
+
+	if SUPPORTED_LANGUAGE_CODES.has(language_code):
+		return language_code
+
+	return DEFAULT_LANGUAGE_CODE
 
 # ==================== 辅助方法 ====================
 # 获取系统用户名（类似《心跳文学社》的功能）

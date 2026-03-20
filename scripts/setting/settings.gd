@@ -16,8 +16,8 @@ const RESOLUTIONS_16_9 = [
 const LANGUAGE_OPTIONS: Array[Dictionary] = [
 	{"code": "zh", "native_name": "简体中文", "alternate_native_name": "繁體中文", "english_name": "Chinese", "enabled": true},
 	{"code": "en", "native_name": "English", "english_name": "English", "enabled": true},
-	{"code": "ja", "native_name": "日本語", "english_name": "Japanese", "enabled": true},
-	{"code": "ko", "native_name": "한국어", "english_name": "Korean", "enabled": true},
+	{"code": "jp", "native_name": "日本語", "english_name": "Japanese", "enabled": true},
+	{"code": "kr", "native_name": "한국어", "english_name": "Korean", "enabled": true},
 	{"code": "de", "native_name": "Deutsch", "english_name": "German", "enabled": false},
 	{"code": "es", "native_name": "Español", "english_name": "Spanish", "enabled": false},
 	{"code": "fr", "native_name": "Français", "english_name": "French", "enabled": false},
@@ -29,6 +29,7 @@ const LANGUAGE_OPTIONS: Array[Dictionary] = [
 ]
 const DEFAULT_LANGUAGE_CODE: String = "zh"
 const CHINESE_LANGUAGE_CODE: String = "zh"
+const TRADITIONAL_CHINESE_LANGUAGE_CODE: String = "tc"
 const LANGUAGE_BUTTON_COLUMNS: int = 6
 const LANGUAGE_BUTTON_SIZE: Vector2 = Vector2(130, 74)
 const LANGUAGE_BUTTON_CONTENT_MARGIN_HORIZONTAL: int = 10
@@ -59,12 +60,22 @@ const LANGUAGE_BUTTON_DISABLED_SECONDARY_COLOR: Color = Color(0.48, 0.5, 0.54, 1
 @onready var music_volume_slider = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings/MusicVolumeSlider
 @onready var sfx_volume_slider = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings/SFXVolumeSlider
 @onready var language_buttons_container: GridContainer = $MainPanel/ContentArea/SettingsContent/SettingsLayout/LanguageSettings/LanguageButtons
+@onready var display_title_label: Label = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/DisplayTitle
+@onready var mode_label: Label = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ModeLabel
+@onready var screen_label: Label = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ScreenLabel
+@onready var resolution_label: Label = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ResolutionLabel
+@onready var audio_title_label: Label = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings/AudioTitle
+@onready var master_volume_label: Label = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings/MasterVolumeLabel
+@onready var music_volume_label: Label = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings/MusicVolumeLabel
+@onready var sfx_volume_label: Label = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings/SFXVolumeLabel
 
 # 面板节点
 @onready var settings_content = $MainPanel/ContentArea/SettingsContent
 @onready var thanks_content = $MainPanel/ContentArea/ThanksContent
 
+@onready var contributors_title_label: Label = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsTitle
 @onready var credits_contributors_grid: HBoxContainer = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ContributorsGrid
+@onready var thanks_title_label: Label = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksTitle
 @onready var credits_thanks_grid: HBoxContainer = $MainPanel/ContentArea/ThanksContent/VBoxContainer/ThanksGrid
 @onready var credit_card_template: VBoxContainer = $CreditCardTemplate
 @onready var qq_group_label: Label = $MainPanel/ContentArea/ThanksContent/VBoxContainer/QQGroupLabel
@@ -98,6 +109,11 @@ var _avatar_picker_preview_bg: TextureRect = null
 var _avatar_picker_preview_icon: TextureRect = null
 var _avatar_picker_apply_button: Button = null
 var _avatar_picker_cancel_button: Button = null
+var _avatar_picker_title_label: Label = null
+var _avatar_picker_close_button: Button = null
+var _avatar_picker_bg_label: Label = null
+var _avatar_picker_icon_label: Label = null
+var _avatar_picker_hint_label: Label = null
 var _avatar_picker_selected_bg_id: int = 1
 var _avatar_picker_selected_icon_id: int = 1
 var _avatar_picker_bg_ids: Array[int] = []
@@ -147,6 +163,37 @@ const CREDITS_SPECIAL_THANKS: Array[Dictionary] = [
 	{"id": "lazy", "name": "见习食神懒羊羊", "desc": "", "texture": "res://assets/gui/settings/credits/见习食神懒羊羊.webp", "url": "https://space.bilibili.com/274983449"},
 ]
 
+const UI_TEXTS: Dictionary = {
+	"display_title": {"zh": "显示", "tc": "顯示", "en": "Display", "jp": "表示", "kr": "디스플레이"},
+	"mode_label": {"zh": "窗口模式", "tc": "視窗模式", "en": "Window Mode", "jp": "ウィンドウモード", "kr": "창 모드"},
+	"borderless_btn": {"zh": "无边框全屏", "tc": "無邊框全螢幕", "en": "Borderless Fullscreen", "jp": "ボーダーレス全画面", "kr": "테두리 없는 전체 화면"},
+	"windowed_btn": {"zh": "窗口", "tc": "視窗", "en": "Windowed", "jp": "ウィンドウ", "kr": "창"},
+	"screen_label": {"zh": "显示器", "tc": "顯示器", "en": "Display", "jp": "ディスプレイ", "kr": "디스플레이"},
+	"screen_item": {"zh": "显示器 %d (%dx%d)", "tc": "顯示器 %d (%dx%d)", "en": "Display %d (%dx%d)", "jp": "ディスプレイ %d (%dx%d)", "kr": "디스플레이 %d (%dx%d)"},
+	"resolution_label": {"zh": "分辨率", "tc": "解析度", "en": "Resolution", "jp": "解像度", "kr": "해상도"},
+	"audio_title": {"zh": "声音", "tc": "聲音", "en": "Audio", "jp": "サウンド", "kr": "사운드"},
+	"master_volume_label": {"zh": "主音量", "tc": "主音量", "en": "Master Volume", "jp": "主音量", "kr": "마스터 볼륨"},
+	"music_volume_label": {"zh": "音乐", "tc": "音樂", "en": "Music", "jp": "音楽", "kr": "음악"},
+	"sfx_volume_label": {"zh": "音效", "tc": "音效", "en": "SFX", "jp": "効果音", "kr": "효과음"},
+	"contributors_title": {"zh": "贡献者", "tc": "貢獻者", "en": "Contributors", "jp": "協力者", "kr": "기여자"},
+	"thanks_title": {"zh": "特别鸣谢", "tc": "特別鳴謝", "en": "Special Thanks", "jp": "スペシャルサンクス", "kr": "특별 감사"},
+	"qq_group_label": {"zh": "QQ群：1078249413  魔女兵器编辑器测试群", "tc": "QQ 群：1078249413  魔女兵器編輯器測試群", "en": "QQ Group: 1078249413  Witch Weapon Editor Test Group", "jp": "QQグループ：1078249413  魔女兵器エディター検証グループ", "kr": "QQ 그룹: 1078249413  위치 웨폰 에디터 테스트 그룹"},
+	"credit_desc_yang": {"zh": "游戏主程序", "tc": "遊戲主程式", "en": "Game Programming", "jp": "ゲームプログラム", "kr": "게임 프로그래밍"},
+	"credit_desc_fusu": {"zh": "测试与脚本编写", "tc": "測試與腳本編寫", "en": "Testing & Scripts", "jp": "テストとスクリプト", "kr": "테스트 및 스크립트"},
+	"credit_desc_projektming": {"zh": "GitHub贡献", "tc": "GitHub 貢獻", "en": "GitHub Contributions", "jp": "GitHub貢献", "kr": "GitHub 기여"},
+	"credit_desc_basket_ball": {"zh": "安全性测试", "tc": "安全性測試", "en": "Security Testing", "jp": "セキュリティテスト", "kr": "보안 테스트"},
+	"credit_desc_baizhu": {"zh": "多语言支持", "tc": "多語言支援", "en": "Multilingual Support", "jp": "多言語対応", "kr": "다국어 지원"},
+	"avatar_picker_title": {"zh": "切换头像与背景", "tc": "切換頭像與背景", "en": "Change Avatar & Background", "jp": "アバターと背景を変更", "kr": "아바타와 배경 변경"},
+	"avatar_picker_close": {"zh": "关闭", "tc": "關閉", "en": "Close", "jp": "閉じる", "kr": "닫기"},
+	"avatar_picker_bg_label": {"zh": "背景列表", "tc": "背景清單", "en": "Backgrounds", "jp": "背景一覧", "kr": "배경 목록"},
+	"avatar_picker_icon_label": {"zh": "头像列表", "tc": "頭像清單", "en": "Avatars", "jp": "アバター一覧", "kr": "아바타 목록"},
+	"avatar_picker_hint": {"zh": "点击图标预览，点“保存”生效（Esc/点空白关闭）", "tc": "點擊圖示預覽，按「保存」生效（Esc／點空白關閉）", "en": "Click an icon to preview, then Save to apply (Esc or click empty space to close)", "jp": "アイコンをクリックしてプレビューし、「保存」で適用（Esc または空白クリックで閉じる）", "kr": "아이콘을 눌러 미리 보고, \"저장\"을 누르면 적용됩니다 (Esc 또는 빈 곳 클릭으로 닫기)"},
+	"cancel_btn": {"zh": "取消", "tc": "取消", "en": "Cancel", "jp": "キャンセル", "kr": "취소"},
+	"save_btn": {"zh": "保存", "tc": "保存", "en": "Save", "jp": "保存", "kr": "저장"},
+	"avatar_bg_item": {"zh": "背景 %d", "tc": "背景 %d", "en": "Background %d", "jp": "背景 %d", "kr": "배경 %d"},
+	"avatar_icon_item": {"zh": "头像 %d", "tc": "頭像 %d", "en": "Avatar %d", "jp": "アバター %d", "kr": "아바타 %d"},
+}
+
 
 func _ready():
 	# 加载按钮纹理资源
@@ -188,18 +235,16 @@ func _ready():
 	# 设置初始窗口模式按钮状态
 	_update_window_mode_buttons()
 
+	_refresh_localized_texts()
+
 	# 默认显示设置页面
 	_show_settings_page()
-	if qq_group_label != null:
-		qq_group_label.text = "QQ群：1078249413  魔女兵器编辑器测试群"
 	if has_node("/root/AuthManager") and not AuthManager.profile_changed.is_connected(_on_auth_profile_changed):
 		AuthManager.profile_changed.connect(_on_auth_profile_changed)
 	if has_node("/root/AuthManager") and not AuthManager.auth_state_changed.is_connected(_on_auth_state_changed):
 		AuthManager.auth_state_changed.connect(_on_auth_state_changed)
 	if user_menu_button != null and not user_menu_button.gui_input.is_connected(_on_user_menu_button_gui_input):
 		user_menu_button.gui_input.connect(_on_user_menu_button_gui_input)
-
-	_rebuild_credits_ui()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _avatar_picker_overlay == null or not _avatar_picker_overlay.visible:
@@ -369,26 +414,24 @@ func _ensure_avatar_picker_ui() -> void:
 	header.add_theme_constant_override("separation", 8)
 	root.add_child(header)
 
-	var title: Label = Label.new()
-	title.text = "切换头像与背景"
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	title.add_theme_font_override("font", _ui_font)
-	title.add_theme_font_size_override("font_size", 24)
-	title.add_theme_color_override("font_color", Color(1, 1, 1, 1))
-	header.add_child(title)
+	_avatar_picker_title_label = Label.new()
+	_avatar_picker_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_avatar_picker_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_avatar_picker_title_label.add_theme_font_override("font", _ui_font)
+	_avatar_picker_title_label.add_theme_font_size_override("font_size", 24)
+	_avatar_picker_title_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+	header.add_child(_avatar_picker_title_label)
 
-	var close_button: Button = Button.new()
-	close_button.text = "关闭"
-	close_button.custom_minimum_size = Vector2(96, 34)
-	close_button.add_theme_font_override("font", _ui_font)
-	close_button.add_theme_font_size_override("font_size", 18)
-	close_button.size_flags_horizontal = Control.SIZE_SHRINK_END
-	close_button.pressed.connect(func():
+	_avatar_picker_close_button = Button.new()
+	_avatar_picker_close_button.custom_minimum_size = Vector2(96, 34)
+	_avatar_picker_close_button.add_theme_font_override("font", _ui_font)
+	_avatar_picker_close_button.add_theme_font_size_override("font_size", 18)
+	_avatar_picker_close_button.size_flags_horizontal = Control.SIZE_SHRINK_END
+	_avatar_picker_close_button.pressed.connect(func():
 		if _avatar_picker_overlay != null:
 			_avatar_picker_overlay.visible = false
 	)
-	header.add_child(close_button)
+	header.add_child(_avatar_picker_close_button)
 
 	var scroll: ScrollContainer = ScrollContainer.new()
 	scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -433,12 +476,11 @@ func _ensure_avatar_picker_ui() -> void:
 	form.add_theme_constant_override("separation", 12)
 	content.add_child(form)
 
-	var bg_label: Label = Label.new()
-	bg_label.text = "背景列表"
-	bg_label.add_theme_font_override("font", _ui_font)
-	bg_label.add_theme_font_size_override("font_size", 18)
-	bg_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.9))
-	form.add_child(bg_label)
+	_avatar_picker_bg_label = Label.new()
+	_avatar_picker_bg_label.add_theme_font_override("font", _ui_font)
+	_avatar_picker_bg_label.add_theme_font_size_override("font_size", 18)
+	_avatar_picker_bg_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.9))
+	form.add_child(_avatar_picker_bg_label)
 
 	_avatar_picker_bg_option = ItemList.new()
 	_avatar_picker_bg_option.icon_mode = ItemList.ICON_MODE_TOP
@@ -456,12 +498,11 @@ func _ensure_avatar_picker_ui() -> void:
 	_avatar_picker_bg_option.item_selected.connect(_on_avatar_picker_bg_selected)
 	form.add_child(_avatar_picker_bg_option)
 
-	var icon_label: Label = Label.new()
-	icon_label.text = "头像列表"
-	icon_label.add_theme_font_override("font", _ui_font)
-	icon_label.add_theme_font_size_override("font_size", 18)
-	icon_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.9))
-	form.add_child(icon_label)
+	_avatar_picker_icon_label = Label.new()
+	_avatar_picker_icon_label.add_theme_font_override("font", _ui_font)
+	_avatar_picker_icon_label.add_theme_font_size_override("font_size", 18)
+	_avatar_picker_icon_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.9))
+	form.add_child(_avatar_picker_icon_label)
 
 	_avatar_picker_icon_option = ItemList.new()
 	_avatar_picker_icon_option.icon_mode = ItemList.ICON_MODE_TOP
@@ -479,14 +520,13 @@ func _ensure_avatar_picker_ui() -> void:
 	_avatar_picker_icon_option.item_selected.connect(_on_avatar_picker_icon_selected)
 	form.add_child(_avatar_picker_icon_option)
 
-	var hint: Label = Label.new()
-	hint.text = "点击图标预览，点“保存”生效（Esc/点空白关闭）"
-	hint.add_theme_font_override("font", _ui_font)
-	hint.add_theme_font_size_override("font_size", 16)
-	hint.add_theme_color_override("font_color", Color(1, 1, 1, 0.7))
-	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	hint.modulate = Color(1, 1, 1, 0.7)
-	form.add_child(hint)
+	_avatar_picker_hint_label = Label.new()
+	_avatar_picker_hint_label.add_theme_font_override("font", _ui_font)
+	_avatar_picker_hint_label.add_theme_font_size_override("font_size", 16)
+	_avatar_picker_hint_label.add_theme_color_override("font_color", Color(1, 1, 1, 0.7))
+	_avatar_picker_hint_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_avatar_picker_hint_label.modulate = Color(1, 1, 1, 0.7)
+	form.add_child(_avatar_picker_hint_label)
 
 	var footer: HBoxContainer = HBoxContainer.new()
 	footer.add_theme_constant_override("separation", 10)
@@ -498,7 +538,6 @@ func _ensure_avatar_picker_ui() -> void:
 	footer.add_child(spacer)
 
 	_avatar_picker_cancel_button = Button.new()
-	_avatar_picker_cancel_button.text = "取消"
 	_avatar_picker_cancel_button.custom_minimum_size = Vector2(120, 34)
 	_avatar_picker_cancel_button.add_theme_font_override("font", _ui_font)
 	_avatar_picker_cancel_button.add_theme_font_size_override("font_size", 18)
@@ -506,7 +545,6 @@ func _ensure_avatar_picker_ui() -> void:
 	footer.add_child(_avatar_picker_cancel_button)
 
 	_avatar_picker_apply_button = Button.new()
-	_avatar_picker_apply_button.text = "保存"
 	_avatar_picker_apply_button.custom_minimum_size = Vector2(120, 34)
 	_avatar_picker_apply_button.add_theme_font_override("font", _ui_font)
 	_avatar_picker_apply_button.add_theme_font_size_override("font_size", 18)
@@ -515,6 +553,7 @@ func _ensure_avatar_picker_ui() -> void:
 
 	_avatar_picker_bg_ids = _load_local_avatar_ids(USER_AVATAR_BACKGROUND_DIR, USER_AVATAR_BG_MAX_ID)
 	_avatar_picker_icon_ids = _load_local_avatar_ids(USER_AVATAR_ICON_DIR, USER_AVATAR_MAX_ID)
+	_apply_avatar_picker_texts()
 	_populate_avatar_picker_options()
 	call_deferred("_center_avatar_picker_panel")
 
@@ -553,7 +592,7 @@ func _populate_avatar_picker_options() -> void:
 	for id_value in _avatar_picker_bg_ids:
 		var bg_path: String = "%s/%s.png" % [USER_AVATAR_BACKGROUND_DIR, _avatar_id_to_name(id_value)]
 		var bg_tex: Texture2D = _load_image_texture(bg_path)
-		var label_text: String = "背景 %d" % id_value
+		var label_text: String = _get_ui_text("avatar_bg_item", "背景 %d") % id_value
 		_avatar_picker_bg_option.add_item(label_text, bg_tex)
 		_avatar_picker_bg_option.set_item_metadata(_avatar_picker_bg_option.get_item_count() - 1, id_value)
 
@@ -561,7 +600,7 @@ func _populate_avatar_picker_options() -> void:
 	for id_value in _avatar_picker_icon_ids:
 		var icon_path: String = "%s/%s.png" % [USER_AVATAR_ICON_DIR, _avatar_id_to_name(id_value)]
 		var icon_tex: Texture2D = _load_image_texture(icon_path)
-		var label_text: String = "头像 %d" % id_value
+		var label_text: String = _get_ui_text("avatar_icon_item", "头像 %d") % id_value
 		_avatar_picker_icon_option.add_item(label_text, icon_tex)
 		_avatar_picker_icon_option.set_item_metadata(_avatar_picker_icon_option.get_item_count() - 1, id_value)
 
@@ -806,13 +845,86 @@ func _on_avatar_picker_overlay_gui_input(event: InputEvent) -> void:
 			if not rect.has_point(pos):
 				_avatar_picker_overlay.visible = false
 
+func _get_ui_text(key: String, fallback_text: String = "") -> String:
+	var localized_entry: Variant = UI_TEXTS.get(key, null)
+	if typeof(localized_entry) != TYPE_DICTIONARY:
+		return fallback_text
+
+	var translations: Dictionary = localized_entry
+	var language_code := _selected_language_code if not _selected_language_code.is_empty() else DEFAULT_LANGUAGE_CODE
+	var localized_text := str(translations.get(language_code, "")).strip_edges()
+	if localized_text.is_empty():
+		localized_text = str(translations.get(DEFAULT_LANGUAGE_CODE, "")).strip_edges()
+
+	return fallback_text if localized_text.is_empty() else localized_text
+
+func _refresh_localized_texts() -> void:
+	_apply_settings_page_texts()
+	_apply_thanks_page_texts()
+	_apply_avatar_picker_texts()
+	_populate_screen_list()
+	_rebuild_credits_ui()
+
+func _apply_settings_page_texts() -> void:
+	if display_title_label != null:
+		display_title_label.text = _get_ui_text("display_title", display_title_label.text)
+	if mode_label != null:
+		mode_label.text = _get_ui_text("mode_label", mode_label.text)
+	if borderless_btn != null:
+		borderless_btn.text = _get_ui_text("borderless_btn", borderless_btn.text)
+	if windowed_btn != null:
+		windowed_btn.text = _get_ui_text("windowed_btn", windowed_btn.text)
+	if screen_label != null:
+		screen_label.text = _get_ui_text("screen_label", screen_label.text)
+	if resolution_label != null:
+		resolution_label.text = _get_ui_text("resolution_label", resolution_label.text)
+	if audio_title_label != null:
+		audio_title_label.text = _get_ui_text("audio_title", audio_title_label.text)
+	if master_volume_label != null:
+		master_volume_label.text = _get_ui_text("master_volume_label", master_volume_label.text)
+	if music_volume_label != null:
+		music_volume_label.text = _get_ui_text("music_volume_label", music_volume_label.text)
+	if sfx_volume_label != null:
+		sfx_volume_label.text = _get_ui_text("sfx_volume_label", sfx_volume_label.text)
+
+func _apply_thanks_page_texts() -> void:
+	if contributors_title_label != null:
+		contributors_title_label.text = _get_ui_text("contributors_title", contributors_title_label.text)
+	if thanks_title_label != null:
+		thanks_title_label.text = _get_ui_text("thanks_title", thanks_title_label.text)
+	if qq_group_label != null:
+		qq_group_label.text = _get_ui_text("qq_group_label", qq_group_label.text)
+
+func _apply_avatar_picker_texts() -> void:
+	if _avatar_picker_title_label != null:
+		_avatar_picker_title_label.text = _get_ui_text("avatar_picker_title", _avatar_picker_title_label.text)
+	if _avatar_picker_close_button != null:
+		_avatar_picker_close_button.text = _get_ui_text("avatar_picker_close", _avatar_picker_close_button.text)
+	if _avatar_picker_bg_label != null:
+		_avatar_picker_bg_label.text = _get_ui_text("avatar_picker_bg_label", _avatar_picker_bg_label.text)
+	if _avatar_picker_icon_label != null:
+		_avatar_picker_icon_label.text = _get_ui_text("avatar_picker_icon_label", _avatar_picker_icon_label.text)
+	if _avatar_picker_hint_label != null:
+		_avatar_picker_hint_label.text = _get_ui_text("avatar_picker_hint", _avatar_picker_hint_label.text)
+	if _avatar_picker_cancel_button != null:
+		_avatar_picker_cancel_button.text = _get_ui_text("cancel_btn", _avatar_picker_cancel_button.text)
+	if _avatar_picker_apply_button != null:
+		_avatar_picker_apply_button.text = _get_ui_text("save_btn", _avatar_picker_apply_button.text)
+	if _avatar_picker_bg_option != null and _avatar_picker_icon_option != null:
+		_populate_avatar_picker_options()
+
+func _get_credit_description(entry: Dictionary) -> String:
+	var desc_key := "credit_desc_%s" % str(entry.get("id", ""))
+	return _get_ui_text(desc_key, str(entry.get("desc", "")))
+
 func _populate_screen_list():
 	screen_list.clear()
 	var screen_count = DisplayServer.get_screen_count()
+	var screen_template := _get_ui_text("screen_item", "Display %d (%dx%d)")
 
 	for i in range(screen_count):
 		var screen_size = DisplayServer.screen_get_size(i)
-		var screen_name = "显示器 %d (%dx%d)" % [i + 1, screen_size.x, screen_size.y]
+		var screen_name = screen_template % [i + 1, screen_size.x, screen_size.y]
 		screen_list.add_item(screen_name)
 		screen_list.set_item_metadata(i, i)
 
@@ -874,24 +986,30 @@ func _setup_language_buttons() -> void:
 		_language_options_by_code[language_code] = language_option
 		_language_buttons[language_code] = _create_language_button(language_option)
 
-	_apply_language_button_selection(DEFAULT_LANGUAGE_CODE)
+	_apply_language_button_selection(GameConfig.current_language)
 
 func _on_language_button_pressed(language_code: String) -> void:
-	if language_code == CHINESE_LANGUAGE_CODE and _selected_language_code == CHINESE_LANGUAGE_CODE:
-		_is_traditional_chinese_selected = not _is_traditional_chinese_selected
-	_apply_language_button_selection(language_code)
-	_on_language_selection_preview_requested(language_code)
+	var next_language_code := _normalize_language_code(language_code)
+	if next_language_code == CHINESE_LANGUAGE_CODE:
+		if _selected_language_code == CHINESE_LANGUAGE_CODE:
+			next_language_code = TRADITIONAL_CHINESE_LANGUAGE_CODE
+		elif _selected_language_code == TRADITIONAL_CHINESE_LANGUAGE_CODE:
+			next_language_code = CHINESE_LANGUAGE_CODE
+
+	_apply_language_button_selection(next_language_code)
+	_save_language_selection()
+	_on_language_selection_preview_requested(_selected_language_code)
 
 func _apply_language_button_selection(language_code: String) -> void:
-	if not _language_options_by_code.has(language_code):
-		language_code = DEFAULT_LANGUAGE_CODE
+	language_code = _normalize_language_code(language_code)
 
 	_selected_language_code = language_code
+	_is_traditional_chinese_selected = language_code == TRADITIONAL_CHINESE_LANGUAGE_CODE
 	for button_code in _language_buttons.keys():
 		var button_code_str := String(button_code)
 		var button_view: Dictionary = _language_buttons.get(button_code_str, {})
 		var language_option: Dictionary = _language_options_by_code.get(button_code_str, {})
-		var is_selected := button_code_str == _selected_language_code
+		var is_selected := _is_language_button_selected(button_code_str)
 		_update_language_button_content(button_view, language_option)
 		_update_language_button_layout(button_view)
 		_apply_language_button_style(button_view, language_option, is_selected)
@@ -978,7 +1096,7 @@ func _update_language_button_layout(button_view: Dictionary) -> void:
 
 func _get_language_native_name(language_option: Dictionary) -> String:
 	var language_code := str(language_option.get("code", ""))
-	if language_code == CHINESE_LANGUAGE_CODE and _is_traditional_chinese_selected:
+	if language_code == CHINESE_LANGUAGE_CODE and _selected_language_code == TRADITIONAL_CHINESE_LANGUAGE_CODE:
 		return str(language_option.get("alternate_native_name", language_option.get("native_name", language_code)))
 	return str(language_option.get("native_name", language_code))
 
@@ -1024,8 +1142,35 @@ func _build_language_button_style(background_color: Color, border_color: Color) 
 	style_box.content_margin_bottom = 0
 	return style_box
 
+func _normalize_language_code(language_code: String) -> String:
+	var normalized_code := language_code.strip_edges().to_lower()
+
+	match normalized_code:
+		"ja":
+			normalized_code = "jp"
+		"ko":
+			normalized_code = "kr"
+
+	if normalized_code == TRADITIONAL_CHINESE_LANGUAGE_CODE:
+		return normalized_code
+
+	if _language_options_by_code.has(normalized_code):
+		return normalized_code
+
+	return DEFAULT_LANGUAGE_CODE
+
+func _is_language_button_selected(button_code: String) -> bool:
+	if button_code == CHINESE_LANGUAGE_CODE:
+		return _selected_language_code == CHINESE_LANGUAGE_CODE or _selected_language_code == TRADITIONAL_CHINESE_LANGUAGE_CODE
+
+	return button_code == _selected_language_code
+
+func _save_language_selection() -> void:
+	GameConfig.current_language = _selected_language_code
+	GameConfig.save()
+
 func _on_language_selection_preview_requested(_language_code: String) -> void:
-	pass
+	_refresh_localized_texts()
 
 func _center_window_to_screen(window_size: Vector2i, screen_index: int) -> Vector2i:
 	var screen_size = DisplayServer.screen_get_size(screen_index)
@@ -1094,6 +1239,8 @@ func _load_settings():
 			var window_pos = _center_window_to_screen(saved_size, current_screen)
 			DisplayServer.window_set_position(window_pos)
 
+	_apply_language_button_selection(GameConfig.current_language)
+
 func _save_settings():
 	var config = ConfigFile.new()
 	config.load(GameConfig.CONFIG_FILE_PATH)  # 先加载现有配置
@@ -1118,6 +1265,7 @@ func _save_settings():
 
 	config.set_value("display", "resolution_x", windowed_resolution.x)
 	config.set_value("display", "resolution_y", windowed_resolution.y)
+	config.set_value("language", "current", _selected_language_code)
 
 	config.save(GameConfig.CONFIG_FILE_PATH)
 
@@ -1322,7 +1470,7 @@ func _instantiate_credit_card(entry: Dictionary) -> VBoxContainer:
 	var desc_label := card.get_node("Description") as Label
 
 	name_label.text = str(entry.get("name", ""))
-	var desc := str(entry.get("desc", ""))
+	var desc := _get_credit_description(entry)
 	desc_label.text = desc
 	desc_label.visible = not desc.strip_edges().is_empty()
 
