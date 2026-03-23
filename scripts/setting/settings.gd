@@ -18,14 +18,14 @@ const LANGUAGE_OPTIONS: Array[Dictionary] = [
 	{"code": "en", "native_name": "English", "english_name": "English", "enabled": true},
 	{"code": "jp", "native_name": "日本語", "english_name": "Japanese", "enabled": true},
 	{"code": "kr", "native_name": "한국어", "english_name": "Korean", "enabled": true},
-	{"code": "de", "native_name": "Deutsch", "english_name": "German", "enabled": false},
-	{"code": "es", "native_name": "Español", "english_name": "Spanish", "enabled": false},
-	{"code": "fr", "native_name": "Français", "english_name": "French", "enabled": false},
-	{"code": "it", "native_name": "Italiano", "english_name": "Italian", "enabled": false},
-	{"code": "pt", "native_name": "Português", "english_name": "Portuguese", "enabled": false},
-	{"code": "ru", "native_name": "Русский", "english_name": "Russian", "enabled": false},
-	{"code": "th", "native_name": "ไทย", "english_name": "Thai", "enabled": false},
-	{"code": "vi", "native_name": "Tiếng Việt", "english_name": "Vietnamese", "enabled": false},
+	{"code": "de", "native_name": "Deutsch", "english_name": "German", "enabled": true},
+	{"code": "es", "native_name": "Español", "english_name": "Spanish", "enabled": true},
+	{"code": "fr", "native_name": "Français", "english_name": "French", "enabled": true},
+	{"code": "it", "native_name": "Italiano", "english_name": "Italian", "enabled": true},
+	{"code": "pt", "native_name": "Português", "english_name": "Portuguese", "enabled": true},
+	{"code": "ru", "native_name": "Русский", "english_name": "Russian", "enabled": true},
+	{"code": "th", "native_name": "ไทย", "english_name": "Thai", "enabled": true},
+	{"code": "vi", "native_name": "Tiếng Việt", "english_name": "Vietnamese", "enabled": true},
 ]
 const DEFAULT_LANGUAGE_CODE: String = "zh"
 const CHINESE_LANGUAGE_CODE: String = "zh"
@@ -51,6 +51,7 @@ const LANGUAGE_BUTTON_PRIMARY_COLOR: Color = Color.WHITE
 const LANGUAGE_BUTTON_SECONDARY_COLOR: Color = Color(0.88, 0.93, 0.98, 1.0)
 const LANGUAGE_BUTTON_DISABLED_PRIMARY_COLOR: Color = Color(0.44, 0.47, 0.51, 1.0)
 const LANGUAGE_BUTTON_DISABLED_SECONDARY_COLOR: Color = Color(0.48, 0.5, 0.54, 1.0)
+const LANGUAGE_BUTTON_TEXT_FADE_DURATION: float = 0.12
 
 @onready var borderless_btn = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ModeButtons/BorderlessBtn
 @onready var windowed_btn = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ModeButtons/WindowedBtn
@@ -96,6 +97,8 @@ var _selected_language_code: String = DEFAULT_LANGUAGE_CODE
 var _is_traditional_chinese_selected: bool = false
 var _language_buttons: Dictionary = {}
 var _language_options_by_code: Dictionary = {}
+var _is_chinese_button_hover_preview: bool = false
+var _language_button_primary_text_tweens: Dictionary = {}
 
 var _avatar_runtime_override_enabled: bool = false
 var _avatar_runtime_icon_id: int = 1
@@ -164,36 +167,35 @@ const CREDITS_SPECIAL_THANKS: Array[Dictionary] = [
 ]
 
 const UI_TEXTS: Dictionary = {
-	"display_title": {"zh": "显示", "tc": "顯示", "en": "Display", "jp": "表示", "kr": "디스플레이"},
-	"mode_label": {"zh": "窗口模式", "tc": "視窗模式", "en": "Window Mode", "jp": "ウィンドウモード", "kr": "창 모드"},
-	"borderless_btn": {"zh": "无边框全屏", "tc": "無邊框全螢幕", "en": "Borderless Fullscreen", "jp": "ボーダーレス全画面", "kr": "테두리 없는 전체 화면"},
-	"windowed_btn": {"zh": "窗口", "tc": "視窗", "en": "Windowed", "jp": "ウィンドウ", "kr": "창"},
-	"screen_label": {"zh": "显示器", "tc": "顯示器", "en": "Display", "jp": "ディスプレイ", "kr": "디스플레이"},
-	"screen_item": {"zh": "显示器 %d (%dx%d)", "tc": "顯示器 %d (%dx%d)", "en": "Display %d (%dx%d)", "jp": "ディスプレイ %d (%dx%d)", "kr": "디스플레이 %d (%dx%d)"},
-	"resolution_label": {"zh": "分辨率", "tc": "解析度", "en": "Resolution", "jp": "解像度", "kr": "해상도"},
-	"audio_title": {"zh": "声音", "tc": "聲音", "en": "Audio", "jp": "サウンド", "kr": "사운드"},
-	"master_volume_label": {"zh": "主音量", "tc": "主音量", "en": "Master Volume", "jp": "主音量", "kr": "마스터 볼륨"},
-	"music_volume_label": {"zh": "音乐", "tc": "音樂", "en": "Music", "jp": "音楽", "kr": "음악"},
-	"sfx_volume_label": {"zh": "音效", "tc": "音效", "en": "SFX", "jp": "効果音", "kr": "효과음"},
-	"contributors_title": {"zh": "贡献者", "tc": "貢獻者", "en": "Contributors", "jp": "協力者", "kr": "기여자"},
-	"thanks_title": {"zh": "特别鸣谢", "tc": "特別鳴謝", "en": "Special Thanks", "jp": "スペシャルサンクス", "kr": "특별 감사"},
-	"qq_group_label": {"zh": "QQ群：1078249413  魔女兵器编辑器测试群", "tc": "QQ 群：1078249413  魔女兵器編輯器測試群", "en": "QQ Group: 1078249413  Witch Weapon Editor Test Group", "jp": "QQグループ：1078249413  魔女兵器エディター検証グループ", "kr": "QQ 그룹: 1078249413  위치 웨폰 에디터 테스트 그룹"},
-	"credit_desc_yang": {"zh": "游戏主程序", "tc": "遊戲主程式", "en": "Game Programming", "jp": "ゲームプログラム", "kr": "게임 프로그래밍"},
-	"credit_desc_fusu": {"zh": "测试与脚本编写", "tc": "測試與腳本編寫", "en": "Testing & Scripts", "jp": "テストとスクリプト", "kr": "테스트 및 스크립트"},
-	"credit_desc_projektming": {"zh": "GitHub贡献", "tc": "GitHub 貢獻", "en": "GitHub Contributions", "jp": "GitHub貢献", "kr": "GitHub 기여"},
-	"credit_desc_basket_ball": {"zh": "安全性测试", "tc": "安全性測試", "en": "Security Testing", "jp": "セキュリティテスト", "kr": "보안 테스트"},
-	"credit_desc_baizhu": {"zh": "多语言支持", "tc": "多語言支援", "en": "Multilingual Support", "jp": "多言語対応", "kr": "다국어 지원"},
-	"avatar_picker_title": {"zh": "切换头像与背景", "tc": "切換頭像與背景", "en": "Change Avatar & Background", "jp": "アバターと背景を変更", "kr": "아바타와 배경 변경"},
-	"avatar_picker_close": {"zh": "关闭", "tc": "關閉", "en": "Close", "jp": "閉じる", "kr": "닫기"},
-	"avatar_picker_bg_label": {"zh": "背景列表", "tc": "背景清單", "en": "Backgrounds", "jp": "背景一覧", "kr": "배경 목록"},
-	"avatar_picker_icon_label": {"zh": "头像列表", "tc": "頭像清單", "en": "Avatars", "jp": "アバター一覧", "kr": "아바타 목록"},
-	"avatar_picker_hint": {"zh": "点击图标预览，点“保存”生效（Esc/点空白关闭）", "tc": "點擊圖示預覽，按「保存」生效（Esc／點空白關閉）", "en": "Click an icon to preview, then Save to apply (Esc or click empty space to close)", "jp": "アイコンをクリックしてプレビューし、「保存」で適用（Esc または空白クリックで閉じる）", "kr": "아이콘을 눌러 미리 보고, \"저장\"을 누르면 적용됩니다 (Esc 또는 빈 곳 클릭으로 닫기)"},
-	"cancel_btn": {"zh": "取消", "tc": "取消", "en": "Cancel", "jp": "キャンセル", "kr": "취소"},
-	"save_btn": {"zh": "保存", "tc": "保存", "en": "Save", "jp": "保存", "kr": "저장"},
-	"avatar_bg_item": {"zh": "背景 %d", "tc": "背景 %d", "en": "Background %d", "jp": "背景 %d", "kr": "배경 %d"},
-	"avatar_icon_item": {"zh": "头像 %d", "tc": "頭像 %d", "en": "Avatar %d", "jp": "アバター %d", "kr": "아바타 %d"},
+	"display_title": {"zh": "显示", "tc": "顯示", "en": "Display", "jp": "表示", "kr": "디스플레이", "de": "Anzeige", "es": "Pantalla", "fr": "Affichage", "it": "Schermo", "pt": "Exibição", "ru": "Дисплей", "th": "การแสดงผล", "vi": "Hiển thị"},
+	"mode_label": {"zh": "窗口模式", "tc": "視窗模式", "en": "Window Mode", "jp": "ウィンドウモード", "kr": "창 모드", "de": "Fenstermodus", "es": "Modo de ventana", "fr": "Mode fenêtre", "it": "Modalità finestra", "pt": "Modo de janela", "ru": "Режим окна", "th": "โหมดหน้าต่าง", "vi": "Chế độ cửa sổ"},
+	"borderless_btn": {"zh": "无边框全屏", "tc": "無邊框全螢幕", "en": "Borderless Fullscreen", "jp": "ボーダーレス全画面", "kr": "테두리 없는 전체 화면", "de": "Randloser Vollbildmodus", "es": "Pantalla completa sin bordes", "fr": "Plein écran sans bordure", "it": "Schermo intero senza bordi", "pt": "Tela cheia sem bordas", "ru": "Полноэкранный без рамки", "th": "เต็มจอไร้ขอบ", "vi": "Toàn màn hình không viền"},
+	"windowed_btn": {"zh": "窗口", "tc": "視窗", "en": "Windowed", "jp": "ウィンドウ", "kr": "창", "de": "Fenster", "es": "Ventana", "fr": "Fenêtré", "it": "Finestra", "pt": "Janela", "ru": "Оконный", "th": "หน้าต่าง", "vi": "Cửa sổ"},
+	"screen_label": {"zh": "显示器", "tc": "顯示器", "en": "Display", "jp": "ディスプレイ", "kr": "디스플레이", "de": "Bildschirm", "es": "Pantalla", "fr": "Écran", "it": "Schermo", "pt": "Tela", "ru": "Монитор", "th": "จอภาพ", "vi": "Màn hình"},
+	"screen_item": {"zh": "显示器 %d (%dx%d)", "tc": "顯示器 %d (%dx%d)", "en": "Display %d (%dx%d)", "jp": "ディスプレイ %d (%dx%d)", "kr": "디스플레이 %d (%dx%d)", "de": "Bildschirm %d (%dx%d)", "es": "Pantalla %d (%dx%d)", "fr": "Écran %d (%dx%d)", "it": "Schermo %d (%dx%d)", "pt": "Tela %d (%dx%d)", "ru": "Монитор %d (%dx%d)", "th": "จอภาพ %d (%dx%d)", "vi": "Màn hình %d (%dx%d)"},
+	"resolution_label": {"zh": "分辨率", "tc": "解析度", "en": "Resolution", "jp": "解像度", "kr": "해상도", "de": "Auflösung", "es": "Resolución", "fr": "Résolution", "it": "Risoluzione", "pt": "Resolução", "ru": "Разрешение", "th": "ความละเอียด", "vi": "Độ phân giải"},
+	"audio_title": {"zh": "声音", "tc": "聲音", "en": "Audio", "jp": "サウンド", "kr": "사운드", "de": "Audio", "es": "Audio", "fr": "Audio", "it": "Audio", "pt": "Áudio", "ru": "Аудио", "th": "เสียง", "vi": "Âm thanh"},
+	"master_volume_label": {"zh": "主音量", "tc": "主音量", "en": "Master Volume", "jp": "主音量", "kr": "마스터 볼륨", "de": "Gesamtlautstärke", "es": "Volumen general", "fr": "Volume principal", "it": "Volume principale", "pt": "Volume principal", "ru": "Общая громкость", "th": "ระดับเสียงหลัก", "vi": "Âm lượng chính"},
+	"music_volume_label": {"zh": "音乐", "tc": "音樂", "en": "Music", "jp": "音楽", "kr": "음악", "de": "Musik", "es": "Música", "fr": "Musique", "it": "Musica", "pt": "Música", "ru": "Музыка", "th": "ดนตรี", "vi": "Nhạc"},
+	"sfx_volume_label": {"zh": "音效", "tc": "音效", "en": "SFX", "jp": "効果音", "kr": "효과음", "de": "Soundeffekte", "es": "Efectos", "fr": "Effets sonores", "it": "Effetti sonori", "pt": "Efeitos sonoros", "ru": "Звуковые эффекты", "th": "เอฟเฟกต์เสียง", "vi": "Hiệu ứng âm thanh"},
+	"contributors_title": {"zh": "贡献者", "tc": "貢獻者", "en": "Contributors", "jp": "協力者", "kr": "기여자", "de": "Mitwirkende", "es": "Colaboradores", "fr": "Contributeurs", "it": "Contributori", "pt": "Colaboradores", "ru": "Участники", "th": "ผู้มีส่วนร่วม", "vi": "Người đóng góp"},
+	"thanks_title": {"zh": "特别鸣谢", "tc": "特別鳴謝", "en": "Special Thanks", "jp": "スペシャルサンクス", "kr": "특별 감사", "de": "Besonderer Dank", "es": "Agradecimientos especiales", "fr": "Remerciements spéciaux", "it": "Ringraziamenti speciali", "pt": "Agradecimentos especiais", "ru": "Особая благодарность", "th": "ขอบคุณเป็นพิเศษ", "vi": "Lời cảm ơn đặc biệt"},
+	"qq_group_label": {"zh": "QQ群：1078249413  魔女兵器编辑器测试群", "tc": "QQ 群：1078249413  魔女兵器編輯器測試群", "en": "QQ Group: 1078249413  Witch Weapon Editor Test Group", "jp": "QQグループ：1078249413  魔女兵器エディター検証グループ", "kr": "QQ 그룹: 1078249413  위치 웨폰 에디터 테스트 그룹", "de": "QQ-Gruppe: 1078249413  Witch Weapon Editor-Testgruppe", "es": "Grupo QQ: 1078249413  Grupo de prueba del editor de Witch Weapon", "fr": "Groupe QQ : 1078249413  Groupe de test de l'éditeur Witch Weapon", "it": "Gruppo QQ: 1078249413  Gruppo di test dell'editor di Witch Weapon", "pt": "Grupo QQ: 1078249413  Grupo de teste do editor de Witch Weapon", "ru": "Группа QQ: 1078249413  Тестовая группа редактора Witch Weapon", "th": "กลุ่ม QQ: 1078249413  กลุ่มทดสอบตัวแก้ไข Witch Weapon", "vi": "Nhóm QQ: 1078249413  Nhóm thử nghiệm trình chỉnh sửa Witch Weapon"},
+	"credit_desc_yang": {"zh": "游戏主程序", "tc": "遊戲主程式", "en": "Game Programming", "jp": "ゲームプログラム", "kr": "게임 프로그래밍", "de": "Spielprogrammierung", "es": "Programación del juego", "fr": "Programmation du jeu", "it": "Programmazione di gioco", "pt": "Programação do jogo", "ru": "Программирование игры", "th": "การเขียนโปรแกรมเกม", "vi": "Lập trình trò chơi"},
+	"credit_desc_fusu": {"zh": "测试与脚本编写", "tc": "測試與腳本編寫", "en": "Testing & Scripts", "jp": "テストとスクリプト", "kr": "테스트 및 스크립트", "de": "Tests & Skripte", "es": "Pruebas y scripts", "fr": "Tests et scripts", "it": "Test e script", "pt": "Testes e scripts", "ru": "Тестирование и скрипты", "th": "ทดสอบและสคริปต์", "vi": "Kiểm thử và viết script"},
+	"credit_desc_projektming": {"zh": "GitHub贡献", "tc": "GitHub 貢獻", "en": "GitHub Contributions", "jp": "GitHub貢献", "kr": "GitHub 기여", "de": "GitHub-Beiträge", "es": "Contribuciones en GitHub", "fr": "Contributions GitHub", "it": "Contributi su GitHub", "pt": "Contribuições no GitHub", "ru": "Вклад в GitHub", "th": "ผลงานบน GitHub", "vi": "Đóng góp trên GitHub"},
+	"credit_desc_basket_ball": {"zh": "安全性测试", "tc": "安全性測試", "en": "Security Testing", "jp": "セキュリティテスト", "kr": "보안 테스트", "de": "Sicherheitstests", "es": "Pruebas de seguridad", "fr": "Tests de sécurité", "it": "Test di sicurezza", "pt": "Testes de segurança", "ru": "Тестирование безопасности", "th": "การทดสอบความปลอดภัย", "vi": "Kiểm thử bảo mật"},
+	"credit_desc_baizhu": {"zh": "多语言支持", "tc": "多語言支援", "en": "Multilingual Support", "jp": "多言語対応", "kr": "다국어 지원", "de": "Mehrsprachige Unterstützung", "es": "Soporte multilingüe", "fr": "Prise en charge multilingue", "it": "Supporto multilingue", "pt": "Suporte multilíngue", "ru": "Поддержка нескольких языков", "th": "รองรับหลายภาษา", "vi": "Hỗ trợ đa ngôn ngữ"},
+	"avatar_picker_title": {"zh": "切换头像与背景", "tc": "切換頭像與背景", "en": "Change Avatar & Background", "jp": "アバターと背景を変更", "kr": "아바타와 배경 변경", "de": "Avatar und Hintergrund ändern", "es": "Cambiar avatar y fondo", "fr": "Changer l'avatar et l'arrière-plan", "it": "Cambia avatar e sfondo", "pt": "Alterar avatar e plano de fundo", "ru": "Сменить аватар и фон", "th": "เปลี่ยนอวาตาร์และพื้นหลัง", "vi": "Đổi avatar và nền"},
+	"avatar_picker_close": {"zh": "关闭", "tc": "關閉", "en": "Close", "jp": "閉じる", "kr": "닫기", "de": "Schließen", "es": "Cerrar", "fr": "Fermer", "it": "Chiudi", "pt": "Fechar", "ru": "Закрыть", "th": "ปิด", "vi": "Đóng"},
+	"avatar_picker_bg_label": {"zh": "背景列表", "tc": "背景清單", "en": "Backgrounds", "jp": "背景一覧", "kr": "배경 목록", "de": "Hintergründe", "es": "Fondos", "fr": "Arrière-plans", "it": "Sfondi", "pt": "Planos de fundo", "ru": "Фоны", "th": "รายการพื้นหลัง", "vi": "Danh sách nền"},
+	"avatar_picker_icon_label": {"zh": "头像列表", "tc": "頭像清單", "en": "Avatars", "jp": "アバター一覧", "kr": "아바타 목록", "de": "Avatare", "es": "Avatares", "fr": "Avatars", "it": "Avatar", "pt": "Avatares", "ru": "Аватары", "th": "รายการอวาตาร์", "vi": "Danh sách avatar"},
+	"avatar_picker_hint": {"zh": "点击图标预览，点“保存”生效（Esc/点空白关闭）", "tc": "點擊圖示預覽，按「保存」生效（Esc／點空白關閉）", "en": "Click an icon to preview, then Save to apply (Esc or click empty space to close)", "jp": "アイコンをクリックしてプレビューし、「保存」で適用（Esc または空白クリックで閉じる）", "kr": "아이콘을 눌러 미리 보고, 저장을 누르면 적용됩니다 (Esc 또는 빈 곳 클릭으로 닫기)", "de": "Zum Vorschauen auf ein Symbol klicken und mit Speichern übernehmen (Esc oder Klick ins Leere zum Schließen)", "es": "Haz clic en un icono para previsualizar y pulsa Guardar para aplicar (Esc o clic fuera para cerrar)", "fr": "Cliquez sur une icône pour prévisualiser, puis Enregistrer pour appliquer (Esc ou clic dans le vide pour fermer)", "it": "Fai clic su un'icona per l'anteprima, poi Salva per applicare (Esc o clic fuori per chiudere)", "pt": "Clique em um ícone para visualizar e toque em Salvar para aplicar (Esc ou clique fora para fechar)", "ru": "Нажмите на значок для предпросмотра, затем Сохранить для применения (Esc или клик вне окна для закрытия)", "th": "คลิกไอคอนเพื่อดูตัวอย่าง แล้วกดบันทึกเพื่อใช้งาน (Esc หรือคลิกพื้นที่ว่างเพื่อปิด)", "vi": "Nhấn biểu tượng để xem trước, rồi nhấn Lưu để áp dụng (Esc hoặc bấm ra ngoài để đóng)"},
+	"cancel_btn": {"zh": "取消", "tc": "取消", "en": "Cancel", "jp": "キャンセル", "kr": "취소", "de": "Abbrechen", "es": "Cancelar", "fr": "Annuler", "it": "Annulla", "pt": "Cancelar", "ru": "Отмена", "th": "ยกเลิก", "vi": "Hủy"},
+	"save_btn": {"zh": "保存", "tc": "保存", "en": "Save", "jp": "保存", "kr": "저장", "de": "Speichern", "es": "Guardar", "fr": "Enregistrer", "it": "Salva", "pt": "Salvar", "ru": "Сохранить", "th": "บันทึก", "vi": "Lưu"},
+	"avatar_bg_item": {"zh": "背景 %d", "tc": "背景 %d", "en": "Background %d", "jp": "背景 %d", "kr": "배경 %d", "de": "Hintergrund %d", "es": "Fondo %d", "fr": "Arrière-plan %d", "it": "Sfondo %d", "pt": "Plano de fundo %d", "ru": "Фон %d", "th": "พื้นหลัง %d", "vi": "Nền %d"},
+	"avatar_icon_item": {"zh": "头像 %d", "tc": "頭像 %d", "en": "Avatar %d", "jp": "アバター %d", "kr": "아바타 %d", "de": "Avatar %d", "es": "Avatar %d", "fr": "Avatar %d", "it": "Avatar %d", "pt": "Avatar %d", "ru": "Аватар %d", "th": "อวาตาร์ %d", "vi": "Avatar %d"},
 }
-
 
 func _ready():
 	# 加载按钮纹理资源
@@ -977,6 +979,13 @@ func _setup_language_buttons() -> void:
 	_clear_container_children(language_buttons_container)
 	_language_buttons.clear()
 	_language_options_by_code.clear()
+	_is_chinese_button_hover_preview = false
+	for running_tween_any in _language_button_primary_text_tweens.values():
+		if running_tween_any is Tween:
+			var running_tween := running_tween_any as Tween
+			if running_tween.is_valid():
+				running_tween.kill()
+	_language_button_primary_text_tweens.clear()
 	language_buttons_container.columns = LANGUAGE_BUTTON_COLUMNS
 
 	for language_option in LANGUAGE_OPTIONS:
@@ -1005,6 +1014,8 @@ func _apply_language_button_selection(language_code: String) -> void:
 
 	_selected_language_code = language_code
 	_is_traditional_chinese_selected = language_code == TRADITIONAL_CHINESE_LANGUAGE_CODE
+	if not _is_language_button_selected(CHINESE_LANGUAGE_CODE):
+		_is_chinese_button_hover_preview = false
 	for button_code in _language_buttons.keys():
 		var button_code_str := String(button_code)
 		var button_view: Dictionary = _language_buttons.get(button_code_str, {})
@@ -1026,6 +1037,8 @@ func _create_language_button(language_option: Dictionary) -> Dictionary:
 	language_button.clip_contents = true
 	language_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	language_button.pressed.connect(_on_language_button_pressed.bind(language_code))
+	language_button.mouse_entered.connect(_on_language_button_mouse_entered.bind(language_code))
+	language_button.mouse_exited.connect(_on_language_button_mouse_exited.bind(language_code))
 	language_buttons_container.add_child(language_button)
 
 	var content_root := Control.new()
@@ -1070,14 +1083,87 @@ func _create_language_button(language_option: Dictionary) -> Dictionary:
 		"secondary_label": english_label,
 	}
 
-func _update_language_button_content(button_view: Dictionary, language_option: Dictionary) -> void:
+func _update_language_button_content(button_view: Dictionary, language_option: Dictionary, animate_primary: bool = false) -> void:
 	var primary_label := button_view.get("primary_label") as Label
 	var secondary_label := button_view.get("secondary_label") as Label
 	if primary_label == null or secondary_label == null:
 		return
 
-	primary_label.text = _get_language_native_name(language_option)
+	var language_code := str(language_option.get("code", ""))
+	var primary_text := _get_language_button_primary_text(language_option)
+	if animate_primary:
+		_set_language_button_primary_text_with_fade(primary_label, language_code, primary_text)
+	else:
+		_stop_language_button_primary_text_tween(language_code)
+		primary_label.modulate.a = 1.0
+		primary_label.text = primary_text
 	secondary_label.text = str(language_option.get("english_name", ""))
+
+func _on_language_button_mouse_entered(language_code: String) -> void:
+	if language_code != CHINESE_LANGUAGE_CODE:
+		return
+	_set_chinese_language_button_hover_preview(true)
+
+func _on_language_button_mouse_exited(language_code: String) -> void:
+	if language_code != CHINESE_LANGUAGE_CODE:
+		return
+	_set_chinese_language_button_hover_preview(false)
+
+func _set_chinese_language_button_hover_preview(hover_enabled: bool) -> void:
+	var should_preview := hover_enabled and _is_language_button_selected(CHINESE_LANGUAGE_CODE)
+	if _is_chinese_button_hover_preview == should_preview:
+		return
+
+	_is_chinese_button_hover_preview = should_preview
+	var button_view: Dictionary = _language_buttons.get(CHINESE_LANGUAGE_CODE, {})
+	var language_option: Dictionary = _language_options_by_code.get(CHINESE_LANGUAGE_CODE, {})
+	if button_view.is_empty() or language_option.is_empty():
+		return
+	_update_language_button_content(button_view, language_option, true)
+	_update_language_button_layout(button_view)
+
+func _get_language_button_primary_text(language_option: Dictionary) -> String:
+	var language_code := str(language_option.get("code", ""))
+	if language_code == CHINESE_LANGUAGE_CODE and _is_chinese_button_hover_preview and _is_language_button_selected(CHINESE_LANGUAGE_CODE):
+		return _get_chinese_hover_preview_name(language_option)
+	return _get_language_native_name(language_option)
+
+func _get_chinese_hover_preview_name(language_option: Dictionary) -> String:
+	var simplified_name := str(language_option.get("native_name", CHINESE_LANGUAGE_CODE))
+	var traditional_name := str(language_option.get("alternate_native_name", simplified_name))
+	if _selected_language_code == TRADITIONAL_CHINESE_LANGUAGE_CODE:
+		return simplified_name
+	return traditional_name
+
+func _set_language_button_primary_text_with_fade(primary_label: Label, language_code: String, target_text: String) -> void:
+	if primary_label == null:
+		return
+
+	if primary_label.text == target_text:
+		primary_label.modulate.a = 1.0
+		return
+
+	_stop_language_button_primary_text_tween(language_code)
+	var fade_tween := create_tween()
+	_language_button_primary_text_tweens[language_code] = fade_tween
+	fade_tween.set_trans(Tween.TRANS_SINE)
+	fade_tween.set_ease(Tween.EASE_OUT)
+	fade_tween.tween_property(primary_label, "modulate:a", 0.0, LANGUAGE_BUTTON_TEXT_FADE_DURATION)
+	fade_tween.tween_callback(func():
+		primary_label.text = target_text
+	)
+	fade_tween.set_ease(Tween.EASE_IN)
+	fade_tween.tween_property(primary_label, "modulate:a", 1.0, LANGUAGE_BUTTON_TEXT_FADE_DURATION)
+	fade_tween.finished.connect(func():
+		if _language_button_primary_text_tweens.get(language_code, null) == fade_tween:
+			_language_button_primary_text_tweens.erase(language_code)
+	)
+
+func _stop_language_button_primary_text_tween(language_code: String) -> void:
+	var running_tween: Tween = _language_button_primary_text_tweens.get(language_code, null)
+	if running_tween != null and running_tween.is_valid():
+		running_tween.kill()
+	_language_button_primary_text_tweens.erase(language_code)
 
 func _on_language_button_resized(language_code: String) -> void:
 	_update_language_button_layout(_language_buttons.get(language_code, {}))
