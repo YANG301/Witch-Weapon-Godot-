@@ -27,6 +27,7 @@ config/icon="res://assets/gui/window_icon.png"
 clickeffect="*res://scripts/global/click_effect.gd"
 GameConfig="*res://scripts/global/game_config.gd"
 AuthManager="*res://scripts/global/auth_manager.gd"
+DebugConsole="*res://scenes/debug/debug_console.tscn"
 
 [display]
 

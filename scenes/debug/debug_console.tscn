@@ -1,0 +1,75 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/debug/debug_console.gd" id="1_script"]
+
+[node name="DebugConsole" type="CanvasLayer"]
+layer = 120
+script = ExtResource("1_script")
+process_mode = 3
+
+[node name="Root" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="TopGradient" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Margin" type="MarginContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 26
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 26
+theme_override_constants/margin_bottom = 14
+
+[node name="VBox" type="VBoxContainer" parent="Root/Margin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="Output" type="RichTextLabel" parent="Root/Margin/VBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = false
+selection_enabled = true
+scroll_following = true
+shortcut_keys_enabled = true
+
+[node name="InputRow" type="HBoxContainer" parent="Root/Margin/VBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Prompt" type="Label" parent="Root/Margin/VBox/InputRow"]
+layout_mode = 2
+text = ">"
+
+[node name="Input" type="LineEdit" parent="Root/Margin/VBox/InputRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+clear_button_enabled = false
+placeholder_text = ""
+
+[node name="Hint" type="Label" parent="Root/Margin/VBox"]
+visible = false
+layout_mode = 2
+text = ""
