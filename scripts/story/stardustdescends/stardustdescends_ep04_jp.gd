@@ -13,161 +13,319 @@ func play_script():
 func stardustdescends_ep4_script():
 	novel_interface.change_music("res://assets/audio/music/Story_01.mp3")
 	novel_interface.change_background("res://assets/images/bg/Fabiola/Hospital_Passage.png")
-	await novel_interface.show_text_only("几小时后，播磨脑研科学综合研究中心。")
-	await novel_interface.show_text_only("身穿白大褂的瘦小女性一边用耳机通话，一边懒洋洋在平板电脑上滑动着手指。")
+	await novel_interface.show_text_only("──数時間後
+
+──播磨脳研、科学総合研究センター")
+	await novel_interface.show_text_only("白衣の銀髪少女はイヤホンを通じて会話しながら
+タブレットの上に指を滑らせていた。")
 	novel_interface.show_character("ai","normal")
-	await novel_interface.show_dialog("放心好啦，那两个乖宝宝都在好好的做梦呢。", "爱衣")
+	await novel_interface.show_dialog("大丈夫だって。あのお利口さんの2人なら
+スヤスヤと夢の中で、お散歩中さ。", "愛衣")
 	novel_interface.change_expression("stare")
-	await novel_interface.show_dialog("嘿嘿，可不要小瞧人类大脑将自身处境合理化的强大意愿和能力哦——", "爱衣")
+	await novel_interface.show_dialog("ふふ、人間の脳における立場の合理化は
+凄まじいのだよ。
+その強い意志と能力を甘く見ちゃいけない。", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("爱衣瞥了一眼病房，两个穿着黑色西服的男人分别躺在两台潜脑装置上。")
+	await novel_interface.show_text_only("愛衣がチラッと病室の方を見た。
+
+そこには黒いスーツを着た2人の男が、
+脳潜入装置の上に横たわっている。")
 	novel_interface.show_character("ai","stare")
-	await novel_interface.show_dialog("毕竟只有自己编造的故事才最能骗过自己嘛~", "爱衣")
+	await novel_interface.show_dialog("自分の考えた物語こそが、最も自分を騙す事に
+適してるってね～～", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("突然，爱衣被平板上显示的内容所吸引，她快速向下翻了几屏，接着又返回再次确认。")
+	await novel_interface.show_text_only("彼らの様子を見て、ニヤリと笑いながら
+愛衣は目線をタブレットに戻した。
+そうして画面を見直した時に……
+ふと気掛かりなデータを発見する。
+彼女は素早く画面をスクロールして、
+何度もデータを確認した。")
 	novel_interface.show_character("ai","normal")
-	await novel_interface.show_dialog("喂喂喂，这个数据……", "爱衣")
+	await novel_interface.show_dialog("おいおいおい、なんですかこのデータは……", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("怎么了？", "莉琉")
+	await novel_interface.show_dialog("……どうした？", "マリル")
 	novel_interface.show_character("ai","dizzy")
-	await novel_interface.show_dialog("小怜和倪克斯额头触碰的时候，别墅监视器上的玻尔兹曼探针读数有一瞬间爆表了！？", "爱衣")
+	await novel_interface.show_dialog("レンちゃんとニュクスの額が接触した時、
+監視カメラ上のボルツマン探針が一瞬だけ、
+「振り切った」じゃないか！？", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("会不会是设备故障……你调整后的测量范围不是已经达到理论极值了吗？", "莉琉")
+	await novel_interface.show_dialog("故障という可能性はないよな？
+
+お前の調整で理論上は極値まで情報量を測定
+できるようになったんじゃないのか？", "マリル")
 	novel_interface.show_character("ai","think")
-	await novel_interface.show_dialog("只是接近而已，如果信息量逼近贝肯斯坦上限的话我也没办法……", "爱衣")
+	await novel_interface.show_dialog("あくまで限りなくベッケンシュタイン境界の
+近くまで測定できるようにしただけさ。
+それ以上の測定は私にできないよ。", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("你的意思是说，那一瞬间爆发的信息量逼近了物质所能携带的信息上限？", "莉琉")
-	await novel_interface.show_text_only("爱衣快速在平板上进行着计算。")
+	await novel_interface.show_dialog("でも探針が振り切ったと言う測定結果は大きい。
+
+それによって測定範囲以上の情報量が出た
+と言う事実が分かるからね。
+あの一瞬で激増した情報量は、物質の持ち得る
+エントロピーの限界値に間違いなく迫った！", "マリル")
+	await novel_interface.show_text_only("愛衣はタブレットを使い超高速で計算を始めた。")
 	novel_interface.show_character("ai","think")
-	await novel_interface.show_dialog("如果先不考虑那个异常的话，倪克斯的特征数据倒是与魔女完全吻合，可她自己似乎没察觉到？", "爱衣")
-	await novel_interface.show_dialog("是和拉斐尔类似的状况吗？\n要是索娅没被派遣出去就方便了……", "爱衣")
+	await novel_interface.show_dialog("その現象を考慮しなければ、ニュクスは魔女と
+特徴データが完全に一致しているけど……
+当の本人は気付いてない様子だね？", "愛衣")
+	await novel_interface.show_dialog("ラファエルの時と似ている状況なのか？
+ソヤを別任務に派遣しなければよかったのに……", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("爱衣一边抱怨，一边打开了读数异常期间别墅内的监控录像。")
+	await novel_interface.show_text_only("愛衣は文句を言いつつ、異常データを観測した
+時間帯の監視映像を開いた。")
 	novel_interface.show_character("ai","normal")
-	await novel_interface.show_dialog("而且肯定不是机械故障，读数很快就恢复到了正常水平，探针送回来时的状态也很完好。", "爱衣")
+	await novel_interface.show_dialog("機械の故障は絶対に無いと言い切れるわ。
+
+読み取った数値はすぐに正常に戻ったし、
+そもそも回収した際も機材は良好な状態だった。", "愛衣")
 	novel_interface.change_expression("stare")
-	await novel_interface.show_dialog("更重要的是，当时只有小怜突然失去意识，在场的其他人似乎完全没被影响……", "爱衣")
+	await novel_interface.show_dialog("あの時に意識を失ったのはレンちゃんだけ。
+その場にいる他の人に全く影響はなかった……", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("爱衣快速排除着各种不合逻辑的假设，似乎最后只剩下一个解释——")
+	await novel_interface.show_text_only("脳内で何度も仮説と検証を繰り返し、
+愛衣が最後にたどり着いた唯一の結論は──")
 	novel_interface.show_character("ai","blush_dizzy")
-	await novel_interface.show_dialog("就是说小怜一个人，将瞬间爆发出超过2.5YB的信息在不到一秒之内完全吸收了？", "爱衣")
+	await novel_interface.show_dialog("……2.5YBまで暴増した情報を1秒未満で
+全てレンちゃんが吸収したなんて……
+……あり得ると思う？", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("在说出推理结果之后，爱衣自己都有些不敢相信。")
-	await novel_interface.show_dialog("……YB是多大的单位来着？", "莉琉")
+	await novel_interface.show_text_only("自分で出した結論ではあったが、愛衣自身も
+信じられない様子だった。")
+	await novel_interface.show_dialog("……YBって、どれぐらい大きい単位だったっけ？", "マリル")
 	novel_interface.show_character("ai","blush_dizzy")
-	await novel_interface.show_dialog("1YB是10的24次方比特，这个信息量超过了战前整个互联网的容量总和……", "爱衣")
+	await novel_interface.show_dialog("そう、10の24乗バイトが1YB（ヨタバイト）。
+
+それだけで戦前のインターネットが保有した
+全ての情報量を超えているって言うね……", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("爱衣尽量压抑着她因兴奋而颤抖的语调。")
+	await novel_interface.show_text_only("興奮の余りに、声の震えを抑えながら
+愛衣は喋っている。")
 	novel_interface.show_character("ai","blush_dizzy")
-	await novel_interface.show_dialog("我还以为那个小可爱的脑袋瓜除了游戏攻略以外装不下什么东西了呢~", "爱衣")
+	await novel_interface.show_dialog("あの可愛い頭の中には、ゲームの攻略情報以外
+何も入らないと思っていたのに……！", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("等等，10的24次方的计量单位还叫做『尧』吧？似乎在施教授的那份情报里也出现过！", "莉琉")
+	await novel_interface.show_dialog("そう言えば10の24乗の単位は確か
+「禾予」（じょ）だったな。
+施教授から手に入れた情報にも記載が
+あったんじゃないか？", "マリル")
 	novel_interface.show_character("ai","blush_stare")
-	await novel_interface.show_dialog("你是说华云宫的那块古代陨石……", "爱衣")
+	await novel_interface.show_dialog("華雲宮城の古代隕石との関連性も検証しないと
+だね……", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("爱衣快速将刚才的纸质情报照片调出来，沉吟了好一阵。")
+	await novel_interface.show_text_only("愛衣は施教授から入手した情報をスクリーン上に
+表示させた後、しばらく考え込んだ。")
 	novel_interface.show_character("ai","blush_wink")
-	await novel_interface.show_dialog("哦呀呀，搞不好这件事只能靠小怜了。", "爱衣")
+	await novel_interface.show_dialog("うぅーむ……
+この件はレンちゃんを頼るしかないかも。", "愛衣")
 	await novel_interface.hide_character()
 	await novel_interface.hide_background_with_fade()
 	await novel_interface.stop_music()
-	await novel_interface.show_text_only("……")
-	await novel_interface.show_text_only("5天后，莱博娜『自由之星』号赌船。")
+	await novel_interface.show_text_only("…………")
+	await novel_interface.show_text_only("──5日後
+
+──リバーナカジノ船「リーベルステラ」号")
 	novel_interface.change_music("res://assets/audio/music/Shop.mp3")
 	novel_interface.show_background("res://assets/images/bg/Stardust/BG_Stardust_Gambling_Boat.png")
-	await novel_interface.show_dialog("咳咳，这位小姐……", "荷官")
-	await novel_interface.show_dialog("这位小姐？", "荷官")
+	await novel_interface.show_dialog("……そちらのお嬢さん。", "ディーラー")
+	await novel_interface.show_dialog("お嬢さん？", "ディーラー")
 	novel_interface.show_character("ren_full","panic")
-	await novel_interface.show_dialog("唔……啊？", "小怜")
-	await novel_interface.show_dialog("弃，弃牌……", "小怜")
+	await novel_interface.show_dialog("お……え……？", "レン")
+	await novel_interface.show_dialog("フォ、フォールド……", "レン")
 	novel_interface.change_expression("perspire1")
-	await novel_interface.show_dialog("不好意思，下局我退出~~", "小怜")
+	await novel_interface.show_dialog("すみません、次のゲームは止めときます～～", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("少女离开牌桌，走到过道拐角找了个没人的角落。")
+	await novel_interface.show_text_only("少女はポーカーテーブルから離れると、
+人気がない通路の曲がり角へと向かった。")
 	novel_interface.show_character("ren_full","wry_smile")
-	await novel_interface.show_dialog("刚才那把是同花诶！为什么非要我弃牌啊~！", "小怜")
-	await novel_interface.show_dialog("（小声）而且前两轮都跟注那么多了……", "小怜")
+	await novel_interface.show_dialog("さっき持ってた役はフラッシュだったぞ！？ 
+何でゲームを降りなきゃいけないんだよ……！", "レン")
+	await novel_interface.show_dialog("（小声）
+しかも直前にいっぱいチップを賭けたのに……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("虽然压低着声音，但小怜的话语中透露着明显的不甘心。")
-	await novel_interface.show_dialog("喂喂小怜，别自言自语的，拿出手机假装打电话好一点吧。", "安妮")
-	await novel_interface.show_dialog("船上有三个监控室，我只扫荡了其中一个……", "安妮")
+	await novel_interface.show_text_only("声を抑えるが、俺はゲーマーとしての悔しさを
+言葉に隠しきれない。")
+	await novel_interface.show_dialog("ちょっとレンちゃん、独り言はダメだって！
+せめて携帯で電話するフリとかしようよ。", "アニー")
+	await novel_interface.show_dialog("まだ船にある3つの監視室の中で、
+1つしか掃討できてないんだから……", "アニー")
 	novel_interface.show_character("ren_full","wail")
-	await novel_interface.show_dialog("（扫、扫荡？）", "小怜")
+	await novel_interface.show_dialog("（そっ、掃討？）", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("这艘赌船虽然不大但遍布着摄像头，被人发现你戴着微型耳机的话，多半会被丢进海里喂鲨鱼哦。", "倪克斯")
-	await novel_interface.show_text_only("我打了个激灵，立马从手包里掏出手机。")
+	await novel_interface.show_dialog("さほど大きくないカジノ船ではありますが、
+至るところに監視カメラが設置されていますね。
+耳のイヤホンが発覚した時は、鮫の餌として
+海に投げ捨てられるのでしょうね。", "ニュクス")
+	await novel_interface.show_text_only("背筋が寒くなって来たので、すぐにバッグから
+携帯を取り出した。")
 	novel_interface.show_character("ren_full","upset")
-	await novel_interface.show_dialog("都输掉两成多的本金了，不是说要赢到翻倍才能进入贵宾室吗？", "小怜")
+	await novel_interface.show_dialog("……これからどうします？
+
+すでに元手の8割ぐらいまで手持ちが
+減っているんですけど……
+元手の倍は勝たないとVIPルームに、
+入れないんでしょう？", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("看着赌场派发手环上显示的筹码数量，我不停安慰自己这是莉琉的钱这是莉琉的钱……")
+	await novel_interface.show_text_only("現在のチップ数が表示されるブレスレットを
+見てみると、堪らず深いため息が出てしまう。
+これはマリルのお金だ、マリルのお金……！")
 	novel_interface.show_character("ren_full","sob")
-	await novel_interface.show_dialog("（可说到底这也是新丰洲市民的税金啊！！）", "小怜")
+	await novel_interface.show_dialog("（と言っても結局は新豊洲市民の血税だよな！）", "レン")
 	await novel_interface.hide_character()
 	novel_interface.change_background("res://assets/images/bg/Baizhu/BG_Dispatched_Ship_Aisle.png")
-	await novel_interface.show_text_only("海拔三万米的高空，SID所属高速重型运载机上，倪克斯端着一杯红茶盯着投影屏幕。")
+	await novel_interface.show_text_only("そうやって悩んでいる俺の上空、高度30000m
+ではSIDの高速大型輸送機が飛翔している。
+ニュクス先輩は輸送機の中で、紅茶を片手に
+スクリーンを見つめていた。")
 	novel_interface.show_character("nyx_normal","normal1")
-	await novel_interface.show_dialog("刚才你只有方片2和6，从对方的行为看来他有大概率也中了同花，而且牌面几乎肯定比你大。", "倪克斯")
+	await novel_interface.show_dialog("あなたの手札はダイヤの2と6だけ。
+
+公開カードと合わせればフラッシュにはなるけど、
+相手の挙動を見る限り、あっちもフラッシュを
+作っていた可能性が高いわ。
+しかも手札の数字もあなたより上だったはずよ。", "ニュクス")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("诶！？\n我刚才都想ALL-IN了……", "小怜")
+	await novel_interface.show_dialog("えっ！！？
+
+てっきり俺はオールインで全力勝負だと
+思ってたんですけど……", "レン")
 	novel_interface.show_character("nyx_normal","speak")
-	await novel_interface.show_dialog("唉……", "倪克斯")
+	await novel_interface.show_dialog("はぁ……", "ニュクス")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("她无奈的叹了口气，思考着怎么解释才能让这个昨晚抱着五千万筹码流了一夜口水的笨蛋听明白。")
+	await novel_interface.show_text_only("救いようがないと言わんばかりの深い溜め息を
+先輩が吐いた。
+昨夜ずっと5000万チップに対してヨダレを
+垂らしていたお馬鹿さんに、
+どう説明すれば理解して貰えるのかを
+思案している。")
 	novel_interface.show_character("nyx_normal","normal2")
-	await novel_interface.show_dialog("菜鸟最常犯的错误就是，遇到好牌就想快点下重注甚至ALL-IN，反之就恨不得马上弃牌。", "倪克斯")
-	await novel_interface.show_dialog("尤其是拿到好牌的时候，很容易热血上涌从而丧失收集场上信息的能力，陷入盲目无知的状态。", "倪克斯")
-	await novel_interface.show_dialog("无知导致恐惧，恐惧导致鲁莽，所以菜鸟只能通过ALL-IN来释放内心的恐惧。", "倪克斯")
+	await novel_interface.show_dialog("良い役が揃っても、すぐにレイズやオールインを
+するのはミステイクです。
+逆もまた然りで、手が弱ければフォールドに
+直行する考えも改めましょう。", "ニュクス")
+	await novel_interface.show_dialog("特に初心者は良い役が揃うと頭に血が昇り、
+テーブル上の戦略や情報を見逃しがちです。
+俗に言うティルトなどは無駄の極まりですし……", "ニュクス")
+	await novel_interface.show_dialog("無知は恐怖を招き、恐怖はリスクヘッジできない
+アグレッシブなプレイを生んでしまいます。
+初心者ほど心の恐怖を晴らすために、
+よくオールインと言う攻めに逃げるのよね。", "ニュクス")
 	novel_interface.change_expression("sad")
-	await novel_interface.show_dialog("在把筹码全部推入底池的那一刻，他才终于获得了自己灵魂的自由。", "倪克斯")
-	await novel_interface.show_dialog("结果就是对手很容易根据他的行为预测选择。", "倪克斯")
+	await novel_interface.show_dialog("全てのチップをポットに賭けた瞬間こそ、
+追い詰められた魂は自由を感じるの……", "ニュクス")
+	await novel_interface.show_dialog("結果として、相手はその行動から
+次に何を選ぶかを簡単に予測できるのよ。", "ニュクス")
 	novel_interface.change_expression("normal2")
-	await novel_interface.show_dialog("所以很多人拿到好牌却赢不到钱，直到某局被对手更好的牌一把吃光——", "倪克斯")
+	await novel_interface.show_dialog("多くの人は良い役が揃っても勝てません。
+
+最終的にもっと優れた役を相手が持っていて、
+容易くバストアウト……", "ニュクス")
 	novel_interface.change_expression("mock")
-	await novel_interface.show_dialog("在赌场里一夜输个倾家荡产的基本都是这种笨蛋。", "倪克斯")
+	await novel_interface.show_dialog("一晩で全財産を失うタイプって、そんな感じの
+お馬鹿さんばかりですからね？", "ニュクス")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("噫！", "小怜")
-	await novel_interface.show_text_only("小怜的身体好像被一支箭射中，微微颤抖了一下。")
-	await novel_interface.show_text_only("倪克斯满意的端起茶杯抿了一口，接着说道。")
+	await novel_interface.show_dialog("ヒィッ！？", "レン")
+	await novel_interface.show_text_only("鋭い矢が突き刺さったかのように、俺の身体は
+意図せずビクンッと動く。")
+	await novel_interface.show_text_only("それを見た先輩は満足げに紅茶を啜った後、
+優雅な動作で話を続けた。")
 	novel_interface.show_character("nyx_normal","mock")
-	await novel_interface.show_dialog("听好了，德州扑克是轮流行动的游戏——", "倪克斯")
-	await novel_interface.show_dialog("你最应该关注的是与你一起在底池下注的对手，而不是自己手里的牌。", "倪克斯")
+	await novel_interface.show_dialog("……良くお聞きなさい？
+
+テキサス・ホールデムは心理の銃口を向けながら
+順番にアクションを起こしていくゲームです。", "ニュクス")
+	await novel_interface.show_dialog("自分の手札に一喜一憂している場合ではなく、
+狩り取るべき相手に関心を持つ事が重要なの。", "ニュクス")
 	await novel_interface.hide_character()
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_Choice.png")
-	await novel_interface.show_dialog("当你做出行动之后，对手只有三个选择，『弃\n牌』、『跟注』或者『加注』。", "倪克斯")
-	await novel_interface.show_dialog("所以你行动的首要原则是：让对手找不到支撑自己选择任何一种行动的理由。", "倪克斯")
-	await novel_interface.show_dialog("最好的状态是，在对方看来，似乎每个选择都是对的，或者说每个选择都不对。", "倪克斯")
-	await novel_interface.show_dialog("好像……有点道理……", "小怜")
-	await novel_interface.show_dialog("当人面对信息黑洞，找不到最优选择，每次出手就都会处于万分纠结和痛苦的状态——", "倪克斯")
-	await novel_interface.show_dialog("就像是在经历一场心灵和意志的折磨，需要尽快找到一个解脱。", "倪克斯")
-	await novel_interface.show_dialog("那时就是你在支配局势，将他吃干抹净的最好时机\n~", "倪克斯")
+	await novel_interface.show_dialog("フォールド、コール、レイズ――
+降りるか続けるか、賭け金を上乗せするか。
+このゲームでは基本的に3つのアクションを
+必ず選択しなければならないわ。
+限定的で逃げ場のない縛りだけど、
+それは相手も同じ──", "ニュクス")
+	await novel_interface.show_dialog("あなたの厳守するべき原則はひとつだけ、
+「行動の根拠」をバレないようにする事。
+相手のアクションを選択しやすくなるような
+余計な情報を渡すなど愚の骨頂ですから。", "ニュクス")
+	await novel_interface.show_dialog("理想とするなら、全ての選択が正しく見せるか、
+もしくは全ての選択が誤りに見せるか。
+その状態に陥れる事ができれば合格かしらね。", "ニュクス")
+	await novel_interface.show_dialog("な、なるほど……", "レン")
+	await novel_interface.show_dialog("最善の手が見つからない時の決断は、
+全てに苦痛と迷いが伴ってきます。", "ニュクス")
+	await novel_interface.show_dialog("心と意志の永久的な拷問を受けるかのように。
+
+精神を削れば削って行くほど、
+早く解放されたいと考えるようになるのです。", "ニュクス")
+	await novel_interface.show_dialog("そこまで追い込めば盤面は支配できるわ。
+
+相手を完膚なきまでに喰らい尽くす
+最高のタイミングですよ。", "ニュクス")
 	await novel_interface.hide_background()
-	await novel_interface.show_dialog("吃干…抹净……？", "小怜")
-	await novel_interface.show_text_only("我回味着学姐的教导，小心翼翼的点了点头。")
-	await novel_interface.show_dialog("（学姐到底是怎么学会这些的……）", "小怜")
-	await novel_interface.show_dialog("（总之千万不能让我和她一起打牌啊！！）", "小怜")
+	await novel_interface.show_dialog("喰らい……尽くす……？", "レン")
+	await novel_interface.show_text_only("唾を飲み込みながら、先輩の教えに恐々と頷く。")
+	await novel_interface.show_dialog("（どこで先輩はこんな事を覚えたんだ……）", "レン")
+	await novel_interface.show_dialog("（とにかく、今後この人とは絶対ポーカーで
+　勝負しないって決めたぞ！！）", "レン")
 	novel_interface.show_background("res://assets/images/bg/Stardust/BG_Stardust_Gambling_Boat.png")
-	await novel_interface.show_text_only("我乖巧的回到牌桌，在学姐指挥下，用了不到一个小时就使自己手中的筹码翻了一倍。")
-	await novel_interface.show_text_only("其中赢的最大的一把，我刚押上全部筹码，就听到耳机里学姐和爱衣讨论起我的睡相。")
-	await novel_interface.show_text_only("而且两个人居然还开始交换照片！听得我的脸红一阵紫一阵。")
-	await novel_interface.show_text_only("对手看我慌张的神态以为我在诈唬，也跟着一起全推了。")
+	await novel_interface.show_text_only("先輩から圧倒的な勝負強さを感じ取った俺は、
+もう何も言わず大人しく従う事にした。
+ポーカーテーブルに戻って先輩の助言を受けつつ
+ゲームをプレイしていく。
+すると1時間も経たずして手持ちのチップが
+倍になってしまった。")
+	await novel_interface.show_text_only("凄い……のだけど一番儲けたゲームに関しては、
+先輩の助言とかあまり関係なかった。
+あの時は先輩と愛衣が俺の寝相について
+話していたのだ。")
+	await novel_interface.show_text_only("しかも話すだけに留まらず、写真の交換まで
+やり始めたんだあの2人は！
+こっちは聞いてるだけで恥ずかしかったわ！！")
+	await novel_interface.show_text_only("そんな事情も知らず、俺の慌てた表情を見て
+目の前の相手はブラフと思ったらしい。
+俺のオールインに付き合ってくれた。")
 	await novel_interface.hide_background()
-	await novel_interface.show_dialog("虽然赢了，但总觉得她们……", "小怜")
-	await novel_interface.show_dialog("啊啊啊啊实在想不下去啦！", "小怜")
+	await novel_interface.show_dialog("お陰でポーカーには勝てたけど……
+
+気持ち的にはフォールドなんですが……", "レン")
+	await novel_interface.show_dialog("うあああぁぁ、もう考えるの止める！", "レン")
 	novel_interface.show_background("res://assets/images/bg/Stardust/BG_Stardust_Gambling_Boat3.png")
-	await novel_interface.show_text_only("在侍者引导下，我终于进入了赌船VIP区域。")
-	await novel_interface.show_text_only("这个房间与大厅的感觉完全不同，装修、摆设甚至座椅的质地都更加高级。")
-	await novel_interface.show_text_only("三个穿着考究的男人在牌桌上喝得微醺，远处沙发上几个身材火辣的姐姐正在叽叽喳喳的聊天。")
-	await novel_interface.show_text_only("自由之星号本就是针对高端赌客的小型赌船，周身覆盖着灰色的装甲，外观极其低调。")
-	await novel_interface.show_text_only("想要上船最低要买入两千万的筹码，船上总共也只有不到几十名客人。")
-	await novel_interface.show_text_only("而想要进入VIP区域，更是要在任意莱博娜的赌场累计盈利五千万以上。")
-	await novel_interface.show_text_only("按照莉琉的指示，我将一亿现金兑换成了一枚金色筹码，上面雕刻着精美的莱博娜徽记。")
+	await novel_interface.show_text_only("船の係員さんに案内されて、ようやくカジノの
+VIPゾーンへと入る事ができた。")
+	await novel_interface.show_text_only("さっきまでいたホールとは全く違う景色だ。
+
+内装、室内装飾から椅子の材質までもが、
+ホールの物よりも明らかに高級品である。")
+	await novel_interface.show_text_only("洗礼された服装の男性3人がポーカーテーブルで
+微酔していた。
+遠くのソファではナイスバディなお姉さん達が
+会話に興じている。")
+	await novel_interface.show_text_only("元々「リーベルステラ」号は、上流階級に
+属する人間だけを客層とした小型カジノ船だ。
+船自体は灰色の装甲に覆われており、
+非常に控え目な外観をしている。")
+	await novel_interface.show_text_only("この船に乗船するには最低でも2000万チップを
+購入する必要がある。
+しかも客も数十人いるかどうかといったところだ。")
+	await novel_interface.show_text_only("そしてVIPゾーンへ入るためには、
+リバーナに点在するカジノの中で、
+累計5000万以上を儲ける事が条件となる。")
+	await novel_interface.show_text_only("俺はマリルの指示に従い、1億の現金を
+黄金のチップ1枚と交換した。
+表面には美しいリバーナの紋章が刻まれている。")
 	novel_interface.show_character("ren_full","worry")
-	await novel_interface.show_dialog("这就是那枚传说中的……", "小怜")
+	await novel_interface.show_dialog("これがあの伝説の……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("使用异质物材料作为外壳，能抵抗强冲击、强磁场和高温，可以在全球数百家赌场兑现。")
-	await novel_interface.show_text_only("可以说是全世界最大额的不记名债券。")
-	await novel_interface.show_dialog("监控劫持已经完成了，随时可以动手哦。", "安妮")
-	await novel_interface.show_text_only("终于，耳机中传来了让人安心的声音。")
+	await novel_interface.show_text_only("外殻の素材を異質物で作成した事により、
+衝撃、磁場、高温にも耐えられるらしい。
+しかも全世界のカジノで即換金可能だ。")
+	await novel_interface.show_text_only("言ってみれば全世界共通で使用できてしまう
+最高額の無記名債権である。")
+	await novel_interface.show_dialog("よし、船の監視システムを抑えた！
+いつでもOKよ！", "アニー")
+	await novel_interface.show_text_only("ようやく……
+イヤホンから安心できる声が届いた。")
 
 	print("=== 星尘降临篇第4话结束 ===")
 

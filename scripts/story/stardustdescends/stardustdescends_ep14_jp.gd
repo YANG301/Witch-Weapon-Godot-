@@ -1,4 +1,4 @@
-# stardustdescends_ep14.gd - 星尘降临篇第14话
+﻿# stardustdescends_ep14.gd - 星尘降临篇第14话
 extends Node2D
 
 @onready var novel_interface = $NovelInterface
@@ -13,499 +13,839 @@ func play_script():
 func stardustdescends_ep14_script():
 	novel_interface.change_music("res://assets/audio/music/Conspiracy.mp3")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_ClusterBombs.png")
-	await novel_interface.show_text_only("『蜂巢』——可对大范围区域内的人员与装备进行无差别毁伤的武器系统。")
-	await novel_interface.show_text_only("手掌大小的无人机精简掉了繁冗的控制单元，每架只携带一枚自爆破片榴弹。")
-	await novel_interface.show_text_only("通过AI识别系统分辨人员和装备，几十架无人机互相协同，能实现比集束炸弹更有效的范围打击。")
-	await novel_interface.show_text_only("几年前马萨达曾向贝卡谷地投放了大量蜂巢，造成数千平民伤亡，遭到国际社会强烈谴责。")
-	await novel_interface.show_text_only("而时至今日，马萨达依然没有签署任何废除此类武器的国际公约……")
+	await novel_interface.show_text_only("──『ハニーコム』
+
+手の平サイズの爆撃用ドローン型兵器である。")
+	await novel_interface.show_text_only("この兵器には簡単な制御装置と自爆用の爆弾が
+搭載されており、
+特攻と言う形で広範囲に無差別的な爆撃を行う。")
+	await novel_interface.show_text_only("AIで人と装備を区別して無数に自爆する様は
+地獄のような光景であり、
+範囲的な打撃を与える効率はクラスター爆弾より
+優れていると言われている。")
+	await novel_interface.show_text_only("かつてマサダがベッカー高原に『ハニーコム』を
+大量投入した結果……
+無関係な市民の死傷者が数千人も発生し、
+国際社会から痛烈な批判を受けた。")
+	await novel_interface.show_text_only("しかし未だにマサダは、その類の兵器を撤廃する
+国際公約を締結していない……")
 	await novel_interface.hide_background()
-	await novel_interface.show_text_only("……")
-	await novel_interface.show_text_only("轰——！！")
+	await novel_interface.show_text_only("…………")
+	await novel_interface.show_text_only("ズカアアアァァァ――――ンッッ！！！！")
 	novel_interface.show_background("res://assets/images/bg/Stardust/BG_Stardust_StagingPost.png")
-	await novel_interface.show_text_only("随着一声巨响，南侧山丘上的机枪突然爆炸，盖在上面的帆布被撕成了无数焦黑的碎片飘散开来……")
+	await novel_interface.show_text_only("南側の丘に設置されていた機銃が、轟音と共に
+爆発した。
+機銃を覆った布が爆風によって粉々に四散する。")
 	novel_interface.show_character("ren_medical","sob")
-	await novel_interface.show_dialog("怎么会有那种东西……\n车上不是医疗物资吗！？", "小怜")
+	await novel_interface.show_dialog("何であんな物が……
+
+車に乗せているのは医療物資だけじゃ
+なかったのかよ……！？", "レン")
 	await novel_interface.hide_character()
 	novel_interface.show_character("emilio","angry")
-	await novel_interface.show_dialog("国防军瞒着他们私自加料了吧？", "艾米莉欧")
-	await novel_interface.show_dialog("补给站里有辆吉普，薇拉你带她去。", "艾米莉欧")
+	await novel_interface.show_dialog("救援組織の知らぬ間に国防軍が入れたのかしら？", "エミリオ")
+	await novel_interface.show_dialog("まだジープが補給所に1台あるわ。
+
+ヴィラは彼女を連れて行って。", "エミリオ")
 	await novel_interface.hide_character()
 	novel_interface.show_character("valkyrja","angry")
-	await novel_interface.show_dialog("明白！", "薇拉")
+	await novel_interface.show_dialog("了解だ！", "ヴィラ")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ren_medical","wail")
-	await novel_interface.show_dialog("怎么回事……啊哎哎哎！！！", "小怜")
+	await novel_interface.show_dialog("ん……？　どういう事……ってほぉあッ！！？", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("怪力女不由分说的揽住了我的腰，把我夹在胳膊下面向补给站狂奔。")
+	await novel_interface.show_text_only("何の説明も無くヴィラは俺の腰に手を回すと、
+脇に抱えて高速で走り出した。
+さながら荷物でも持つかのように。")
 	novel_interface.show_character("ren_medical","sob")
-	await novel_interface.show_dialog("啊啊啊啊啊————！！！", "小怜")
+	await novel_interface.show_dialog("おおあああぁぁぁぁ――ッ！？！？", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("她大跨步的冲下山坡，只要此时她手一滑，我就会像冰面上的小海豹一样甩飞出去。")
-	await novel_interface.show_text_only("薇拉迅速冲进补给站，把我丢在了一堆沙袋上。")
+	await novel_interface.show_text_only("砂丘を下っていくヴィラの速さに思わず
+叫んでしまう。
+坂道で出して良い速度じゃないし、
+今の状況で手を離されてしまったら俺は、
+チーズを追いかけて転がっていく祭りの
+参加者みたいな状態になるだろう。")
+	await novel_interface.show_text_only("そのままジェットコースターみたいなスピードで
+補給所にたどり着くと、
+ポイっと土囊の上へと投げ捨てられる。")
 	novel_interface.show_character("valkyrja","speak")
-	await novel_interface.show_dialog("你在这躲好，我去帮艾米吸引火力！", "薇拉")
+	await novel_interface.show_dialog("あんたは隠れてろ！　私はエミの援護に回る！", "ヴィラ")
 	await novel_interface.hide_character()
 	await novel_interface.hide_background()
-	await novel_interface.show_text_only("留下这么一句，她便钻进吉普车疾驰而去……")
-	await novel_interface.show_text_only("无人机群会按照既定程序摧毁周围一切未携带友军识别装置的车辆、武器和设备。")
-	await novel_interface.show_text_only("而一辆高速行驶的汽车显然是最高优先级的打击目标。")
-	await novel_interface.show_text_only("……")
+	await novel_interface.show_text_only("吐き捨てるように一言だけ放つと、
+ヴィラは俺を置いてジープへと乗り込んだ。")
+	await novel_interface.show_text_only("ハニーコムは味方識別信号の無い車両、
+敵性の武器や設備を破壊するように、
+プログラミングが施されている。")
+	await novel_interface.show_text_only("高速で移動する車両は優先的な攻撃目標として
+選ばれやすいから、囮になるつもりか……？")
+	await novel_interface.show_text_only("……………………")
 	novel_interface.show_background("res://assets/images/bg/Stardust/BG_Stardust_StagingPostF.png")
-	await novel_interface.show_text_only("我瑟瑟发抖的缩在补给站角落的围垛后面，听着远处机枪扫射的声音和接二连三传来的爆炸声。")
-	await novel_interface.show_text_only("每次爆炸都伴随着一阵噼噼啪啪的金属撞击砂石地面的碎响。")
-	await novel_interface.show_text_only("那是随着榴弹的爆炸而飞溅四射的钢钉，对人有十分致命的杀伤力。")
-	await novel_interface.show_text_only("然而机枪声音越来越稀疏，巨大的不祥感开始笼罩在我的心头——")
+	await novel_interface.show_text_only("震えながら遮蔽物の裏に隠れて待機する。
+
+遠くから機銃の掃射音と、爆発音が次々と
+伝わってきた。")
+	await novel_interface.show_text_only("爆発する度、金属と砂地の擦れる音が聞こえる。")
+	await novel_interface.show_text_only("きっとドローンが自爆した時、ばら撒かれる
+金属片の音だろう。
+殺傷力は生身の人間を仕留めるに十分だ。")
+	await novel_interface.show_text_only("機銃の発射音が次第に少なくなっていくと、
+心が不安と焦燥感で一杯になる……")
 	await novel_interface.hide_background()
-	await novel_interface.show_text_only("我把一块木板架在围垛顶上，像蘑菇一样捂着脑袋蹲在阴影里。")
-	await novel_interface.show_text_only("据说二战期间，两军交战冲锋时，一旦己方的机枪声停止，就会对士气产生毁灭性的打击。")
-	await novel_interface.show_text_only("今天我切身实地的体会了这句话的含义……")
-	await novel_interface.show_text_only("随着最后一架机枪完全沉默，战场上的其他声音开始变得鲜明起来——")
-	await novel_interface.show_text_only("那些盘旋的无人机发出的嗡嗡声，就像漫天飞舞的致命蜂群，根本无从分辨方位。")
-	await novel_interface.show_text_only("它们似乎无处不在，就像在空中盘旋的死神，不知何时就会降临在我身边……")
+	await novel_interface.show_text_only("俺は木板を遮蔽物の上に置いて空間を作り、
+両手で頭を抱えてしゃがみ込んだ。")
+	await novel_interface.show_text_only("……第二次世界大戦の体験談で聞いたっけ。
+
+戦闘中に味方機銃の音が途切れると、
+自軍の士気に壊滅的な影響を与えるんだとか。")
+	await novel_interface.show_text_only("……その気持ち今なら分かるぞ。")
+	await novel_interface.show_text_only("最後だと思われる機銃の発射音が消え去って、
+様々な音が聞き取りやすくなった。")
+	await novel_interface.show_text_only("少し静かになった戦場に目立って響くのは
+蜂の群れのようなドローンの飛行音。")
+	await novel_interface.show_text_only("空中の四方八方を包んで飛び交っているので、
+いつ居場所がバレてもおかしくはない。")
 	novel_interface.show_character("ren_medical","panic")
-	await novel_interface.show_dialog("（她们两个，还好吗……）", "小怜")
-	await novel_interface.show_dialog("（……等等，引擎的声音！？）", "小怜")
+	await novel_interface.show_dialog("（あの2人は大丈夫だろうか……）", "レン")
+	await novel_interface.show_dialog("（ジープのエンジン音も聞こえるから
+　無事だとは思うけど……）", "レン")
 	await novel_interface.hide_character()
 	novel_interface.show_background("res://assets/images/bg/Stardust/BG_Stardust_StagingPostF.png")
-	await novel_interface.show_text_only("我探出半个脑袋，看到四周已经一片狼藉，远处堆放弹药的屋子也被大火包围。")
-	await novel_interface.show_text_only("薇拉驾驶的吉普正从东侧的山坡朝补给站的方向冲来，身后卷起滚滚烟尘。")
-	await novel_interface.show_text_only("十几架无人机紧随其后，它们速度并不算快，但也不至于被拉开多大距离。")
-	await novel_interface.show_text_only("艾米莉欧从车顶钻出来架起一把M16，朝着机群断断续续的射击，但很难命中。")
-	await novel_interface.show_text_only("很快她的子弹耗尽，索性将那把步枪朝车尾的方向丢了出去……")
-	await novel_interface.show_text_only("只见一架无人机立刻冲向被丢出的枪械并自爆，其他的无人机则迅速拉升，避开了爆炸范围。")
+	await novel_interface.show_text_only("遮蔽物から頭を半分だけ出して状況を確認すると
+周囲は文字通りの戦場と化していた。
+遠くにあった弾薬貯蔵用の小屋は火に包まれ
+原型を留めていない。")
+	await novel_interface.show_text_only("東側の砂丘を見るとヴィラの運転するジープが
+疾走していた。
+砂煙を大量に巻き上げて補給所へと向かって
+来ている。")
+	await novel_interface.show_text_only("その後ろには10機以上のドローンが……
+
+追ってくるのを必死に逃げている様子だ。
+
+速度は互いに同等なのか距離の差が、
+開く気配はない。")
+	await novel_interface.show_text_only("ジープの上部にはエミリオの姿があった。
+天井のハッチから顔を出してドローンの群れに
+M16を発砲している。")
+	await novel_interface.show_text_only("弾薬が尽きるまで断続的に射撃を行うと、
+彼女は弾切れの銃をドローンへと投げ捨てた。")
+	await novel_interface.show_text_only("ドローンの群れの1機が投げた銃に反応して
+自爆する。
+他のドローンは爆発に巻き込まれないよう
+瞬時に高度を上げる。")
 	novel_interface.show_character("emilio","angry")
-	await novel_interface.show_dialog("该死！", "艾米莉欧")
+	await novel_interface.show_dialog("クソッ！", "エミリオ")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("那辆吉普开到补给站外的墙边减速，艾米莉欧避开无人机的视野，从车上翻下来并迅速抵在墙角。")
-	await novel_interface.show_text_only("接着那辆车猛的打轮，扬起一阵尘土，径直向不远处另一个山丘开去。")
-	await novel_interface.show_text_only("艾米莉欧则伏在墙角，等无人机群掠过头顶后利落的翻过围墙来到站内。")
+	await novel_interface.show_text_only("ジープは補給所を囲む壁まで到達すると
+減速を始めた。
+ドローンの視界を避けるようにジープから降りて
+素早く壁に身を潜めるエミリオ。")
+	await novel_interface.show_text_only("エミリオを見送るとジープは別の砂丘へ向けて
+再び砂煙を上げながら加速する。")
+	await novel_interface.show_text_only("ドローンの群れがジープに釣られて移動した後、
+エミリオは壁を越えて補給所まで戻ってきた。")
 	novel_interface.show_character("emilio","angry")
-	await novel_interface.show_dialog("小怜！？", "艾米莉欧")
+	await novel_interface.show_dialog("レンちゃん！？　無事！？", "エミリオ")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ren_medical","sob")
-	await novel_interface.show_dialog("在、在这……", "小怜")
+	await novel_interface.show_dialog("こ、ここにいます……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("我压低声音回应，她一路顺着墙根摸进了我搭的木板下面。")
+	await novel_interface.show_text_only("俺は声を抑えながら返事をする。
+
+すぐさま木板で確保した空間に彼女が
+駆け付けてきた。")
 	novel_interface.show_character("ren_medical","sob")
 	novel_interface.character_move_left(-0.25)
 	novel_interface.show_2nd_character("emilio","perspire",0.25)
-	await novel_interface.show_dialog("你倒是会找地方……不过不用那么小声，那些东西听不到声音。", "艾米莉欧")
+	await novel_interface.show_dialog("良くこんな場所を見つけたわね……
+
+声は抑えなくても大丈夫よ、あいつら音とか
+聞こえないから。", "エミリオ")
 	novel_interface.character_light(0.35,"panic")
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("啊，你受伤了？！", "小怜")
+	await novel_interface.show_dialog("あっ！　怪我してるのか！？", "レン")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("我看到艾米莉欧的上臂有几道划伤，鲜血顺着胳膊洇湿了军服，她却全然不在意的样子。")
+	await novel_interface.show_text_only("エミリオの腕に何か所か擦り傷があった。
+
+軍服の一部が鮮血に染まっているけど、
+彼女は気にしていない様子である。")
 	novel_interface.show_character("ren_medical","panic")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.show_2nd_character("emilio","smile",0.25)
-	await novel_interface.show_dialog("小意思，咱们得尽快回运兵车，那辆车的装甲应付这些东西应该绰绰有余。", "艾米莉欧")
+	await novel_interface.show_dialog("これぐらい何ともないわよ。
+
+それより早く装甲車に戻りましょう。
+
+アレならドローンの爆発ぐらい余裕で
+防げるから。", "エミリオ")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("此时运兵车在光学迷彩的掩护下正停在公路旁，距离补给站有两三百米的距离。")
+	await novel_interface.show_text_only("光学迷彩で隠しておいた装甲車は国道の側に
+止めてある。
+距離は補給所から凡そ300メートル。")
 	novel_interface.show_character("ren_medical","panic")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.character_light()
 	novel_interface.show_2nd_character("emilio","smile",0.25)
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("你们没带友军识别装置吗！？\n那些无人机总不至于攻击自己人吧……", "小怜")
+	await novel_interface.show_dialog("味方の識別装置とか付けてないのかよ！？
+
+あのドローン達は味方を攻撃しないだろう！？", "レン")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("不过这两位就是来劫持自家物资的，难道是马萨达的传统艺能？")
+	await novel_interface.show_text_only("あ、よく考えたら、この2人は自軍の物資を
+奪おうとしているから「敵」なのか。
+何だか頭が混乱してきた……")
 	novel_interface.show_character("emilio","speechless")
-	await novel_interface.show_dialog("那些识别装置自带定位记录，我们出来干活当然留在城里了。", "艾米莉欧")
+	await novel_interface.show_dialog("当然、市内に置いてきたわよ。
+
+識別装置は位置情報も記録するから、
+こんな「仕事」には持っていけないでしょ？", "エミリオ")
 	novel_interface.change_expression("angry")
-	await novel_interface.show_dialog("咱们得快点！\n薇拉不知道还能拖多久……", "艾米莉欧")
+	await novel_interface.show_dialog("それよりも早く動きましょう！
+どれだけヴィラが時間を稼げるか分からないし！", "エミリオ")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("艾米莉欧拍了拍我的胳膊，向掩体外走去。")
-	await novel_interface.show_text_only("我刚想跟上，却发现她定在了原地，声音略带颤抖的说道——")
+	await novel_interface.show_text_only("エミリオは俺の肩を軽く叩いて遮蔽物から
+離れていく。
+この鉄火場の中を300メートル進むのは
+相当勇気がいるぞ……
+でも確かに、あんなドローン相手にカーチェイス
+なんて長くは持たないだろうし……")
+	await novel_interface.show_text_only("意を決して俺は彼女に付いて行こうとする。
+
+だが──")
 	novel_interface.show_character("emilio","perspire")
-	await novel_interface.show_dialog("小怜，快跑……", "艾米莉欧")
+	await novel_interface.show_dialog("………………レンちゃん、早く逃げて。", "エミリオ")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("我欠身抬头看，三架无人机正盘旋在补给站上空进行着360度的回转扫描。")
-	await novel_interface.show_text_only("突然，其中一架无人机在朝向我们所在掩体的时候停了下来，同时机身上的红色光点开始闪烁……")
+	await novel_interface.show_text_only("いつの間にか彼女は立ち止まっていた。
+
+視線を上に向けると、3機のドローンが補給所の
+真上を旋回しながら辺りをスキャンしている。")
+	await novel_interface.show_text_only("1機のドローンが俺達のいる場所にカメラを
+合わせた。
+空中での旋回を急に止めて、赤いランプを
+点滅させ始める。")
 	novel_interface.show_character("emilio","angry")
-	await novel_interface.show_dialog("快跑！！！", "艾米莉欧")
+	await novel_interface.show_dialog("────逃げなさいッッ！！！", "エミリオ")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("艾米莉欧立刻拔出手枪对着天空射击，12发子弹瞬间倾泻而尽。")
-	await novel_interface.show_text_only("一架无人机被击中悬臂，翻滚着坠向了补给站外。")
-	await novel_interface.show_text_only("一架无人机直接在空中爆炸，大量金属碎屑插在了我们头顶的木板上。")
-	await novel_interface.show_text_only("还有一架无人机，在漫天烟尘中拉着一道红线，径直朝我们冲了过来——")
+	await novel_interface.show_text_only("エミリオは拳銃を取り出し、空に向かって
+全12発を連射した。")
+	await novel_interface.show_text_only("1機目のドローンは補給所の外にヒラヒラと
+墜落する。")
+	await novel_interface.show_text_only("もう1機は空中で爆発。
+
+金属片が雨のように降り注ぎ、設置していた
+頭上の木板に突き刺さる。")
+	await novel_interface.show_text_only("そして最後の1機は……仕留め切れなかった。
+
+爆発の煙に紛れながら赤く発光して、
+俺達へと突っ込んでくる──")
 	novel_interface.show_character("ren_medical","sob")
-	await novel_interface.show_dialog("（完了！）", "小怜")
+	await novel_interface.show_dialog("（お、終わった……）", "レン")
 	await novel_interface.hide_character()
 	await novel_interface.hide_background()
-	await novel_interface.show_text_only("轰——！！")
-	await novel_interface.show_text_only("榴弹爆裂的声浪伴随着炙热的气流，瞬间灌满掩体的狭小空间，掀飞了我们头顶的木板。")
-	await novel_interface.show_text_only("空气中弥漫着刺鼻的糊味和浓浓的血液被蒸干后类似铁锈的味道。")
-	await novel_interface.show_text_only("同时，大量金属破片被喷溅到补给站内……")
+	await novel_interface.show_text_only("ズカアアアァァァ――――ンッッ！！！！")
+	await novel_interface.show_text_only("……耳をつんざく炸裂音。
+
+遮蔽物の狭い空間に高温の気流が吹き荒れ、
+頭上の木板はどこかに飛んでった。")
+	await novel_interface.show_text_only("鼻を突く焦げ臭い匂い。
+
+血液と錆の匂い。
+
+それらが混ざり合って空気中に充満する。")
+	await novel_interface.show_text_only("辺りに散乱するのは大量の金属片。")
 	novel_interface.show_background("res://assets/images/bg/Stardust/BG_Stardust_StagingPostF.png")
-	await novel_interface.show_text_only("我在巨大的冲击下，身体失去平衡坐在了地上，同时感到小臂外侧传来一阵剧痛。")
-	await novel_interface.show_text_only("不，比这更重要的是……")
+	await novel_interface.show_text_only("爆発の衝撃に耐えられず、バランスを崩して
+俺は尻餅を突いてしまった。
+……腕からは激痛が伝わってくる。")
+	await novel_interface.show_text_only("いや、そんな事より重要なのは……")
 	novel_interface.show_character("ren_medical","perspire1")
-	await novel_interface.show_dialog("（我……还活着？）", "小怜")
+	await novel_interface.show_dialog("（……い、生きてる？）", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("我摸了摸身体，除了小臂被划出一道口子，基本没受什么伤。")
-	await novel_interface.show_text_only("而挡在我前方的艾米莉欧，手上似乎展开了一面用血液铸成的盾牌——")
-	await novel_interface.show_text_only("盾牌挡住了爆炸的大部分冲击，之后便像烈日下的干冰般化为了暗红色的烟雾，消散在空气中。")
+	await novel_interface.show_text_only("自分の身体を確認した。
+
+腕に切り傷が1つだけで、ほぼ無傷だ。")
+	await novel_interface.show_text_only("エミリオが庇ってくれたのか？
+
+そう思って、すぐさまエミリオも無事か
+確認すると……")
+	await novel_interface.show_text_only("……彼女の手には赤い鮮血のような色をした盾が
+展開されていた。
+盾は暗褐色の煙を発生させながら徐々に空気中へ
+霧散していく。")
 	novel_interface.show_character("ren_medical","worry")
-	await novel_interface.show_dialog("你手上的是……？", "小怜")
+	await novel_interface.show_dialog("そ、それは……？", "レン")
 	novel_interface.character_move_left(-0.25)
 	novel_interface.show_2nd_character("emilio","stare",0.25)
-	await novel_interface.show_dialog("本来不想让你看见的……", "艾米莉欧")
+	await novel_interface.show_dialog("あなたには見せたくなかった……", "エミリオ")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("她甩了甩手腕，刚才被血液染红的军服袖子此时已经完全没有了血迹。")
+	await novel_interface.show_text_only("盾が完全に消えると、彼女は腕をゆっくりと
+振った。
+さっきまで軍服の袖を染めていた血は、
+痕跡さえも無くなっている。")
 	novel_interface.show_character("ren_medical","worry")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.show_2nd_character("emilio","stare",0.25)
-	await novel_interface.show_dialog("我和薇拉曾经意外接触过某种异质物，之后就有了这种奇怪的能力。", "艾米莉欧")
+	await novel_interface.show_dialog("……とある異質物に接触する機会が偶然あって。
+
+それから私とヴィラは奇妙な能力を使えるように
+なってしまったの。", "エミリオ")
 	novel_interface.change_expression("worry")
-	await novel_interface.show_dialog("我可以把自己的血液转化成强度超过钢铁的固体形态，不过血很快就会蒸发，实用度不大……", "艾米莉欧")
+	await novel_interface.show_dialog("私は血液を鋼鉄より硬く固形化する事ができる。
+
+すぐに蒸発するから、実用的じゃないけどね……", "エミリオ")
 	novel_interface.character_light(0.35,"smile")
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("……可是很帅啊！！", "小怜")
+	await novel_interface.show_dialog("実用的かはともかく、血を使う能力とか
+格好良すぎじゃないか？", "レン")
 	novel_interface.character_dark()
 	novel_interface.character_2nd_light(0.35,"speechless")
-	await novel_interface.show_dialog("啊？", "艾米莉欧")
+	await novel_interface.show_dialog("……えっ？", "エミリオ")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("她似乎对我的反应有些意外，回身看到我试图舔自己手肘的样子，不禁笑着摇了摇头。")
-	await novel_interface.show_text_only("真的很疼啊！！\n刚才被金属片划到了……")
+	await novel_interface.show_text_only("反応が意外すぎた様子で、彼女は俺の方を
+即座に振り向いた。
+彼女の憂いだ表情が一瞬だけ垣間見える。
+
+しかし肘の傷を必死に舐めようと頑張る俺の姿を
+見て、表情は笑いに変わってしまった。")
+	await novel_interface.show_text_only("痛いんだから仕方ないだろ！
+
+金属の破片が掠った程度でもさ……")
 	novel_interface.show_character("emilio","speechless")
-	await novel_interface.show_dialog("马萨达超过九成的人信教，无论在哪种宗教眼中这种操作血液的能力都是亵渎和诅咒吧？", "艾米莉欧")
+	await novel_interface.show_dialog("マサダに住む人間の9割以上が何らかの宗教を
+信じているわ。
+どんな宗教であれ私のような血液を操る能力は
+冒涜的な呪いの類でしょう？", "エミリオ")
 	novel_interface.change_expression("worry")
-	await novel_interface.show_dialog("还是薇拉的能力实用些，虽然她力气本来就大……", "艾米莉欧")
+	await novel_interface.show_dialog("ヴィラの方は私よりマシだったわ。
+彼女は元々も力持ちだったけど……", "エミリオ")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("薇拉的吉普车就在我们的视野右侧——")
-	await novel_interface.show_text_only("此时怪力女已经把车停到了东侧的山丘上，后面十几架无人机大概还有十秒左右就要追上了……")
+	await novel_interface.show_text_only("当のヴィラは右の方でドローンとのチェイスを
+続けていた。")
+	await novel_interface.show_text_only("ジープが砂丘で止まってしまう。
+
+まだ10機以上のドローンが追尾しており、
+もはやヴィラが距離を離す猶予もない。")
 	novel_interface.show_character("ren_medical","panic")
-	await novel_interface.show_dialog("熄火了？！", "小怜")
+	await novel_interface.show_dialog("エ、エンジンが止まったのか！？", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("只见薇拉从驾驶舱出来走到车头，对着前保险杠深深的吸了一口气——")
-	await novel_interface.show_text_only("随着“当”的一声震彻山谷的巨响，她把吉普车踹得横着飞了出去。")
+	await novel_interface.show_text_only("運転席から降りたヴィラはジープの正面に
+移動すると、深呼吸をして──")
+	await novel_interface.show_text_only("「ド――ン！」と言う巨大な音が鳴るぐらいの
+勢いでジープを蹴っ飛ばした。")
 	novel_interface.show_character("ren_medical","wry_smile")
-	await novel_interface.show_dialog("…………………………？？！", "小怜")
+	await novel_interface.show_dialog("…………ぇぇッ！！？？", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("车像保龄球一样划着微妙的弧线冲向了刚刚爬升到山腰的无人机群，瞬间引发了一系列连锁爆炸……")
+	await novel_interface.show_text_only("キックによって容易く吹き飛んだジープが、
+高度を上げようとするドローンの群れに直撃し、
+ドミノ倒しのような爆発の連鎖を引き起こす。")
 	novel_interface.show_character("ren_medical","wry_smile")
-	await novel_interface.show_dialog("……清理干净了！？", "小怜")
+	await novel_interface.show_dialog("……す、すごい…やったのかッ！？", "レン")
 	novel_interface.character_move_left(-0.25)
 	novel_interface.show_2nd_character("emilio","stare",0.25)
-	await novel_interface.show_dialog("别高兴的太早，你听。", "艾米莉欧")
+	await novel_interface.show_dialog("いえ、安心するのはまだ早いわ。
+耳を傾けて。", "エミリオ")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("是啊，那恼人的嗡嗡声并未消失……")
-	await novel_interface.show_text_only("我转过头，看到了让人绝望的一幕——")
-	await novel_interface.show_text_only("从我们补给站外的山脚下，又缓缓升起了三十多个小黑点……")
-	await novel_interface.show_text_only("那群漆黑的幽灵在浓烟中盘旋，闪着红光，似乎要扼杀一切生存的意志。")
-	await novel_interface.show_text_only("这就是『蜂巢』的可怕之处，像死神般如影随形无法摆脱，直到将全部目标彻底摧毁……")
-	await novel_interface.show_text_only("艾米莉欧下意识的把我拉到身后——")
+	await novel_interface.show_text_only("……蜂に似た飛行音……そうか。
+
+奴らの音がまだ周囲に聞こえるって事は……")
+	await novel_interface.show_text_only("振り返ると絶望的な光景が広がっていた。")
+	await novel_interface.show_text_only("補給所の外には30以上の黒い点が見える。")
+	await novel_interface.show_text_only("赤い光を点滅させながら煙の中で旋回する様子が
+薄っすらと見えた。
+まるで全ての生存の意志を摘み取るかのように、
+漆黒の幽霊が空を這い回っている。")
+	await novel_interface.show_text_only("これこそが『ハニーコム』の恐ろしさだ。
+
+全てのターゲットを完全に破壊するまで
+死神の如き殺意で戦場を支配する……")
+	await novel_interface.show_text_only("エミリオは俺を守るように後ろへと引っ張った。")
 	novel_interface.show_character("ren_medical","wail")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.character_light()
 	novel_interface.show_2nd_character("emilio","stare",0.25)
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("怎么办……", "小怜")
+	await novel_interface.show_dialog("どうしよう……", "レン")
 	novel_interface.character_dark()
 	novel_interface.character_2nd_light(0.35,"smile")
-	await novel_interface.show_dialog("抱歉啊，把你卷进来。", "艾米莉欧")
+	await novel_interface.show_dialog("……色々と見誤ったわ。
+ごめんね、あなたを巻き込んじゃって。", "エミリオ")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("喂喂，不要发表这种遗言似的感想啊！")
+	await novel_interface.show_text_only("し、死亡フラグみたいなセリフはやめて！")
 	novel_interface.show_character("ren_medical","wail")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.show_2nd_character("emilio","upset",0.25)
-	await novel_interface.show_dialog("已经没有弹匣了，一会我引开它们，你用最快的速度跑向装甲车，或许……", "艾米莉欧")
+	await novel_interface.show_dialog("もう残弾が1発もないの……
+私が注意を惹くからあなたは装甲車まで逃げて。
+そうすればきっと……", "エミリオ")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("那种距离，根本跑不到吧？")
-	await novel_interface.show_text_only("第一批六七架无人机已经向我们俯冲了过来，我下意识的抓住了艾米莉欧的手。")
-	await novel_interface.show_text_only("从我小臂伤口渗出的血流了她手上，我和艾米莉欧似乎同时感觉到了什么——")
-	await novel_interface.show_text_only("只见她右手虚握，就像握住了什么东西，鲜血开始向她的手心汇聚。")
+	await novel_interface.show_text_only("「きっと」の先が言い切れない理由は分かる。
+俺の走る程度じゃ絶対に追い付かれるから。
+
+今度こそ本当に終わった……")
+	await novel_interface.show_text_only("急降下してくるドローン達に恐怖を感じて、
+俺は思わずエミリオの手を握った。
+覚悟を決めて、目を瞑る──")
+	await novel_interface.show_text_only("────……………………
+
+……俺の傷口から滲み出した血が彼女の手へと
+流れ込んだ。
+突然の事だったが……俺とエミリオは「何か」に
+気付いた。")
+	await novel_interface.show_text_only("彼女は右手を震わせると、急速に鮮血が
+手の平へ集まっていく。")
 	await novel_interface.stop_music()
 	novel_interface.show_character("emilio","stare")
-	await novel_interface.show_dialog("这是……？？", "艾米莉欧")
+	await novel_interface.show_dialog("これは……！？", "エミリオ")
 	await novel_interface.hide_character()
 	novel_interface.change_music("res://assets/audio/music/Deep Water.mp3")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_StagingPostL.png")
-	await novel_interface.show_text_only("我们同时感到彼此的心脏都像被注入了液氮的赛车引擎，正以逼近极限的负荷搏动着。")
-	await novel_interface.show_text_only("随着心率急速飙升，时间感被无限的拉长——")
-	await novel_interface.show_text_only("周围的一切声音都变得冗长而模糊，高速俯冲的无人机看起来仿佛缓缓飞舞的蝴蝶。")
-	await novel_interface.show_text_only("艾米莉欧掌心的血液在空中化为无数细丝，像履行着既定程序的3D打印机，自动编织成网状结构。")
-	await novel_interface.show_text_only("她难以置信的看着手中逐渐成型物体——那似乎是一把长度与我身高相当的巨剑。")
-	await novel_interface.show_text_only("剑身在成型的一瞬，立刻爆发出炙热耀眼的粉红色光芒，艾米莉欧迅速转身向空中挥砍出去……")
+	await novel_interface.show_text_only("お互いの心臓が極限まで負荷を背負って
+鼓動を打つ。
+まるで静脈と動脈の循環が加速するかのように。")
+	await novel_interface.show_text_only("把握できるほど心拍数は異常に増加して、
+時間も無限に伸びている感じがした。")
+	await novel_interface.show_text_only("周囲の音がスロー再生みたいに聞こえて、
+ドローンもヒラヒラと舞う蝶に見える。")
+	await novel_interface.show_text_only("理解し難い感覚の中、エミリオの手の平にある
+「鮮血」が変貌を始めた。
+血が無数の糸となり、ワイヤーフレームを描いて
+物体を形作っていく。")
+	await novel_interface.show_text_only("刻々と生成される物体を見つめながら、
+彼女は驚嘆の表情を浮かべるしかできない。
+……俺の身長とほぼ同じ大きさの巨大な剣が
+生み出されたのだ。")
+	await novel_interface.show_text_only("剣は眩いスカーレット色の光を放ち、
+彼女の手の中に納まった。
+素早く振り被ると、彼女は空中に向かって
+ソレを全力で振るう──")
 	await novel_interface.hide_background()
-	await novel_interface.show_text_only("在她挥剑的瞬间，我的视野突然变暗，周围的空间似乎一下子被抽成了真空。")
-	await novel_interface.show_text_only("一阵尖锐的耳鸣过后，整个世界就像被按下了静音键，万物归于寂静——")
-	await novel_interface.show_text_only("——————")
+	await novel_interface.show_text_only("──瞬く間に俺の視界が暗闇と化した。
+
+周囲が一瞬で真空の宇宙になる。")
+	await novel_interface.show_text_only("鋭い耳鳴りが万物を静寂に帰して、
+世界に音はないと言い聞かせるかのように……")
+	await novel_interface.show_text_only("────────────────────")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_StagingPostC.png")
-	await novel_interface.show_text_only("——！！！！！！！！！！")
-	await novel_interface.show_text_only("再次回过神来的时候，耳边翻涌呼啸的气浪已经掩盖了一切声音。")
-	await novel_interface.show_text_only("三十几架无人机像被飓风裹挟的枯叶般，随风飘零翻滚，吹散到了很远的地方。")
-	await novel_interface.show_text_only("在强烈的冲击下榴弹纷纷自爆，但炸出的火团和破片也被炙热的气团一并带走，消失在了视野尽头。")
-	await novel_interface.show_text_only("待到狂风渐渐平息，艾米莉欧手中的巨剑已然化为暗红的烟尘完全消散。")
-	await novel_interface.show_text_only("我们俩都被面前的景象惊呆了——")
-	await novel_interface.show_text_only("补给站仿佛被清洗了一番，累积的浮土、砂砾和细小的碎石被一扫而空。")
-	await novel_interface.show_text_only("抬头望去，我们面前天空的沙尘也被完全吹散，清澈的视野一直延伸到遥远的山谷……")
+	await novel_interface.show_text_only("――ッッッ！！！！！！！！")
+	await novel_interface.show_text_only("意識が現実に戻ると気流が唸り声を上げていた。")
+	await novel_interface.show_text_only("ドローンの軍勢は台風でも受けたかのように
+空中を転がり回っている。")
+	await novel_interface.show_text_only("衝撃によって次々と爆発していくドローン。
+
+爆炎と金属片が次々と飛び散るが、
+それすらも強風は飲み込んで離さない。")
+	await novel_interface.show_text_only("エミリオの大剣が暗褐色の煙と化して消える時、
+最初から存在など無かったかのように、
+ドローンの大群は遠くの彼方へと
+飛ばされていった……")
+	await novel_interface.show_text_only("……呆気に取られる俺達2人。")
+	await novel_interface.show_text_only("補給所は長年溜め込んだ土や砂礫や小石が
+大掃除したみたいに一掃されている。")
+	await novel_interface.show_text_only("空を包んでいた薄暗い砂塵も完全に消えて、
+澄み切った景色が遠くの山まで続く。")
 	novel_interface.show_character("emilio","perspire")
-	await novel_interface.show_dialog("你到底……是什么人？", "艾米莉欧")
+	await novel_interface.show_dialog("あなたは一体何者なの……？", "エミリオ")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ren_medical","panic")
-	await novel_interface.show_dialog("你是魔女？？", "小怜")
+	await novel_interface.show_dialog("君は、魔女なのか？", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("艾米莉欧大概第一次听到这个词，困惑的盯着我。")
-	await novel_interface.show_text_only("突然，她肩头挂着的军用步话机传来薇拉急切的呼叫声——")
-	await novel_interface.show_dialog("有两枚地狱火导弹正从东边向咱们飞过来！！", "薇拉")
-	await novel_interface.show_dialog("应该是刚才『蜂巢』给附近空域巡航的无人侦察机发出了攻击请求……", "薇拉")
-	await novel_interface.show_dialog("非得赶尽杀绝吗？该死该死该死！！", "薇拉")
-	await novel_interface.show_text_only("我们不约而同的望向天空，然而只看到东侧天边隐约出现了两朵爆炸的火团。")
-	await novel_interface.show_dialog("消、消失了……", "薇拉")
-	await novel_interface.show_dialog("是你打的？？", "薇拉")
+	await novel_interface.show_text_only("「魔女」という単語が初耳だったのか、
+エミリオは困惑の表情で俺を見つめた。")
+	await novel_interface.show_text_only("互いに状況が掴めず整理していたところ、
+彼女の肩に装備してあるトランシーバーから
+ヴィラの切羽詰まった声が聞こえてくる。")
+	await novel_interface.show_dialog("東側からヘルファイアミサイルが2発、
+向かって来ている！！", "ヴィラ")
+	await novel_interface.show_dialog("恐らく『ハニーコム』が現場外の偵察ドローンに
+空爆要請を出したのだろう！", "ヴィラ")
+	await novel_interface.show_dialog("皆殺しじゃないと気が済まないのか連中は！
+クソクソクソッ！！", "ヴィラ")
+	await novel_interface.show_text_only("俺達は素早く視線を空へと向けた。
+
+──東側に爆発の炎が2つ見える。")
+	await novel_interface.show_dialog("は……え、消えた……？", "ヴィラ")
+	await novel_interface.show_dialog("エミの仕業か？？", "ヴィラ")
 	novel_interface.show_character("emilio","perspire")
-	await novel_interface.show_dialog("这次不是我……", "艾米莉欧")
+	await novel_interface.show_dialog("今回のは私じゃないわ……", "エミリオ")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("艾米莉欧盯着一脸无辜的我，按住步话机回应道。")
+	await novel_interface.show_text_only("俺は無実と言わんばかりの表情をするが、
+エミリオは気にせずハッキリと言う。")
 	novel_interface.show_character("emilio","smile")
-	await novel_interface.show_dialog("不过我大概知道是因为谁了。", "艾米莉欧")
+	await novel_interface.show_dialog("ん～～だけど……
+誰の仕業か分かった気がする。", "エミリオ")
 	await novel_interface.hide_character()
 	await novel_interface.stop_music()
 	await novel_interface.hide_background_with_fade()
-	await novel_interface.show_text_only("……")
-	await novel_interface.show_text_only("SID重型运载机机舱内。")
+	await novel_interface.show_text_only("………………")
+	await novel_interface.show_text_only("──SID高速大型輸送機の機内")
 	novel_interface.change_music("res://assets/audio/music/Normal Stage.mp3")
 	novel_interface.show_background("res://assets/images/bg/Baizhu/BG_Dispatched_Ship_Aisle.png")
-	await novel_interface.show_dialog("拦截成功了？", "莉琉")
+	await novel_interface.show_dialog("……迎撃は成功したか？", "マリル")
 	novel_interface.show_character("nyx_normal","smile")
-	await novel_interface.show_dialog("是啊，马萨达的防御系统真难缠……", "倪克斯")
+	await novel_interface.show_dialog("ええ。マサダの防御システムには少々、
+手こずりましたけど……", "ニュクス")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("倪克斯靠在椅背上长舒一口气，终于放下已在手中端了许久的红茶。")
+	await novel_interface.show_text_only("ニュクスは椅子の背もたれに身体を預ける。
+
+ずっと手に持っていた紅茶を静かに置いた。")
 	novel_interface.show_character("nyx_normal","normal1")
-	await novel_interface.show_dialog("那两个女兵好像正在拆除NGO卡车的追踪设备，你不打算干预吗？", "倪克斯")
+	await novel_interface.show_dialog("2人の兵士さんはNGOトラックの追跡装置を
+解除したみたいです。
+……干渉はしませんの？", "ニュクス")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("暂时保护性观察吧，她们应该不会伤害小怜。", "莉琉")
+	await novel_interface.show_dialog("しばらく様子を見ようじゃないか。
+彼女達ならレンに危害を加えないだろう。", "マリル")
 	novel_interface.show_character("nyx_normal","smile")
-	await novel_interface.show_dialog("哦？看来你不想放过那个意外收获呢~\n查清那两个人的底细了吗？", "倪克斯")
+	await novel_interface.show_dialog("あの2人にどのような調査結果が出たの
+かしら？
+予想外の収穫には相当な価値がある様子ね。", "ニュクス")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("是啊，那个小笨蛋好像总能吸引到奇怪的人呢……", "莉琉")
+	await novel_interface.show_dialog("そうだな……あの馬鹿は変わり者を引き寄せる
+体質なのかもしれん。", "マリル")
 	novel_interface.show_character("nyx_normal","mock")
-	await novel_interface.show_dialog("比如说你？", "倪克斯")
+	await novel_interface.show_dialog("あなたのような？", "ニュクス")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("彼此彼此。", "莉琉")
-	await novel_interface.show_dialog("欧洲那边有什么消息吗？", "莉琉")
+	await novel_interface.show_dialog("お互い様だ。", "マリル")
+	await novel_interface.show_dialog("ヨーロッパの方はどうだった？", "マリル")
 	novel_interface.show_character("nyx_normal","normal2")
-	await novel_interface.show_dialog("刚收到线报，当年NASA大部分卫星都被纽摩利达斯接收了。", "倪克斯")
-	await novel_interface.show_dialog("但据说有批未注册的卫星，在董事会接管之前，被从数据库里完全删除了。", "倪克斯")
-	await novel_interface.show_dialog("完全无法确定是联邦政府解体前的授意还是工作人员的个人行为，甚至有传言是黑客组织所为。", "倪克斯")
+	await novel_interface.show_dialog("当時、NASAの衛星のほとんどを受け取ったのは
+ニューモリダスですが……", "ニュクス")
+	await novel_interface.show_dialog("一部未登録の衛星が理事会の手へと渡る前に、
+データベースから削除されたみたいです。", "ニュクス")
+	await novel_interface.show_dialog("連邦政府解体前の意図か、何者かの独断か、
+ハッカー集団の仕業か……
+……答えは未だ不明のまま。", "ニュクス")
 	novel_interface.change_expression("normal1")
-	await novel_interface.show_dialog("而两年前，欧洲和亚洲的黑市确实流入了一批卫星控制秘钥。", "倪克斯")
+	await novel_interface.show_dialog("しかし2年前、ヨーロッパとアジアの闇市に
+衛星の制御コードが出品されたと──
+先ほど確かな情報を捕まえましたわ。", "ニュクス")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("看来地下世界的的情报网也很有用呢~", "莉琉")
+	await novel_interface.show_dialog("地下社会の情報ネットワークも意外と
+役に立つものだな。", "マリル")
 	novel_interface.show_character("nyx_normal","normal1")
-	await novel_interface.show_dialog("当年苏联解体时也从国防会议流出过一些卫星，等联邦政府想起追查的时候，早就毁尸灭迹了。", "倪克斯")
+	await novel_interface.show_dialog("ソ連が解体された際にも国防会議から
+衛星の横流しがありましたからね。
+連邦政府の調査が入り込んだ時には、
+証拠なんて全て隠滅されていましたが。", "ニュクス")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("没注册的应该大多是低轨间谍卫星吧，可能还有少量军方的短波通讯卫星。", "莉琉")
-	await novel_interface.show_dialog("如果疏于维护，大部分的低轨卫星到现在应该都已经坠毁了——", "莉琉")
+	await novel_interface.show_dialog("未登録の物は大体が低軌道偵察衛星か、
+軍隊用の短波通信衛星だろう。", "マリル")
+	await novel_interface.show_dialog("軌道上で手入れもなく放置された状態なら
+既に墜落済みの可能性が高い。", "マリル")
 	novel_interface.show_character("nyx_normal","smile")
-	await novel_interface.show_dialog("那么依然在工作的高轨道卫星……", "倪克斯")
+	await novel_interface.show_dialog("まだ作動中の高軌道衛星なら？", "ニュクス")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("唉，在地表两万公里之外的空间找一颗没有轨道数据的卫星吗……", "莉琉")
+	await novel_interface.show_dialog("地面と2万キロメートルも離れた空間から、
+軌道データの一切無い衛星を探すつもりか？", "マリル")
 	await novel_interface.hide_background()
-	await novel_interface.show_dialog("简直是大海捞针。", "莉琉")
+	await novel_interface.show_dialog("そいつは干し草の中から針を探すのと同じだ。", "マリル")
 	await novel_interface.stop_music()
-	await novel_interface.show_text_only("……")
-	await novel_interface.show_text_only("马萨达郊外公路。")
+	await novel_interface.show_text_only("………")
+	await novel_interface.show_text_only("――マサダ近郊の国道")
 	novel_interface.change_music("res://assets/audio/music/Story_01.mp3")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_MasadSways.png")
-	await novel_interface.show_text_only("我和艾米莉欧坐在卡车粗壮的前保险杠上，一起欣赏沙漠的晚霞。")
-	await novel_interface.show_text_only("薇拉此时正拿着探测设备，在货箱里排查剩余的武器和追踪装置。")
+	await novel_interface.show_text_only("俺とエミリオはトラックのボンネットに座って、
+砂漠の夕焼けを堪能していた。")
+	await novel_interface.show_text_only("ヴィラは探測器を使ってトラックに隠されて
+いるであろう武器と追跡装置を調べている。")
 	novel_interface.show_character("emilio","normal")
-	await novel_interface.show_dialog("所以……你还认识好几个像我和薇拉这样的人？\n就是你说的“魔女”。", "艾米莉欧")
+	await novel_interface.show_dialog("つまり、私やヴィラみたいな人が「魔女」と言う
+存在なのね？
+あなたは私達みたいな人を沢山知っていると。", "エミリオ")
 	novel_interface.character_move_left(-0.25)
 	novel_interface.show_2nd_character("ren_medical","smile",0.25)
-	await novel_interface.show_dialog("是啊，她们有的人还——", "小怜")
+	await novel_interface.show_dialog("そうだよ。しかも彼女達には──", "レン")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("艾米莉欧赶忙挡住我的嘴，轻轻摆了摆手。")
+	await novel_interface.show_text_only("エミリオは軽く手を振りながら、慌てて俺の口を
+塞ごうとする。")
 	novel_interface.show_character("emilio","speechless")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.character_light()
 	novel_interface.show_2nd_character("ren_medical","smile",0.25)
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("嘘，你是SID的人，这种事我知道的少一点才好。", "艾米莉欧")
+	await novel_interface.show_dialog("あなたはSIDの人だし、私の知るべき範囲だけ
+教えてくれれば良いから。", "エミリオ")
 	novel_interface.change_expression("normal")
-	await novel_interface.show_dialog("那按照你的说法，这几个月有些破坏可能并不是由抵抗组织造成的？", "艾米莉欧")
+	await novel_interface.show_dialog("それにしても、あなたの話通りなら……
+
+最近起きている破壊活動もレジスタンスの
+関与していない可能性が有るって事？", "エミリオ")
 	novel_interface.character_dark()
 	novel_interface.character_2nd_light(0.35,"normal2")
-	await novel_interface.show_dialog("嗯，这种由魔导书赋予的能力对大脑负担很大，并不是每个人都能承受。", "小怜")
+	await novel_interface.show_dialog("有り得ると思う。
+
+魔導書から能力を付与された時、脳には莫大な
+負担が掛かるんだ。
+それは誰もが耐えられるって訳じゃない。", "レン")
 	novel_interface.change_2nd_expression("worry")
-	await novel_interface.show_dialog("一旦受体丧失理智就会暴走，对周边的区域大肆破坏……", "小怜")
+	await novel_interface.show_dialog("理性を失うと暴走状態になって、
+辺り構わず破壊し尽くすだけの存在に……", "レン")
 	novel_interface.character_light(0.35,"upset")
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("魔导书……类似随机散布的异质物吗？", "艾米莉欧")
+	await novel_interface.show_dialog("魔導書って異質物の類で、色んな場所に
+出現するのよね？", "エミリオ")
 	novel_interface.change_expression("speechless")
-	await novel_interface.show_dialog("怪不得军事委员会这阵子总像没头苍蝇似的四处安排巡逻任务，有些还在根本没价值的地区。", "艾米莉欧")
+	await novel_interface.show_dialog("軍事委員会の任務に行き当たりばったりな
+パトロールばかりが増える訳よ……
+戦略的価値のない地区にも派遣されたりしたし。", "エミリオ")
 	novel_interface.change_expression("normal")
-	await novel_interface.show_dialog("你的能力是可以放大别人的能力？", "艾米莉欧")
+	await novel_interface.show_dialog("あなたの能力は、他の人の能力を増幅する事？", "エミリオ")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("我点了点头，这应该不算说谎吧……")
+	await novel_interface.show_text_only("俺は軽く頷いた。　一応、嘘ではないから。")
 	novel_interface.show_character("emilio","normal")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.show_2nd_character("ren_medical","gratified",0.25)
-	await novel_interface.show_dialog("不过我也是第一次见到像你这么夸张的……", "小怜")
+	await novel_interface.show_dialog("だけど、ここまで激しい反応は俺も初めてだよ。", "レン")
 	novel_interface.change_2nd_expression("bored")
-	await novel_interface.show_dialog("刚才那一下，我的内脏都在颤抖，身体好像快要散架了。", "小怜")
+	await novel_interface.show_dialog("内臓全部が抉られるかのように震えて、
+身体がバラバラに砕けそうな感じだった。", "レン")
 	novel_interface.character_light(0.35,"speechless")
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("可现在就算我接触你，也没什么特别的感觉。", "艾米莉欧")
+	await novel_interface.show_dialog("そう言われてもねぇ、今は特に何も起きないし。", "エミリオ")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("她左手拉着我的手腕，右手在半空挥了两下。")
+	await novel_interface.show_text_only("左手で俺の腕を引っ張りながら、右手を空中に
+振り回す。
+だけど本当に何も起こらないため、
+彼女はおどけた表情を見せた。")
 	novel_interface.show_character("emilio","speechless")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.character_light()
 	novel_interface.show_2nd_character("ren_medical","bored",0.25)
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("唉算了，不如聊聊你吧~", "艾米莉欧")
+	await novel_interface.show_dialog("過ぎた事は後で考えるとして……
+
+ねぇ、私はあなたについても知りたいなぁ？", "エミリオ")
 	novel_interface.change_expression("mock")
-	await novel_interface.show_dialog("你还有什么特别的地方？\n保密的事情不用讲~", "艾米莉欧")
+	await novel_interface.show_dialog("何か他の特別な事とかない？
+あっ、機密事項以外で大丈夫だから！", "エミリオ")
 	novel_interface.character_dark()
 	novel_interface.character_2nd_light(0.35,"wry_smile")
-	await novel_interface.show_dialog("我、我没什么啊……", "小怜")
+	await novel_interface.show_dialog("べ、別に、他には何もないさ……", "レン")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("我几个月前还是男生这种事一定要保密！！")
+	await novel_interface.show_text_only("す、数か月前まで男性だった事は絶対秘密！！")
 	novel_interface.show_character("emilio","mock")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.character_light()
 	novel_interface.show_2nd_character("ren_medical","wry_smile",0.25)
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("哦——？", "艾米莉欧")
+	await novel_interface.show_dialog("ほほぉ～～？", "エミリオ")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("她凑近我仔细打量一番，不禁叹了口气。")
+	await novel_interface.show_text_only("彼女は興味津々に見つめながら近寄って来る。
+
+か、彼女には心を読まれてしまうから、
+このままだと……")
 	novel_interface.show_character("emilio","normal")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.character_light()
 	novel_interface.show_2nd_character("ren_medical","bored",0.25)
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("你身上的漏洞实在太多，反而没法判断了……", "艾米莉欧")
+	await novel_interface.show_dialog("………………………………………………………
+
+……もはや隙が多すぎて、逆に判断しづらいわ。", "エミリオ")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("漏洞至于这么多吗？！")
+	await novel_interface.show_text_only("そこまで言われるの！？")
 	novel_interface.show_character("ren_medical","shy")
-	await novel_interface.show_dialog("你、你看出什么了……", "小怜")
+	await novel_interface.show_dialog("じ、ジロジロ見ないでくれよ……", "レン")
 	await novel_interface.hide_character()
 	novel_interface.show_character("emilio","smile")
-	await novel_interface.show_dialog("你性格缺乏自信，但又很独立，估计是在社会抚养系统里长大的吧~", "艾米莉欧")
-	await novel_interface.show_dialog("新丰洲的福利真不错……", "艾米莉欧")
+	await novel_interface.show_dialog("ん―……自信のない性格だけど独立的な思考を
+持っている。
+社会的な扶養システムで育ったんでしょ？", "エミリオ")
+	await novel_interface.show_dialog("新豊洲の福利厚生は流石ね。", "エミリオ")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("这方面我确实没什么好抱怨的，尤其是和马萨达比起来。")
+	await novel_interface.show_text_only("そこに関しては同意だ。特にマサダと比べると。")
 	novel_interface.show_character("emilio","smile")
-	await novel_interface.show_dialog("从说话方式和行为举止看来，你从小到大的玩伴应该主要是男生，而且对方显然没把你当女孩子。", "艾米莉欧")
+	await novel_interface.show_dialog("小さい頃は男の子と一緒に遊んでいたの？
+
+異性なんて意識は無かった感じかしら？", "エミリオ")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("因为老子本来就是男生！")
+	await novel_interface.show_text_only("いや同性だから！")
 	novel_interface.show_character("emilio","mock")
-	await novel_interface.show_dialog("这也太奇怪了吧？\n你的脸蛋明明这么可爱，又毫无防备心——", "艾米莉欧")
+	await novel_interface.show_dialog("仕草も喋り方も男の子のが伝染っちゃった
+としか思えないわ。
+こんなに無防備で可愛いのに……
+告白された経験はないの？", "エミリオ")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("她瞄了一眼我大咧咧岔开的坐姿，我立马满脸通红的并拢了双腿。")
+	await novel_interface.show_text_only("彼女の視線を感じると、足を開いたまま
+座ってしまっている事に気付いた。
+俺は真っ赤になりながらも足を閉じる。")
 	novel_interface.show_character("emilio","smile")
-	await novel_interface.show_dialog("那帮傻小子是瞎了吗？", "艾米莉欧")
+	await novel_interface.show_dialog("あなたの傍にいた男の子達の目は節穴ね～～", "エミリオ")
 	novel_interface.change_expression("mock")
-	await novel_interface.show_dialog("还是说……你男朋友很厉害？", "艾米莉欧")
+	await novel_interface.show_dialog("それとも……既に心に決めている彼氏がいたり？", "エミリオ")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("永远都不会有的谢谢！！")
+	await novel_interface.show_text_only("そんなモノは永遠にない！！")
 	novel_interface.show_character("emilio","mock")
 	novel_interface.character_move_left(-0.25)
 	novel_interface.show_2nd_character("ren_medical","shy_right",0.25)
-	await novel_interface.show_dialog("你别乱猜了啦！！", "小怜")
+	await novel_interface.show_dialog("うう……当てずっぽうな事を言うのは、
+もう止めてくれよ……", "レン")
 	novel_interface.character_light(0.35,"smile")
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("也不对，或者你喜欢的……不是男生？", "艾米莉欧")
+	await novel_interface.show_dialog("それが違うなら、もしかして好きなのは……
+
+……男性じゃないとか？", "エミリオ")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("她表情玩味的用胳膊肘捅了捅我，我浑身一激灵。")
+	await novel_interface.show_text_only("意味深な表情をするエミリオに肘で
+小突かれる俺。
+──冷や汗が身体から溢れる。")
 	novel_interface.show_character("emilio","smile")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.show_2nd_character("ren_medical","wail",0.25)
-	await novel_interface.show_dialog("（这要我怎么回答啊！！）", "小怜")
+	await novel_interface.show_dialog("（ど、どう答えれば良いんだよッ！！）", "レン")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("我故作生气的望向远方的沙漠，回避着她的目光。")
+	await novel_interface.show_text_only("俺は怒ったフリをしながら顔を砂漠へと向けて、
+彼女の目線から逃がれる。")
 	novel_interface.show_character("emilio","smile")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.character_light()
 	novel_interface.show_2nd_character("ren_medical","wail",0.25)
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("好啦好啦，其实我和你差不多……", "艾米莉欧")
+	await novel_interface.show_dialog("あははっ、これくらいにしましょうか。
+
+あなたと似たような部分があるから、
+本当は私が茶化せる立場じゃないし。", "エミリオ")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("艾米莉欧抬头看着天上缓缓移动的橘色云彩。")
-	await novel_interface.show_text_only("差不多？等等，你指哪方面……")
+	await novel_interface.show_text_only("俺の態度にエミリオは笑うと、緩やかに移動する
+オレンジ色の雲へ視線を向けた。")
+	await novel_interface.show_text_only("え、待ってくれよ、似ているってどこが……？")
 	novel_interface.show_character("emilio","smile")
-	await novel_interface.show_dialog("其实我的祖父……曾经是这个国家的大人物，不过都是过去的事了~", "艾米莉欧")
+	await novel_interface.show_dialog("私のお祖父さん、この国の偉い人だったのよ。
+
+まぁ、昔の話だけど。", "エミリオ")
 	novel_interface.change_expression("worry")
-	await novel_interface.show_dialog("后来很多人把圣城的毁灭归咎于他的政党对周边国家采取的绥靖政策，连他本人一起赶下了台。", "艾米莉欧")
+	await novel_interface.show_dialog("「聖城」の滅びた元凶はお祖父さんの政党が
+周辺国家に対して、
+宥和政策ばかり取っていたからだって……
+
+既に彼は政治の舞台から追い出されているわ。", "エミリオ")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ren_medical","worry")
-	await novel_interface.show_dialog("诶？", "小怜")
+	await novel_interface.show_dialog("えっ？", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("艾米莉欧做出了完全超出我预料的发言。")
+	await novel_interface.show_text_only("エミリオの話は、俺の予想を遥かに超えていた。")
 	novel_interface.show_character("emilio","worry")
-	await novel_interface.show_dialog("我父亲虽然是家里的长子，但从小就和祖父的关系不好。", "艾米莉欧")
-	await novel_interface.show_dialog("后来他娶了异族的女人——就是我母亲，祖父大动肝火的把他们一起赶出了家。", "艾米莉欧")
-	await novel_interface.show_dialog("所以我六岁前一直在妈妈和外婆的聚落生活，就在埃尔比勒附近……", "艾米莉欧")
-	await novel_interface.show_dialog("后来抵抗军四处流窜，马萨达要求聚落必须整体迁移到“保护区”，否则一概视为恐怖分子。", "艾米莉欧")
+	await novel_interface.show_dialog("お父さんは長男に当たるんだけど、小さい頃から
+お祖父さんと仲が悪かった。", "エミリオ")
+	await novel_interface.show_dialog("果てにお父さんが異族の女性と結婚した時、
+お祖父さんは怒り心頭だったらしくて。
+そのまま勘当されちゃったみたい。", "エミリオ")
+	await novel_interface.show_dialog("私は6歳になるまでお母さんとお祖母ちゃんの
+集落で暮らしていたわ。
+アルビールの周辺だったかしら。", "エミリオ")
+	await novel_interface.show_dialog("丁度そのぐらいに「保護区」へ転居する政策が
+行われたのよね。
+レジスタンスを撃破する為だったらしいけど、
+従わない者は全員レジスタンスだとか言われて。", "エミリオ")
 	novel_interface.change_expression("upset")
-	await novel_interface.show_dialog("但那次迁移路途遥远，国防军发放的物资和载具根本不够，半路又被土匪抢走了一大半的粮食——", "艾米莉欧")
-	await novel_interface.show_dialog("结果一万多人有三分之一死在了路上，其中也包括我的父母。", "艾米莉欧")
+	await novel_interface.show_dialog("引っ越しするにしても保護区までは遠いし……
+
+国防軍から支給される補給物資も乗り物も
+全然足りなかったし、
+挙句には遭遇した強盗に食料の大半が
+奪われちゃったから……", "エミリオ")
+	await novel_interface.show_dialog("沢山の人が命を落としたわ。私の両親も含めて。", "エミリオ")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ren_medical","perspire1")
-	await novel_interface.show_dialog("啊……\n（原来她说“和我一样”是这个意思……）", "小怜")
+	await novel_interface.show_dialog("そう…なのか……
+
+（似ているって意味はそう言う事か……）", "レン")
 	novel_interface.change_expression("worry")
-	await novel_interface.show_dialog("那、那你后来——", "小怜")
+	await novel_interface.show_dialog("じゃ、じゃあ君はその後──", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("艾米莉欧笑着摇了摇头，继续说道。")
+	await novel_interface.show_text_only("エミリオは笑顔のまま頭を振って言葉を続ける。")
 	novel_interface.show_character("emilio","smile")
-	await novel_interface.show_dialog("后来到了新的定居点，聚落里的老人联系到了马萨达的官员。", "艾米莉欧")
-	await novel_interface.show_dialog("我还记得第一次被领到祖父面前的时候，他的表情迅速从期待变成了失望。", "艾米莉欧")
+	await novel_interface.show_dialog("やっと保護区にたどり着いたのも束の間、
+そこの老人達がマサダの役人へ連絡したの。", "エミリオ")
+	await novel_interface.show_dialog("お祖父さんの元へ連行されたあの時の光景は
+今でも鮮明に覚えてるわ。
+彼の期待から失望に変化する表情を……", "エミリオ")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ren_medical","panic")
-	await novel_interface.show_dialog("……失望？", "小怜")
+	await novel_interface.show_dialog("……失望？", "レン")
 	await novel_interface.hide_character()
 	novel_interface.show_character("emilio","smile")
-	await novel_interface.show_dialog("他一直希望自己的后人能够重回政界，大概是对家族名誉之类的执念吧……", "艾米莉欧")
-	await novel_interface.show_dialog("甚至还动用关系改了我的出生证明，把我的生母换成了别人。", "艾米莉欧")
-	await novel_interface.show_dialog("父亲就是不想背负这些东西才和他闹僵的。", "艾米莉欧")
-	await novel_interface.show_dialog("不过倒是帮了我，不然我连军校的审核都过不了。", "艾米莉欧")
+	await novel_interface.show_dialog("お祖父さんは自分の子孫が政界へ入る事を
+強く望んでいるの。
+何より家名が大切なのかしらね？", "エミリオ")
+	await novel_interface.show_dialog("少なくともコネで私の出生証明書を改竄して、
+母を別人に仕立て上げてしまうほど、
+それぐらいに固執しているわ。", "エミリオ")
+	await novel_interface.show_dialog("元々お父さんとお祖父さんの喧嘩は、
+「意志」を背負うかどうかの話。", "エミリオ")
+	await novel_interface.show_dialog("とは言え、私が軍学校に入学できたのは
+お祖父さんのお陰だけど。", "エミリオ")
 	novel_interface.character_move_left(-0.25)
 	novel_interface.show_2nd_character("ren_medical","panic",0.25)
-	await novel_interface.show_dialog("那他有什么好失望的，那时你才六岁吧。", "小怜")
+	await novel_interface.show_dialog("その時ってまだ6歳だろ？
+
+何に対して失望するんだよ？", "レン")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("她指了指自己的眼睛，向我示意左金右蓝的瞳孔。")
+	await novel_interface.show_text_only("──彼女は自分の目を指さした。
+
+金色の瞳と青色の瞳を。")
 	novel_interface.show_character("emilio","smile")
-	await novel_interface.show_dialog("这个标志太过显眼了，不可能从政的。", "艾米莉欧")
+	await novel_interface.show_dialog("このレッテルは余りにも目立ち過ぎる。
+私が政治に参加する事は決して許されない。", "エミリオ")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ren_medical","sprite")
-	await novel_interface.show_dialog("这有什么关系吗？", "小怜")
+	await novel_interface.show_dialog("何の関係あるの？", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("异色瞳不是很好的萌属性吗！？\n我代表新丰洲的电器街给你投票！")
+	await novel_interface.show_text_only("寧ろオッドアイとか最高の要素じゃない？
+新豊洲の電気街を代表して君に1票入れよう。")
 	novel_interface.show_character("emilio","smile")
-	await novel_interface.show_dialog("我小时候也不懂，但后来逐渐明白了。", "艾米莉欧")
+	await novel_interface.show_dialog("小さい頃の私も理解できなかったけど、
+分かってしまえば結構シンプルな事よ。", "エミリオ")
 	novel_interface.change_expression("normal")
-	await novel_interface.show_dialog("比如有些位高权重的政治家，为了表明自己不搞权力世袭，会特意给子女起一些奇怪的名字。", "艾米莉欧")
-	await novel_interface.show_dialog("用水果或动物的名字和叫声，配合不常见的谐音或叠字……", "艾米莉欧")
+	await novel_interface.show_dialog("権力を世襲させる意図がない事を証明するため、
+子供に変な名前を付ける権力者がいたりするの。", "エミリオ")
+	await novel_interface.show_dialog("果物の名称や動物の鳴き声をベースに
+名付けられた子供はどうなると思う？", "エミリオ")
 	novel_interface.change_expression("smile")
-	await novel_interface.show_dialog("你能想象名字叫呱呱或桃子的人当选议长吗？", "艾米莉欧")
+	await novel_interface.show_dialog("ゲコゲコ君という人が議長として当選したら、
+ニュースとか新聞は……", "エミリオ")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ren_medical","wry_smile")
-	await novel_interface.show_dialog("噗——\n好像被你这么一说……", "小怜")
+	await novel_interface.show_dialog("ぷっ――
+た、確かに酷い字面になっちゃうっ。", "レン")
 	await novel_interface.hide_character()
 	novel_interface.show_character("emilio","smile")
-	await novel_interface.show_dialog("施恩内曼总理很早之前就承诺，自己卸任之后会恢复选举。", "艾米莉欧")
-	await novel_interface.show_dialog("选举是极致的标签化运动，一个太过显眼的标志足以盖掉所有标签~", "艾米莉欧")
+	await novel_interface.show_dialog("シャイネルマン首相は自分が退任した際に
+選挙を再開すると約束したわ。", "エミリオ")
+	await novel_interface.show_dialog("選挙って「レッテル貼り」の極致だと思う。
+
+どんなに功績や貢献を上げても目立つレッテルの
+たった1つで全てが覆される。", "エミリオ")
 	novel_interface.change_expression("mock")
-	await novel_interface.show_dialog("不过无所谓，我才没兴趣讨好一群白痴。", "艾米莉欧")
+	await novel_interface.show_dialog("私は愚かな有権者様に媚びへつらうつもりは
+ないけどね……", "エミリオ")
 	await novel_interface.hide_character()
 	novel_interface.show_character("valkyrja","happy")
-	await novel_interface.show_dialog("呼~~你俩聊什么呢？", "薇拉")
+	await novel_interface.show_dialog("……選挙だの有権者だのって、何の話をこいつに
+してるんだ？", "ヴィラ")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("薇拉拎着一堆电子元器件的线头从后面走了过来。")
+	await novel_interface.show_text_only("電子機器から抜き取ったと思われる電気コードを
+両手一杯に持ったヴィラが、
+トラックの後ろから姿を現した。")
 	novel_interface.show_character("emilio","smile")
-	await novel_interface.show_dialog("都清理干净了？", "艾米莉欧")
+	await novel_interface.show_dialog("掃除は終わった？", "エミリオ")
 	await novel_interface.hide_character()
 	novel_interface.show_character("valkyrja","wink")
-	await novel_interface.show_dialog("没问题，每个货箱的追踪装置都拆下来了，这些物资全都“洗”干净了。", "薇拉")
+	await novel_interface.show_dialog("ああ、物資箱の追跡装置は全て取り外した。
+今ここにあるのは「クリーン」な物資だけだ。", "ヴィラ")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("薇拉边说边把那些追踪装置包好，挂在一架提前磨掉了编号的无人机上。")
-	await novel_interface.show_text_only("我们看着那架无人机按设定好的巡航路线，顺着公路一直飞向了远方的夕阳……")
-	await novel_interface.show_text_only("艾米莉欧从保险杠跳下来，掸了掸手。")
+	await novel_interface.show_text_only("ヴィラは話しながら追跡装置を1機のドローンに
+ぶら下げる。
+ドローンに書かれていた番号は事前に
+削ったようだ。")
+	await novel_interface.show_text_only("俺達の見送る中、設定された通りにドローンは
+夕陽へと飛んでいく。")
+	await novel_interface.show_text_only("……エミリオは両手に付いたホコリを叩きながら
+ボンネットから飛び降りた。")
 	novel_interface.show_character("emilio","mock")
-	await novel_interface.show_dialog("好，咱们回家。", "艾米莉欧")
+	await novel_interface.show_dialog("──よし、私達も帰りましょうか。", "エミリオ")
 
 	print("=== 星尘降临篇第14话结束 ===")
 

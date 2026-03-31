@@ -13,411 +13,844 @@ func play_script():
 func stardustdescends_ep18_script():
 	novel_interface.change_music("res://assets/audio/music/Sewer.mp3")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_Psychology.png")
-	await novel_interface.show_text_only("每个人都体验过内心的痛苦——那感觉是如此的真切、沉重、让人心焦、难以承受。")
-	await novel_interface.show_text_only("然而很少有人知道，人类心理上的痛苦大多是后天习得的。")
-	await novel_interface.show_text_only("吃个鸡腿就能幸福一整天的小孩，无法理解在社交网络上被同学排斥和孤立的痛苦。")
-	await novel_interface.show_text_only("无论你苦于无法融入团体、苦于不被周遭认同、还是苦于不能成为想象中的角色……")
-	await novel_interface.show_text_only("这些痛苦全都构建在复杂的概念之上，是大量后天所习得的意义堆砌而出的副产品。")
+	await novel_interface.show_text_only("心の痛みを経験するのは誰もが通る道だ。
+
+重くて、焦らされて、抉られて、耐え難くて。")
+	await novel_interface.show_text_only("だが、あなたは知っているだろうか？
+
+人間の心理的苦痛はほとんどが後天的に
+習得されるものだと。")
+	await novel_interface.show_text_only("食事を満足にできるだけでも幸せだと感じる
+子供達がいたとして。
+彼らがSNSで同級生から仲間外れにされる
+孤独の苦痛を理解できるはずもない。")
+	await novel_interface.show_text_only("仲間に溶け込めない、周囲に認めてもらえない、
+想像している自分になれない……")
+	await novel_interface.show_text_only("以上のような苦痛は全て複雑な概念の根元に
+建てられたものであり、
+後天的に習得した意味が重なり合った結果から
+生み出された副産物に過ぎないのだ。")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_Camus.png")
-	await novel_interface.show_text_only("加缪说，人类的荒诞之处在于，永远要在无意义的宇宙中不停寻找意义。")
-	await novel_interface.show_text_only("在意义的枷锁中，没人能够获得真正的自由。")
-	await novel_interface.show_text_only("人类文明无法脱离意义，它是各个时代社会体系的基石。")
-	await novel_interface.show_text_only("宗族的意义、国家的意义、主君的意义、宗教的意义、乃至民族认同、意识形态和流行文化……")
-	await novel_interface.show_text_only("当你被灌输了一套意义系统，就会自然而然的形成各种观念，在脑内构造出价值阶梯——")
-	await novel_interface.show_text_only("什么值得嘉奖和晋升，什么需要唾弃和贬斥，怎样是幸福和光荣，怎样该痛苦和羞愧……")
-	await novel_interface.show_text_only("改朝换代时有人痛苦到自杀，偶像结婚时也有人痛苦到自杀，二者的痛苦并无真伪之分。")
-	await novel_interface.show_text_only("但如果你头脑够灵光，或许能偶尔的挣脱枷锁，独自出去放放风。")
-	await novel_interface.show_text_only("然后再次回到群体中，继续假装挂上镣铐，歌颂大家共同歌颂的，鄙视大家共同鄙视的。")
+	await novel_interface.show_text_only("──アルベール・カミュは著作で語った。
+
+人間はたとえ「無意味」な宇宙の中であっても
+「意味」を永遠に探し続ける。
+その行為こそが人間の不条理な部分であると。")
+	await novel_interface.show_text_only("本当の自由は「意味」という枷がある限り
+如何にしても手に入らない。")
+	await novel_interface.show_text_only("「意味」から離れるなど人類の文明には不可能。
+
+何故なら「意味」は各時代を通して見ても
+社会体系の基礎であるから。")
+	await novel_interface.show_text_only("家筋の意味、国の意味、君主の意味、宗教の意味
+国民意識、思想形態、大衆文化まで。")
+	await novel_interface.show_text_only("「意味」の体系が脳内に刻まれた人間は
+自然に様々な概念を形成してしまい、
+価値観の階段を作り上げてしまう──")
+	await novel_interface.show_text_only("称賛に値すべきもの、唾棄すべきもの、
+幸福と栄光、苦痛と羞恥。")
+	await novel_interface.show_text_only("政権交代が苦痛のあまりに自殺する者もいれば、
+アイドルの結婚を知って自殺する者もいる。
+2つの苦痛を馬鹿らしいと思うのか。
+
+それとも共感できると思うのか。")
+	await novel_interface.show_text_only("あなたが本当に賢い人間であるのならば、
+枷を外せる機会が訪れるかもしれない。
+その時は籠の外へと一人だけ飛び出して
+自由に散歩する事ができる。")
+	await novel_interface.show_text_only("だけど、ひとしきり自由を堪能した後は
+枷の付いているフリをするだろう。
+そして籠の中にいた時と同じ素振りで、
+皆の賞賛や卑しめに同調する。")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_Prisoner.png")
-	await novel_interface.show_text_only("因为聪明的你一定已经意识到：人类不仅是意义的囚徒，还会自愿成为它的狱卒。")
+	await novel_interface.show_text_only("どうしてそうなるのか？
+賢いあなたなら気付いているはず。
+人間は単なる「意味」の囚人に留まらない。
+
+自ら望んで「意味」の牢番をしているのが、
+人間であるのだ。")
 	await novel_interface.hide_background()
+	await novel_interface.show_text_only("……………………")
 	await novel_interface.show_text_only("…………")
-	await novel_interface.show_text_only("……")
 	novel_interface.show_background("res://assets/images/bg/Stardust/BG_Stardust_ConventionCentre.png")
-	await novel_interface.show_text_only("马萨达国际会展中心，签字仪式开场前。")
-	await novel_interface.show_text_only("大厅中，上百家媒体的记者已经就位，各种闪光灯和摄影摄像器材随时准备记录这历史性的一刻。")
-	await novel_interface.show_text_only("而主席台背面，厚重的蓝色幕布将外面人声鼎沸的大厅和后台全隔绝开来。")
-	await novel_interface.show_text_only("顶棚桁架上一排排崭新的专业照明设备，此时全都处于低亮度待机模式。")
-	await novel_interface.show_text_only("墙壁包裹的隔音板和幕布上的隔音涂层，让这里安静得有些诡异。")
-	await novel_interface.show_text_only("身着沙漠迷彩作训服的军官看到穿着灰色西服的男人从幕帘后的通道走来，立刻挺直腰板敬礼。")
-	await novel_interface.show_text_only("军官迷彩服领章上的军衔和金色六芒星标志着这是一位国防军少校。")
-	await novel_interface.show_text_only("而他将要汇报的对象，正是今天马萨达方面的签约代表——国防军北方司令部陆军少将哈蒙。")
-	await novel_interface.show_dialog("报告少将，我来做关于刚才袭击的简报。", "少校")
-	await novel_interface.show_text_only("少将的身材有些发福，但头发梳得一丝不苟，目光依然保持着军人特有的犀利。")
-	await novel_interface.show_text_only("他边走边不耐烦的解下领带，和手中黑色皮革底面的平板电脑夹在一起。")
+	await novel_interface.show_text_only("──マサダ国際会議場
+
+──開催前の調印式会場")
+	await novel_interface.show_text_only("現場には数百社の記者達が詰め寄せていた。
+
+間もなく来たるであろう歴史的瞬間を収めようと
+撮影機器をチェックしながら待機している。")
+	await novel_interface.show_text_only("照明の群が緊張感を掻き立てるかのように、
+薄暗く光る中で、
+壇上の後ろに掛かっている青いカーテンへ向けて
+今か今かと熱い視線を注いでいる様子だ。")
+	await novel_interface.show_text_only("視線が青いカーテンに集中している理由は
+後ろに控え室が設置されているからだろう。
+その控え室には本日の主役とも言える人物が
+待機している。")
+	await novel_interface.show_text_only("壁を包む遮音板とカーテンの防音加工により、
+粛然とした空気が漂う控え室。")
+	await novel_interface.show_text_only("静寂な空間を尻目に灰色のスーツを着た男が
+通路へと歩き出した。
+向こう側に立っている砂漠仕様の迷彩服を着た
+軍官に用事があるようだ。")
+	await novel_interface.show_text_only("小太りな体付きであるが整った髪型をしており
+眼光は殺気を感じる程に鋭い。")
+	await novel_interface.show_text_only("神妙な面持ちで敬礼を向ける軍官に対して
+軽く頷く様は見るからに威厳が伺える。
+それもそのはず、彼こそが記者達の目的であり
+歴史的瞬間の立役者になろう人物──
+調印式のマサダ側代表である国防軍北方司令、
+ハモン陸軍少将その人であった。")
+	await novel_interface.show_dialog("……少将、おはようございます。
+先ほどの襲撃に関して報告いたします。", "少佐")
+	await novel_interface.show_text_only("軍官は少将の顔色を確認してから恐る恐る
+話し始めた。
+迷彩服に刺繍されてある襟章から見て
+彼の階級は少佐。
+金色の六芒星をシンボルとしている事から
+マサダ国防軍の所属である事が分かる。")
+	await novel_interface.show_text_only("少将は苛立ちを見せながらネクタイを外すと、
+手にある黒革カバーのタブレットに挟み込んだ。")
 	novel_interface.show_character("hamon","serious")
-	await novel_interface.show_dialog("这东西真戴不惯……", "哈蒙")
-	await novel_interface.show_dialog("你说吧。", "哈蒙")
+	await novel_interface.show_dialog("こいつにはどうも慣れないな……", "ハモン")
+	await novel_interface.show_dialog("まあ、報告を聞こうではないか。", "ハモン")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("是关于30分钟前，会展中心西南方爆炸事件的调查报告。", "少校")
-	await novel_interface.show_dialog("爆炸物处理小队根据现场痕迹判断，那是以砂糖为主要原料的IED（简易爆炸装置）。", "少校")
+	await novel_interface.show_dialog("およそ30分前に起きた会議場南西方向の
+爆発についてですが……", "少佐")
+	await novel_interface.show_dialog("主に砂糖を材料としたIED（即製爆発装置）に
+よるものだったと判明しました。", "少佐")
 	novel_interface.show_character("hamon","serious")
-	await novel_interface.show_dialog("……砂糖做的土制炸弹？", "哈蒙")
+	await novel_interface.show_dialog("……シュガーボムだったのか。", "ハモン")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("对，但爆炸烈度不大，没有造成人员伤亡，炸药似乎加入了能强化烟雾的添加物。", "少校")
-	await novel_interface.show_dialog("烟雾在第一时间被我们扑灭了，警卫团现已将周围区域戒严，目前没有媒体报导此事。", "少校")
-	await novel_interface.show_dialog("附近街道的监控录像暂未发现疑犯踪迹，现正扩大搜查范围，报告完毕。", "少校")
+	await novel_interface.show_dialog("煙が大量発生するように作成されていただけで
+威力自体は低い代物でした。
+死傷者は言うまでも無く0人です。", "少佐")
+	await novel_interface.show_dialog("すぐさま現場に急行して人員を配置、
+既に煙の対処は終わっております。
+本件についてのメディアによる報道も
+今のところ行われておりません。", "少佐")
+	await novel_interface.show_dialog("容疑者の足取りは現在捜査範囲を拡大して
+追っております。
+しかし周辺道路の監視映像などを調査しても、
+痕跡などは残されておらず、
+未だ発見までに至っていない状態です。
+
+──以上が報告となります。", "少佐")
 	novel_interface.show_character("hamon","serious")
-	await novel_interface.show_dialog("……就这些？", "哈蒙")
+	await novel_interface.show_dialog("……………………
+
+……以上が報告だと？", "ハモン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("哈蒙盯着少校的眼睛，半晌没有说话，少校不敢言语，只得笔直的站在原地。")
-	await novel_interface.show_text_only("哈蒙哼了一声，不满的将手中的平板电脑拍向了少校的胸口——")
+	await novel_interface.show_text_only("言葉を最後まで聞いたハモンは少佐の眼を
+真っ直ぐと睨み付ける。
+恐怖のあまり少佐は口が開かなくなり、
+その場に立ち尽くす事しかできない。")
+	await novel_interface.show_text_only("「ふんっ」の不満そうな声と共に、
+ハモンは少佐の胸へタブレットを押し付けた。")
 	novel_interface.show_character("hamon","speak")
-	await novel_interface.show_dialog("你自己看吧！", "哈蒙")
+	await novel_interface.show_dialog("自分の目で確かめてみろッ！", "ハモン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("少校被拍得向后一个趔趄，赶紧扶稳平板，屏幕上赫然显示着『摩诺拉』标志性的七灯烛台LOGO。")
+	await novel_interface.show_text_only("バランスを崩しながらも慌ててタブレットを
+手に取る少佐。
+画面には『マノ―ラ』の象徴となる7つの燭台の
+ロゴマークが表示されていた。")
 	novel_interface.show_character("hamon","serious")
-	await novel_interface.show_dialog("这是他们几分钟前发来的。", "哈蒙")
-	await novel_interface.show_dialog("摩诺拉发现三个形迹可疑的人混进了地下停车场。", "哈蒙")
-	await novel_interface.show_dialog("其中两个潜入了电梯井，意图破坏大厦消防系统。", "哈蒙")
-	await novel_interface.show_dialog("还好他们的特工及时出手，抓了一个，还有两个跑了，其中一人在逃走时被子弹擦伤。", "哈蒙")
+	await novel_interface.show_dialog("……数分前に送られてきた情報だ。", "ハモン")
+	await novel_interface.show_dialog("地下駐車場に3人の不審者が潜入していたのを
+彼奴ら『マノ―ラ』が発見した。", "ハモン")
+	await novel_interface.show_dialog("その内の2人がエレベーターシャフトへ潜入して、
+ビルの消防システムの破壊を謀ったのだ。", "ハモン")
+	await novel_interface.show_dialog("彼奴らのエージェントが1名の拘束に成功し、
+無傷の1名と負傷状態の1名は逃走中。
+今も全力で捜索に当たっている。", "ハモン")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("……电梯井！？\n有、有人潜入会场了？", "少校")
-	await novel_interface.show_text_only("少校快速翻阅着报告，脑袋顿时嗡的一下——")
-	await novel_interface.show_text_only("难道刚才那次爆炸，是转移注意力……")
-	await novel_interface.show_text_only("由于地表的停车场被守备部队和军用车辆占用，媒体运载设备的厢型车全都停在会展中心地下。")
-	await novel_interface.show_text_only("那么地下停车场确实是最容易被渗透的区域。")
-	await novel_interface.show_text_only("虽然军情局对大厦的各个角落都有严密布控，但电梯轿厢底部却是监控死角。")
-	await novel_interface.show_text_only("看到自己布置的防线被轻易攻破，少校的额头上立刻渗出了汗珠。")
+	await novel_interface.show_dialog("エ、エレベーターシャフトですって！？
+
+この会議場に潜入した者がいたなんて……", "少佐")
+	await novel_interface.show_text_only("──ハッと少佐は気付く。")
+	await novel_interface.show_text_only("まさか爆発は我々の注意を逸らすための
+囮だったのか……？")
+	await novel_interface.show_text_only("地上の駐車場は守備部隊と軍用車両が
+占有しているため、
+メディア設備の運搬用車両などは全て
+会議場の地下に止まっている。")
+	await novel_interface.show_text_only("内部へと潜入するならば、確かに地下駐車場が
+最適な入口であろう。")
+	await novel_interface.show_text_only("軍事情報局では会議場内のありとあらゆる場所に
+監視網を敷いていた。
+しかしエレベーターの底下は流石に死角である。")
+	await novel_interface.show_text_only("自らが手配した防衛網が容易く破られた事実に
+少佐は身体中から冷や汗を噴き出す。")
 	novel_interface.show_character("hamon","speak")
-	await novel_interface.show_dialog("会场守备方面，军情局不是给我打过包票吗？", "哈蒙")
+	await novel_interface.show_dialog("貴様ら情報局は会議場の警備を自信満々に
+請け負ったのだよな？", "ハモン")
 	novel_interface.change_expression("shout")
-	await novel_interface.show_dialog("我特意把摩诺拉的人支开让他们去外围警戒，你就这么给我露脸？！", "哈蒙")
+	await novel_interface.show_dialog("わざわざマノ―ラを外部警備へと回したのに、
+俺の面子を潰すつもりか！？", "ハモン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("想到幕帘后的大厅坐满了记者，哈蒙刻意压低了斥责的声音。")
-	await novel_interface.show_dialog("这个……\n是、是我失职！", "少校")
-	await novel_interface.show_dialog("可摩诺拉的特工不都在会展中心外围吗？\n怎么会出现在大厦里……", "少校")
-	await novel_interface.show_text_only("哈蒙微微摇头，拍了拍少校的肩膀。")
+	await novel_interface.show_text_only("カーテンを挟んだ先に記者がいる事を考慮して、
+音量を控えつつハモンは怒鳴った。")
+	await novel_interface.show_dialog("こ、これは……申し訳ございません！
+
+私めの失態であります！", "少佐")
+	await novel_interface.show_dialog("し、しかしマノ―ラのエージェントは会議場の
+外に配置されていたはずでは……
+何故ビルの中の出来事を……？", "少佐")
+	await novel_interface.show_text_only("ハモンは頭を横に振りながら少佐の肩を叩く。")
 	novel_interface.show_character("hamon","serious")
-	await novel_interface.show_dialog("外面那些记者，谁知道有多少他们的人呢……", "哈蒙")
+	await novel_interface.show_dialog("あの記者連中の内にもマノ―ラの者が
+潜んでいるのだろうな……", "ハモン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("他当然明白，自己这几年从军队系统内部培养出的军情局，是无法和摩诺拉这种怪物相比的。")
+	await novel_interface.show_text_only("ハモンは分かっていた。
+
+軍内部より数年間をかけて育て上げた組織でも
+マノ―ラの足元には及ばない事を。")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_Speech.png")
-	await novel_interface.show_text_only("“他们是这个国家的神经系统，要能对任何危险做出最快速的反应。”")
-	await novel_interface.show_text_only("“当有人向你射来一支箭，若需要大脑思考一下再去躲避，那只会中箭而亡。”")
-	await novel_interface.show_text_only("哈蒙的叔父，施恩内曼总理曾对议会如此解释摩诺拉为何有毫无制约的最高行动权。")
-	await novel_interface.show_text_only("但哈蒙无法容忍全部情报都掌握在这样一个自己无法控制的机构手中。")
+	await novel_interface.show_text_only("「彼らはこの国の神経であり細胞である。
+　危険に対して常に最速で反応せしめる組織だ」")
+	await novel_interface.show_text_only("「飛んできた敵の矢を反射的に躱せなければ
+　矢が当たって死ぬだけであろう」
+「矢を躱すには彼らが必要であると知れ」")
+	await novel_interface.show_text_only("制約無しの最高行動権をマノ―ラが持つ理由を
+議会へ説明する際、
+ハモンの叔父であるシャイネルマン首相が
+度々口にしていた台詞だ。")
+	await novel_interface.show_text_only("しかしハモンは納得していない。
+
+自分が制御出来ない組織が全ての情報を
+保有している現状に。")
 	await novel_interface.hide_background()
-	await novel_interface.show_text_only("信息即权力，是他这几十年来积累的战斗经验——不论是对内还是对外的战争。")
+	await novel_interface.show_text_only("情報を渡すのは権力を渡すにも等しい。
+
+これは対外、対内とも戦い続けて積み重ねた
+ハモンの経験則である。")
 	novel_interface.show_background("res://assets/images/bg/Stardust/BG_Stardust_ConventionCentre.png")
 	novel_interface.show_character("hamon","serious")
-	await novel_interface.show_dialog("还有——", "哈蒙")
+	await novel_interface.show_dialog("それと──", "ハモン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("他意味深长的看着面前这位自己一手提拔的军官。")
+	await novel_interface.show_text_only("ハモンは意味深く少佐を見つめた。")
 	novel_interface.show_character("hamon","serious")
-	await novel_interface.show_dialog("被抓的那个女人，是卡拉卡尔营的少尉。", "哈蒙")
+	await novel_interface.show_dialog("捕らえた1名は、カラカル大隊の女少尉だ。", "ハモン")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("——是我们自己人？！", "少校")
+	await novel_interface.show_dialog("み、身内の犯行なのですか！？", "少佐")
 	novel_interface.show_character("hamon","serious")
-	await novel_interface.show_dialog("而且还是塔楼的学员……", "哈蒙")
+	await novel_interface.show_dialog("しかも『タルピオット』の生徒らしい……", "ハモン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("哈蒙一字一句的说道。")
-	await novel_interface.show_text_only("少校意识到这件事可能造成的政治影响，不禁屏住了呼吸——")
-	await novel_interface.show_text_only("国防军内部对这次协议一直有不少反对的声音，尤其是那些满腔热血想要建功立业的少壮派。")
+	await novel_interface.show_text_only("多大な含みを持ってハモンは言葉にする。")
+	await novel_interface.show_text_only("本件の引き起こせる政治的影響に気付いた少佐も
+思わず息を呑んだ。")
+	await novel_interface.show_text_only("停戦協定に対しては国防軍内部にも少なからず
+反対の声が上がっている。
+特に軍功を収めたい若手の将官達からは
+多くの異議の申し立てがあった。")
 	novel_interface.show_character("hamon","serious")
-	await novel_interface.show_dialog("更奇怪的是，根据现场采集的指纹，和她一起行动的还有一个几天前在入境处登记过的外国人。", "哈蒙")
+	await novel_interface.show_dialog("現場から採取した指紋の鑑定結果によると……
+
+数日前の入国審査にて登録された外国人が、
+彼女と共に行動していたようだ。", "ハモン")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("难道是境外的……间谍？", "少校")
-	await novel_interface.show_text_only("哈蒙双眉紧锁，沉吟了片刻。")
+	await novel_interface.show_dialog("まさか……諸外国の工作員が煽動を？", "少佐")
+	await novel_interface.show_text_only("両の眉をしかめたハモンは、しばらく沈黙する。")
 	novel_interface.show_character("hamon","speak")
-	await novel_interface.show_dialog("不排除这个可能，总之我先让摩诺拉把资料都共\n享，可你不能指望他们有多配合……", "哈蒙")
+	await novel_interface.show_dialog("…………可能性の否定はできん。
+
+大人しく協力せん事など分かってはいるが、
+マノ―ラに情報の共有を要請しておく。", "ハモン")
 	novel_interface.change_expression("serious")
-	await novel_interface.show_dialog("被抓的那个少尉我让警卫团扣下了，现在关在楼上的安全屋，一并交由你负责。", "哈蒙")
+	await novel_interface.show_dialog("捕えた少尉の身柄は上の階のセーフハウスに
+確保しておいた。
+彼女の事はお前に一任する。", "ハモン")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("是！", "少校")
-	await novel_interface.show_text_only("哈蒙转过身去整了整衣领，把领带套了回去。")
+	await novel_interface.show_dialog("了解しました。", "少佐")
+	await novel_interface.show_text_only("外したネクタイを静かに付け直してから、
+ハモンは憂いのある表情で俯いた。")
 	novel_interface.show_character("hamon","speak")
-	await novel_interface.show_dialog("仪式马上开始……\n别再给我出乱子了！", "哈蒙")
+	await novel_interface.show_dialog("……調印式の始まりは間もなくだ。
+
+……これ以上はトラブルが起こらぬように
+周囲を警戒してくれ。", "ハモン")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("是！请少将放心！", "少校")
-	await novel_interface.show_text_only("哈蒙顿了一下，背对着少校幽幽的说道。")
+	await novel_interface.show_dialog("少将、ご安心ください！", "少佐")
+	await novel_interface.show_text_only("そして背を向けて、少しだけ間を置いた後に、
+再び少佐へ言葉を投げかける。")
 	novel_interface.show_character("hamon","serious")
-	await novel_interface.show_dialog("我今天穿的不是军装，别称呼我的军衔。", "哈蒙")
-	await novel_interface.show_dialog("国民不希望继续由军人领导政府了……明白了么？", "哈蒙")
+	await novel_interface.show_dialog("あと……軍服を着用していない俺の事を
+階級で呼ばなくて良い。", "ハモン")
+	await novel_interface.show_dialog("軍人による政府を、もう国民達は望んでない。
+
+……分かったな？", "ハモン")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("啊……明白！", "少校")
+	await novel_interface.show_dialog("りょ、了解ですっ！", "少佐")
 	await novel_interface.hide_background()
-	await novel_interface.show_text_only("……\n马萨达国际会展中心，室外停车场。")
-	await novel_interface.show_text_only("装甲运兵车内。")
+	await novel_interface.show_text_only("……………………n
+──マサダ国際会議場、室外駐車場")
+	await novel_interface.show_text_only("──装甲兵員輸送車内")
 	novel_interface.show_background("res://assets/images/bg/Stardust/BG_Stardust_MasadAPCRS.png")
-	await novel_interface.show_dialog("你个笨蛋——！！！\n自己钻到人家口袋里了？？！", "莉琉")
-	await novel_interface.show_text_only("要不是这耳机能动态调整音量，我的鼓膜大概已经先行去世了吧。")
+	await novel_interface.show_dialog("こぉんのボケタレェェェッッッ！！！！
+
+何をどう考えたら相手の懐に飛び込むんだッ！？", "マリル")
+	await novel_interface.show_text_only("イヤホンに自動音量調整機能が無かったら
+今頃、俺の鼓膜は木端微塵になっていただろう。")
 	novel_interface.show_character("ren_medical","panic")
-	await novel_interface.show_dialog("啊呜……", "小怜")
+	await novel_interface.show_dialog("うぅうぅ……ぁうぅ……", "レン")
 	novel_interface.change_expression("wry_smile")
-	await novel_interface.show_dialog("那、那个……", "小怜")
-	await novel_interface.show_dialog("因、因为一直联系不上……", "小怜")
+	await novel_interface.show_dialog("だ、だって……その、えと……", "レン")
+	await novel_interface.show_dialog("ず、ずっと連絡が取れなかったんだもん……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("我在控制台捣鼓了半天，好不容易才把这辆车的屏蔽模式关掉，终于接通了莉琉。")
-	await novel_interface.show_text_only("耳机中传来“咚”的一声巨响，我脑海中浮现出她把桌面锤烂的画面。")
-	await novel_interface.show_dialog("所以……你就擅自行动了对吧？", "莉琉")
-	await novel_interface.show_dialog("是不是我太久没操练你，你特别浑身不自在啊……", "莉琉")
-	await novel_interface.show_text_only("莉琉不再叫嚷，而是换成了一种低沉但充满威胁的语气。")
-	await novel_interface.show_text_only("好像随时会爆发的火山，比刚才更吓人了！！")
-	await novel_interface.show_dialog("呐呐……\n你也别这么上火嘛~", "爱衣")
-	await novel_interface.show_text_only("爱衣用大般的语气帮我打着圆场。")
-	await novel_interface.show_dialog("小怜虽然各项体能考核全是D，却能自告奋勇的参加这种外勤渗透工作，勇气还是很可嘉的~", "爱衣")
-	await novel_interface.show_text_only("她这是在劝人还是拱火啊！？")
-	await novel_interface.show_text_only("实在没办法，只能硬着头皮自己解释了……")
+	await novel_interface.show_text_only("先程まで俺は輸送車の遮断モードを切るために、
+必死にコントロールパネルと戦っていた。
+何とかマリルに通話を繋ぐ事ができて今に至る。")
+	await novel_interface.show_text_only("「ドンッ！！」と言う大きな音がイヤホンの
+向こう側から聞こえてきた。
+マリルがデスクを力強く叩いたのであろう
+光景が脳裏に浮かんでくる。")
+	await novel_interface.show_dialog("……だからって勝手に行動したのか？", "マリル")
+	await novel_interface.show_dialog("最近は直々に調教していなかったから、
+随分と緩んでしまったようだな。
+喜べ、また鞭で叩いて教えてやろう。
+手取り足取りな……", "マリル")
+	await novel_interface.show_text_only("怒りに満ちた叫びから脅迫力満点の低いトーンに
+声が切り替わるマリル。")
+	await novel_interface.show_text_only("噴火準備が完了した火山の唸り声みたいで、
+恐ろしさのレベルがどんどん上がっていく。")
+	await novel_interface.show_dialog("まぁまぁ、そんなに怒ってやらないでよ～", "愛衣")
+	await novel_interface.show_text_only("愛衣が優しい親戚のおばさんのような感じで
+俺のフォローへと入ってくれた。")
+	await novel_interface.show_dialog("体力測定オールＤのレンちゃんがこんな作戦に
+自ら参加するなんてさ。
+勇気だけは褒めてあげるべきだと思うよ？", "愛衣")
+	await novel_interface.show_text_only("待って、それはフォローになってないから！！
+ただの俺の悪口になってるからそれ！！")
+	await novel_interface.show_text_only("そ、そもそも愛衣を頼りにするなんて考えが
+ダメなんだ。
+こうなったら自分で説明するしかない。")
 	novel_interface.show_character("ren_medical","sob")
-	await novel_interface.show_dialog("因、因为星星——", "小怜")
+	await novel_interface.show_dialog("ほ、星が……消えたんだよ……", "レン")
 	await novel_interface.hide_character()
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_SlumArea.png")
-	await novel_interface.show_dialog("我记得昨晚是晴天，贫民区的光源又少，所以天上的星星看得很清楚……", "小怜")
+	await novel_interface.show_dialog("昨晩は晴れていてスラムじゃ光も少ないから、
+星空がはっきりと見えていたんだ。", "レン")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_SlumArea1.png")
-	await novel_interface.show_dialog("可后来那些人经过贫民区的时候，却一颗星星也看不到了。", "小怜")
-	await novel_interface.show_dialog("再加上当时，各种通讯设备都没了信号……", "小怜")
-	await novel_interface.show_dialog("我觉得那可能不是一般的干扰设备——", "小怜")
+	await novel_interface.show_dialog("だけど、あいつらがスラムを通り過ぎる時、
+空に星が1つも見えなくなった。", "レン")
+	await novel_interface.show_dialog("それからは通信設備を使っても電波が
+届かなくなって……", "レン")
+	await novel_interface.show_dialog("普通の電波妨害装置じゃないと思ったんだ。", "レン")
 	await novel_interface.hide_background()
-	await novel_interface.show_dialog("……什么意思？", "莉琉")
-	await novel_interface.show_dialog("我感觉和抓捕艾尔加纳那晚，教堂周围的状况一模一样……", "小怜")
+	await novel_interface.show_dialog("……どういう意味だ？", "マリル")
+	await novel_interface.show_dialog("教会周辺でエルガノを捕まえた時の夜と
+状況が全く一緒なんだよ！", "レン")
 	novel_interface.show_background("res://assets/images/bg/Stardust/BG_Stardust_Church.png")
-	await novel_interface.show_text_only("那天晚上，随着我和莉琉的通话信号突然中断，周围的气氛也变得诡异起来——")
-	await novel_interface.show_text_only("远处的楼群变得扭曲模糊，原本清朗的夜空也瞬间暗沉了下来。")
-	await novel_interface.show_dialog("我记得当时就是，天上的星星一下子都不见了。", "小怜")
-	await novel_interface.show_dialog("然后那些穿着黑色特种作战服的士兵紧随其后……", "小怜")
+	await novel_interface.show_text_only("あの夜もマリルとの通信が突然切断されて、
+辺りも怪しい雰囲気に――")
+	await novel_interface.show_text_only("遠くにあるビル達が急に歪んだように見えて、
+清らかな夜空も一瞬にして暗く霞んだ。")
+	await novel_interface.show_dialog("あの時も、空にあった星が消えたんだ。", "レン")
+	await novel_interface.show_dialog("黒い兵員輸送車が教会に突入して来たのは、
+その後からで……", "レン")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_MasadAPCRS.png")
-	await novel_interface.show_text_only("莉琉沉默了好一阵，我像个打碎了花瓶的小孩，大气都不敢喘的等着家长的回应。")
-	await novel_interface.show_dialog("……所以，你就傻乎乎的跟她们去了？", "莉琉")
-	await novel_interface.show_text_only("听到莉琉无奈中带着责备语气，我一直紧绷的身体稍稍放松了下来。")
-	await novel_interface.show_dialog("她们也只是军校还没毕业的学员吧，不明白这种事应该找专业机构吗？", "莉琉")
+	await novel_interface.show_text_only("しばらくの間、マリルが沈黙する。
+
+俺は親からのお叱りを待つ子供みたいに、
+息を呑んだ。")
+	await novel_interface.show_dialog("……だからお前は大人しく彼女達に付いて行き
+無謀な特攻に加担したと？", "マリル")
+	await novel_interface.show_text_only("仕方なさそうに吐いたマリルの溜め息が
+イヤホンからは聞こえてきた。")
+	await novel_interface.show_dialog("軍事学校を卒業していない生徒だとしてもだ。
+
+こう言った場合は専門機関に連絡すべきとさえ
+彼女達は習っていないのか？", "マリル")
 	novel_interface.show_character("ren_medical","upset")
-	await novel_interface.show_dialog("其实开出贫民区后，艾米莉欧跟军队、警察和情报部门都报告了，还打了反恐举报热线……", "小怜")
-	await novel_interface.show_dialog("但他们都拿出冠冕堂皇的回应，说会尽快前往贫民区确认，并且感谢提供线索什么的……", "小怜")
+	await novel_interface.show_dialog("スラムを離れてからエミは軍隊だけじゃなく、
+警察や情報機関にも報告していたよ。
+テロ通報のホットラインにまで連絡したのに、
+相手の返答はどれも同じような感じでさ……", "レン")
+	await novel_interface.show_dialog("「情報のご提供ありがとうございます」
+
+「お問い合わせ頂いた場所へ速やかに向かい
+　調査を致します」って。", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("艾米莉欧说他们这反应也不奇怪，因为贫民区经常发生帮派械斗，晚上有人拿着武器上街很常见。")
-	await novel_interface.show_text_only("而在一般马萨达市民眼中，这里入夜后街上的每个人看起来都像恐怖分子……")
+	await novel_interface.show_text_only("ギャングの闘争により銃撃戦が勃発しても、
+スラムでは日常茶飯事として済まされる。
+夜中に武器を持った通行人がいたって、
+ごく普通の事。
+各機関の人達の反応も平常運転に過ぎない。")
+	await novel_interface.show_text_only("元より一般的なマサダ市民から見れば、
+夜のスラムに現れる通行人なんて、
+全員がテロリストみたいなものだ。")
 	novel_interface.show_character("ren_medical","upset")
-	await novel_interface.show_dialog("而且艾米判断，以马萨达的城防系统，那些人根本打不出贫民区。", "小怜")
+	await novel_interface.show_dialog("あいつらにマサダの城壁は突破できないって、
+一応だけどエミは言っていた。
+スラムから離脱するのも不可能みたい。", "レン")
 	novel_interface.change_expression("perspire1")
-	await novel_interface.show_dialog("如果车上装的真是炸弹，而他们选择在签约仪式时引爆的话——", "小怜")
+	await novel_interface.show_dialog("でも、もし車に積んでいるのが本物の爆弾で、
+調印式に合わせて起爆するとしたら……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("孤儿院的那些孩子们……")
-	await novel_interface.show_dialog("因为联系的机构都反应迟缓，她们才决定自己搞点事情，迫使签约仪式延期？", "莉琉")
+	await novel_interface.show_text_only("戦いの引き金となるのは目に見えているんだ。
+
+隔離壁だけじゃなく周囲一帯も巻き込まれて、
+そうなったら、孤児院は……")
+	await novel_interface.show_dialog("過激派どもの大きな目論見を察知したは良いが、
+連絡した機関の反応が無いに等しく、
+事件性を露呈させるべく彼女達と襲撃を装って、
+調印式の延期を画策したと言う流れだな。", "マリル")
 	novel_interface.show_character("ren_medical","worry")
-	await novel_interface.show_dialog("嗯……", "小怜")
+	await novel_interface.show_dialog("うん……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("那你不是·有大把时间·能给我·打电话吗——？", "莉琉")
-	await novel_interface.show_text_only("莉琉的语气忽然凶狠起来，随着她断句的节奏，耳机中不断传来掰指关节的响声。")
+	await novel_interface.show_dialog("で、今になって私に連絡してきたとして、
+本当に連絡が取れなかったのか？
+聞いている限りでは電波妨害のあったスラムを
+離れてから……
+遮断モードが起動された輸送車の内部以外なら、
+幾らでも連絡手段を使えたと思うのだが？", "マリル")
+	await novel_interface.show_text_only("声の凶悪さが急上昇した。
+
+言葉に合わせてリズム良く指関節を鳴らす音が
+イヤホンから伝わってくる。")
 	novel_interface.show_character("ren_medical","wail")
-	await novel_interface.show_dialog("诶？", "小怜")
+	await novel_interface.show_dialog("……あ、あの。
+
+そ、それはですね……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("啊啊啊啊说漏嘴了！！！")
+	await novel_interface.show_text_only("どうやら誤魔化すのに失敗したみたいだ。
+
+マリル火山が噴火したかもしれない。")
 	novel_interface.show_character("ren_medical","sob")
-	await novel_interface.show_dialog("对、对不起！！！！\n我错了！", "小怜")
-	await novel_interface.show_dialog("我错了……", "小怜")
-	await novel_interface.show_dialog("可、可是艾米她……", "小怜")
-	await novel_interface.show_dialog("被抓走了啊~~~！！！！", "小怜")
-	await novel_interface.show_dialog("呜呜呜呜呜呜呜呜……", "小怜")
+	await novel_interface.show_dialog("ごごごご、ごめん、ごめんなさい！！
+俺がバカでしたッ！！", "レン")
+	await novel_interface.show_dialog("連絡しなくてごめんなさい……
+
+俺が全部悪かったんです……", "レン")
+	await novel_interface.show_dialog("で、でも……エミ……
+
+エミが……だから……", "レン")
+	await novel_interface.show_dialog("エミが捕まっちゃったんだよぉぉ……！！！", "レン")
+	await novel_interface.show_dialog("ううぅぅぅぅ……ひっぐ……えっぐ……！！", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("紧张、焦虑、后悔、委屈一大堆情绪忽然一股脑涌了上来，我的眼泪止不住的往下掉。")
-	await novel_interface.show_dialog("真是笨蛋……", "莉琉")
-	await novel_interface.show_text_only("莉琉叹了口气，切换成了坚定而沉稳的声音。")
-	await novel_interface.show_dialog("艾米莉欧是国防军的人，还是塔楼的尖子生，况且她也没造成什么实质性破坏。", "莉琉")
-	await novel_interface.show_dialog("各个机构有她昨晚报警的录音能证明动机，还有她爷爷就算为了家族颜面也不会袖手旁观。", "莉琉")
-	await novel_interface.show_dialog("现在最重要的就是你不能被抓，否则她们行为的性质就不一样了。", "莉琉")
+	await novel_interface.show_text_only("緊張、焦燥、後悔。
+
+抱えていた沢山の感情が一気に押し寄せてきて、
+意思と関係なく涙が止まらなくなった。")
+	await novel_interface.show_dialog("……はぁ、バカが。", "マリル")
+	await novel_interface.show_text_only("呆れた様子で言葉を失うマリルだったが、
+声色を冷静に切り替えて話を続ける。")
+	await novel_interface.show_dialog("国防軍の人間かつタルピオットの優等生と言う
+免罪符が彼女にはある。
+実質的な破壊行為だって何も起こしていない。", "マリル")
+	await novel_interface.show_dialog("通報内容も各機関が録音しているだろうから、
+彼女の動機は証明に足り得る。
+祖父とやらも一族の面子が掛かっている関係上、
+放って置かないはずだ。", "マリル")
+	await novel_interface.show_dialog("故に今一番の最悪はお前が捕まる事であると
+理解しておけ。
+認識次第では彼女達の行動理由を証明する術も
+外部介入の疑える性質へ一変してしまう。", "マリル")
 	novel_interface.show_character("ren_medical","sob")
-	await novel_interface.show_dialog("嗯……", "小怜")
+	await novel_interface.show_dialog("はい……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("莉琉用这种冷冷的语气说话时，总能一下就抓住重点，让人无法反驳。")
-	await novel_interface.show_dialog("还有什么问题吗？", "莉琉")
+	await novel_interface.show_text_only("私情や感情論を抜きにした冷たい口調だけど、
+簡潔な状況整理をしてくれた。
+マリルは動揺した俺を落ち着かせる時に、
+良くこのような話し方をする。")
+	await novel_interface.show_dialog("他に質問は？", "マリル")
 	novel_interface.show_character("ren_medical","shy")
-	await novel_interface.show_dialog("你安慰人的时候，不能温柔点吗……", "小怜")
+	await novel_interface.show_dialog("もうちょっと優しい感じに慰めて貰えたら
+嬉しいのですが……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("不能，刚才的话听明白了吗？", "莉琉")
-	await novel_interface.show_text_only("我点点头，想快点抹掉脸上的眼泪，可鼻子还在不争气的抽泣。")
-	await novel_interface.show_dialog("沙尘暴很快就来了，在那期间我帮你找机会撤离，你现在就乖乖呆在车里别乱跑。", "莉琉")
+	await novel_interface.show_dialog("まともな行動を取ってから言え。", "マリル")
+	await novel_interface.show_text_only("──頷きながら顔を拭う。
+
+鼻水が止まらず顔もグジャグジャだけど、
+涙は溢れなくなった。")
+	await novel_interface.show_dialog("さっき言った事が全て理解できたのなら、
+今は大人しく車内でジッとしていろ。
+幸いにも砂嵐が間もなくマサダに到着する。
+見込みよりは時間を稼げるはずだ。
+その間に脱出するチャンスを見つけ出す。", "マリル")
 	novel_interface.show_character("ren_medical","upset")
-	await novel_interface.show_dialog("这辆车是分配给她们的吧，会不会被查到……", "小怜")
+	await novel_interface.show_dialog("彼女達が乗っていた車に居続けるのは、
+むしろ危なくないか……？", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("要是能关联到她俩，就不会开着它去劫持物资了。", "莉琉")
-	await novel_interface.show_dialog("袭击的事我找人调查，但就算真有人要趁着签约仪式制造袭击，会展中心附近也是安全的。", "莉琉")
-	await novel_interface.show_dialog("我现在要先切到其他频道做部署，这条线路一直开着，你说话我能听到。", "莉琉")
+	await novel_interface.show_dialog("車両が彼女達用に配備された物であるならば、
+特定される危険性は高いな。
+しかし、自分達の情報が捕捉されるような車両を
+物資強奪には使わないだろう？", "マリル")
+	await novel_interface.show_dialog("襲撃の件もこちらで調べておくが……
+
+調印式に合わせて襲撃が起きたとしても、
+お前が置かれている状況に変わりはない。", "マリル")
+	await novel_interface.show_dialog("いずれせよ、油断ならないと忘れるな。
+
+今から関連部署の指揮を執る兼ね合いで
+別チャンネルに切り替えるが、
+いつでもお前の声を聞けるように接続自体は
+そのままにしておく。
+何かあればすぐに言え。", "マリル")
 	novel_interface.show_character("ren_medical","upset")
-	await novel_interface.show_dialog("好……", "小怜")
+	await novel_interface.show_dialog("分かった。", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("等她关了语音，我做了几个深呼吸，想尽快让自己冷静下来。")
+	await novel_interface.show_text_only("………………………………………………
+
+イヤホンからはホワイトノイズが消えると、
+マリルの声は聞こえなくなった。
+俺は狼狽える心を出来る限り正常に戻そうと、
+何度も深呼吸をする。")
 	novel_interface.show_character("ren_medical","upset")
-	await novel_interface.show_dialog("（沙尘暴啊……）\n（似乎只在游戏和电影里见到过……）", "小怜")
+	await novel_interface.show_dialog("（砂嵐なんて……）
+
+（ゲームとか映画でしか見た事ないけど……）", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("我一只手搭在控制台上，切换着屏幕的信号源。")
-	await novel_interface.show_text_only("从四周的车体监控来看，会展中心周围还笼罩在清晨特有的淡粉色微光之中。")
-	await novel_interface.show_text_only("然而切到本地早间新闻时，死海东岸的直播画面居然已是黄沙漫天，甚至看不清一米之外了。")
-	await novel_interface.show_text_only("再过一会，西岸这边也会变成那幅情景吧……")
+	await novel_interface.show_text_only("とりあえず車両に搭載されているカメラで
+外の様子を見渡してみた。")
+	await novel_interface.show_text_only("会議場周辺は薄紅色の弱い光に包まれており、
+早朝特有の澄んだ空気が立ち込めていそうだ。
+今の爽やかな景色からは砂嵐の気配など、
+微塵も感じない。")
+	await novel_interface.show_text_only("しかし適当にモニターの映像を切り替えて、
+朝のニュースを確認してみると、
+黄砂によって1メートル先の景色すら見えない
+死海東岸の様子が中継されている。")
+	await novel_interface.show_text_only("もう少し経つと同じ光景になるのか……
+
+西岸のこっち側も……")
 	await novel_interface.hide_background()
-	await novel_interface.show_text_only("……")
-	await novel_interface.show_text_only("新丰洲市，SID总部。")
+	await novel_interface.show_text_only("…………")
+	await novel_interface.show_text_only("──新豊洲、SID本部")
 	novel_interface.show_background("res://assets/images/bg/SID/opsRoom.png")
-	await novel_interface.show_text_only("莉琉关闭语音后，大屏幕上只剩下秋子的实时通讯影像。")
-	await novel_interface.show_dialog("你居然在逼供的时候停下来了……", "秋子")
-	await novel_interface.show_text_only("秋子感到有些不可思议。")
+	await novel_interface.show_text_only("レンとの通信をマリルがミュートした時。
+
+秋子とのリアルタイムの通信映像だけしか、
+大画面には映し出されていなかった。")
+	await novel_interface.show_dialog("あなたが途中で責めるのを止めるなんて……", "秋子")
+	await novel_interface.show_text_only("秋子は普段のマリルと対応が異なる事に気付き
+不思議に感じている様子だ。")
 	novel_interface.show_character("liliu_uniform1","jest")
-	await novel_interface.show_dialog("她不是已经招了么~", "莉琉")
+	await novel_interface.show_dialog("あいつはすでに自白したではないか。", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("招了？", "秋子")
+	await novel_interface.show_dialog("……自白？", "秋子")
 	novel_interface.show_character("liliu_uniform1","normal2")
-	await novel_interface.show_dialog("是小怜主动提出要和她俩一起去的，那个笨蛋觉得要是遇到危险，或许能靠自己的体质帮她们脱困。", "莉琉")
-	await novel_interface.show_dialog("但她知道我肯定不会批准，所以故意不报告。", "莉琉")
+	await novel_interface.show_dialog("自らの意志で2人に付き添ったとな。
+
+危機が迫ったら自分の能力で2人を助けれるかも
+などと考えていたのだろう、あのバカは。", "マリル")
+	await novel_interface.show_dialog("私から許可は絶対得られないと知っているから、
+わざと報告しなかったのだろうさ。", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ai","dizzy")
-	await novel_interface.show_dialog("并不是她自己承认的吧哎呀——", "爱衣")
+	await novel_interface.show_dialog("いや、レンちゃんが自白したというよりは
+誘導尋問だったよね？
+そう言うとこ性悪なんだからマリ……おぶっ！？", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("莉琉一记手刀敲在爱衣脑袋上，顺手拿起她桌上小瓶装的功能饮料，仰头一口气喝掉了半瓶。")
+	await novel_interface.show_text_only("マリルのチョップをナチュラルな流れで受けると
+愛衣は自分の机に突っ伏した。
+そのまま置いてあった小瓶をマリルに取られて、
+中身をゴクゴクと飲まれてしまう。
+小瓶にはエナジードリンクが入っていたようだ。")
 	novel_interface.show_character("liliu_uniform1","normal2")
-	await novel_interface.show_dialog("那个蠢货怎么可能将自己的心理描述得如此准确。", "莉琉")
+	await novel_interface.show_dialog("自分の心理状態さえ把握できていないバカに、
+誘導尋問なんてしても無駄だ。", "マリル")
 	novel_interface.change_expression("sigh")
-	await novel_interface.show_dialog("你才睡几个小时就起来了？", "莉琉")
+	await novel_interface.show_dialog("と言うか、お前もう起きたのか？
+
+まだ数時間ぐらいしか寝てないだろう？", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ai","stare")
-	await novel_interface.show_dialog("伦伯特上次押给你那个异质物有压缩睡眠时长的效果，我一直放在办公室里。", "爱衣")
+	await novel_interface.show_dialog("この前ランボットがマリルに押し付けていた
+睡眠時間を短縮できる効果の異質物。
+アレを私のオフィスに置いてるんだよ。", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("那个不是没通过安全性评估吗？\n你小心精神错乱——", "秋子")
+	await novel_interface.show_dialog("確か安全性評価から落ちた物では？
+
+作用次第で精神錯乱に陥る可能性も高いから
+気を付けた方が……", "秋子")
 	novel_interface.show_character("liliu_uniform1","sigh")
-	await novel_interface.show_dialog("反正对她没什么区别……", "莉琉")
+	await novel_interface.show_dialog("元々錯乱しているようなヤツが使用したところで
+今さら影響でもあると思うのか？", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("莉琉将瓶内剩下的液体一饮而尽。")
+	await novel_interface.show_text_only("エナジードリンクを全て飲み干したマリルは、
+空になった小瓶を愛衣の頭に乗せる。")
 	novel_interface.show_character("ai","think")
-	await novel_interface.show_dialog("如果小怜描述的没错，联合议会背后的组织也参与进来了？", "爱衣")
+	await novel_interface.show_dialog("レンちゃんの説明を正しいとするならさ～
+
+この件も連合議会の裏で暗躍していた組織が
+関与してそうに疑えるけど。", "愛衣")
 	await novel_interface.hide_character()
 	novel_interface.show_character("liliu_uniform1","serious")
-	await novel_interface.show_dialog("不好说……", "莉琉")
-	await novel_interface.show_dialog("那种能干扰一定区域内全频率电磁波的异质物武器最早是在西亚战场上出现的。", "莉琉")
-	await novel_interface.show_dialog("马萨达从没未公开承认过这种武器的存在，但他们不予承认的武器实在太多了。", "莉琉")
+	await novel_interface.show_dialog("どうだろうな……", "マリル")
+	await novel_interface.show_dialog("全周波数の電波を一定エリア内にて妨害できる
+異質物兵器が現れたのは、
+西アジアの戦地が最初だったはずだ。", "マリル")
+	await novel_interface.show_dialog("仕組みに関しては当事者であるランボットから
+色々と聞いた。", "マリル")
 	novel_interface.change_expression("speak")
-	await novel_interface.show_dialog("根据伦伯特的描述，那种武器的作用机制与一般的电子干扰设备完全不同——", "莉琉")
-	await novel_interface.show_dialog("在其作用范围内，发射源越远的电磁波被扭曲的越厉害，所以能完全阻碍卫星的成像。", "莉琉")
-	await novel_interface.show_dialog("天上的星星也并不是消失，而是被扭曲成了长长的细线，由于亮度被分摊而变得无法观测。", "莉琉")
+	await novel_interface.show_dialog("あれの効果は電波を条件下で遮断するのではなく
+捻じ曲げていると言う認識が正しいらしい。
+発信源が遠方であるほど歪曲させる力が増すため
+衛星の強力な信号すらも妨害できる性能を持つ。", "マリル")
+	await novel_interface.show_dialog("光まで細長い線のように屈折させてしまうから、
+人の目にも影響を及ぼすそうだ。
+空の星が消えたのは肉眼で捉えられないほど、
+光度が減衰しただけに過ぎない。", "マリル")
+	await novel_interface.show_dialog("国際平和フォーラムの開催期間中に天国の扉の
+レプリカを奪おうとした特殊部隊も、
+この異質物兵器を使用していた事から、
+私は一つの推測を立てた。", "マリル")
 	novel_interface.change_expression("normal1")
-	await novel_interface.show_dialog("上次国际和平论坛期间，想要劫走天堂之门复制品的那只黑衣行动队，也配有这种装备。", "莉琉")
-	await novel_interface.show_dialog("我一直以为那是马萨达军方研发的武器，通过某种协议将技术共享给了联合议会。", "莉琉")
+	await novel_interface.show_dialog("兵器自体を開発したのはマサダ軍であり、
+連合議会に何らかの協定を通じて、
+関連技術を『渡した』のではないかと。", "マリル")
+	await novel_interface.show_dialog("そのような兵器を保有しているかについて、
+マサダは公に認めていないが……
+彼らが大量の非公認兵器を未だ持っている関係上
+言葉全てを鵜呑みにできんからな。", "マリル")
 	novel_interface.change_expression("serious")
-	await novel_interface.show_dialog("但其实还存在另一种可能——", "莉琉")
+	await novel_interface.show_dialog("しかし、もう1つの可能性もある──", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ai","stare")
-	await novel_interface.show_dialog("啊嘞？", "爱衣")
+	await novel_interface.show_dialog("ありゃ？", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("莉琉把手里的空瓶立在爱衣的头顶，像驯兽师一样示意她顶好。")
+	await novel_interface.show_text_only("マリルは頭に小瓶を乗せたままの愛衣に向けて
+小瓶を落とさずキープするようにと、
+サーカスの調教師みたいなサインを出した。")
 	novel_interface.show_character("liliu_uniform1","serious")
-	await novel_interface.show_dialog("那种武器来自西亚战场上的另一方。", "莉琉")
+	await novel_interface.show_dialog("発想を『逆転』させても違和感が無いんだ。
+
+西アジアの戦場にはマサダ軍のみならず、
+相対した『もう一方』が存在するよな？", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("你是说——？", "秋子")
+	await novel_interface.show_dialog("あなた……まさか……", "秋子")
 	novel_interface.show_character("liliu_uniform1","serious")
-	await novel_interface.show_dialog("如果那东西是抵抗军研发的，并且他们将其作为某种筹码交给了联合议会呢？", "莉琉")
+	await novel_interface.show_dialog("仮に兵器はレジスタンスが開発した物だとして。
+
+連合議会に何らかの取引材料として共有したと、
+考えたらどうなるか……", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("指挥室内陷入了沉静，一向喧闹的爱衣居然老实的顶着空瓶一言不发。")
-	await novel_interface.show_dialog("这个猜测也太……", "秋子")
+	await novel_interface.show_text_only("……………………
+
+……沈黙に陥る指令室。
+
+刺激的な考察が飛べば騒ぎ出すであろう愛衣も
+今回ばかりは静かであった。
+頭の小瓶を微動だにさせず黙り込んでいる。")
+	await novel_interface.show_dialog("……飛躍した推測すぎるわ。", "秋子")
 	novel_interface.show_character("liliu_uniform1","normal1")
-	await novel_interface.show_dialog("你不觉得奇怪吗？", "莉琉")
-	await novel_interface.show_dialog("联合议会能轻易摆平南美各个派系的军阀，却一直对抵抗军这个自己认定的恐怖组织毫无作为——", "莉琉")
+	await novel_interface.show_dialog("お前はおかしいと思わないのか？", "マリル")
+	await novel_interface.show_dialog("自らがテロ組織と認定したレジスタンスを相手に
+連合議会は積極的な行動を示さない。
+南米の軍閥問題を容易く解決できる力があれば、
+手の打ちようは幾らでもあるはずだ。", "マリル")
 	novel_interface.change_expression("serious")
-	await novel_interface.show_dialog("如果这是那个人的设计的话……", "莉琉")
+	await novel_interface.show_dialog("その事実すらも、あの男の計画だとしたら……", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_Mouchard.png")
-	await novel_interface.show_text_only("莉琉在控制台前调出了瓦利德·慕沙尔的卷宗。")
-	await novel_interface.show_dialog("外界对抵抗军在装备绝对劣势的情况下一直能够生存最普遍的猜测，是马萨达在养寇自重。", "莉琉")
-	await novel_interface.show_dialog("甚至不少人认为，如果国防军不在乎平民伤亡的舆论压力，一周就能把抵抗组织彻底荡平。", "莉琉")
-	await novel_interface.show_dialog("SID关于这位抵抗军领袖的情报一直少得可怜，大多是他在妻女被杀前作为学者留下的公开信息。", "莉琉")
-	await novel_interface.show_dialog("曾与他在大学共事过的同事和教授都说，这个人极为聪明并且深爱自己的家人。", "莉琉")
-	await novel_interface.show_dialog("很难想象一个对马萨达有着深仇大恨的天才，会去做国防军的傀儡。", "莉琉")
+	await novel_interface.show_text_only("マリルはモニターにワリード・ムシャルの
+プロフィールを表示する。")
+	await novel_interface.show_dialog("絶望的な戦力差と装備差があるにも関わらず、
+レジスタンスが生き延びて来たのは、
+わざとマサダが見逃しているからに過ぎないと、
+世界中の人々はそう思っているだろう。", "マリル")
+	await novel_interface.show_dialog("市民の死傷や輿論などを気にしなければ、
+1週間足らずで何とかなる──
+レジスタンスなんて簡単に壊滅できるだろうと、
+世界は大きな勘違いをしている。", "マリル")
+	await novel_interface.show_dialog("このレジスタンスのリーダーについてだが、
+SIDでも掴んでいる情報は少ない。
+妻と娘が殺害されてからの活動経歴などは、
+追いかけても何一つ見つからず仕舞いで、
+データとして存在するのは学者時代に
+公開されていた物だけだ。", "マリル")
+	await novel_interface.show_dialog("大学の元同僚や教授達に彼の評価を聞くと、
+一重に天才だったと口を揃える。
+同時に家族を深く愛していた事でも評判の
+男だった。", "マリル")
+	await novel_interface.show_dialog("心の奥底からマサダを深く恨んでいる切れ者が、
+国防軍の傀儡に収まるだけとは思えない。", "マリル")
 	await novel_interface.hide_background()
-	await novel_interface.show_dialog("但如果换个角度想的话……", "莉琉")
+	await novel_interface.show_dialog("しかし、改めて逆転の発想をしてみると……", "マリル")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_Kidnap.png")
-	await novel_interface.show_dialog("两年前纽摩利达斯的绑架事件——", "莉琉")
-	await novel_interface.show_dialog("抵抗军在第二届国际和平论坛期间策划绑架一位董事会成员的女儿。", "莉琉")
-	await novel_interface.show_dialog("由于绑匪在市区投放了从马萨达流出的无人武装直升机，董事会迫于压力终止了战争债券的发行。", "莉琉")
+	await novel_interface.show_dialog("レジスタンスが理事会メンバーの娘を狙った
+例のニューモリダスの事件──", "マリル")
+	await novel_interface.show_dialog("第2回国際平和フォーラムの開催期間中から
+すでに形勢は覆っていたのかもしれない。", "マリル")
+	await novel_interface.show_dialog("奴らは不正規に入手したマサダの無人武装ヘリを
+市街地で暴れさせる事により、
+理事会が多方面から圧力を受けるように仕向け、
+戦時債券を発行中止にまで導いた。", "マリル")
 	novel_interface.change_background("res://assets/images/bg/SID/opsRoom.png")
 	novel_interface.show_character("liliu_uniform1","sigh")
-	await novel_interface.show_dialog("第二学园都市的资金被切断后，马萨达的裁军就只是时间问题了——", "莉琉")
+	await novel_interface.show_dialog("第二学園都市からの資金を断ち切ってしまえば
+マサダは案外と脆いものだったんだ。
+維持できない軍事力は負担へと変貌を遂げ、
+足枷となって国全体を徐々に蝕んでいく。
+軍縮へと至るまでに追い込まれたマサダの現状は
+自然な流れで起きた出来事などではない。", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("从经济上，确实如此……", "秋子")
+	await novel_interface.show_dialog("恐ろしく効果的な経済面への攻撃だった訳ね……", "秋子")
 	novel_interface.show_character("liliu_uniform1","normal1")
-	await novel_interface.show_dialog("也是从那个时间开始，抵抗军不断传出派系分裂的消息，让外界觉得这个组织好像随时都会散架。", "莉琉")
-	await novel_interface.show_dialog("这两年马萨达国防军一路高歌，歼灭了一个个小头目，但这些派系旁支似乎越打越多。", "莉琉")
-	await novel_interface.show_dialog("把军事哨都站伪装成平民救助设施，说明这场战争他们越来越打不起了……", "莉琉")
+	await novel_interface.show_dialog("丁度その辺りからレジスタンスは派閥に分かれて
+内部分裂を始めた。
+大よそ組織全体に崩壊の兆しが見えて来たのかと
+傍からは思えてしまうが……", "マリル")
+	await novel_interface.show_dialog("派閥や分枝が細胞分裂のように生まれ続けて、
+実際はむしろ、勢いが強まった。
+レジスタンスのリーダー達を殲滅しても、
+全ての作戦に勝利を収めても、
+沈まぬ組織と化したレジスタンスは無限にも近く
+湧き出し続ける。", "マリル")
+	await novel_interface.show_dialog("もうマサダは戦争するにも苦しいのだろう。
+軍用施設を市民救助施設に偽装している事が、
+疲弊の何よりの証だ。", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("秋子看着莉琉在几分钟内仅靠一个大胆的假设就串接起一系列线索，并得出了的惊人的结论。")
-	await novel_interface.show_text_only("不禁想起她在学校时为自己出头，把导师辩驳得哑口无言时神采奕奕的样子，脸上泛起一阵红晕。")
-	await novel_interface.show_text_only("而某个正躲在装甲车里瑟瑟发抖的笨蛋，似乎已经不需要被营救了似的。")
-	await novel_interface.show_text_only("莉琉出神的凝视着屏幕上的照片自言自语。")
+	await novel_interface.show_text_only("大胆な仮説だが、数分間で一連の証拠を繋げて、
+衝撃の結論にまで至るマリル。")
+	await novel_interface.show_text_only("自分のために先生を容易く論破してくれた、
+マリルの学生時代の姿を秋子は思い出す。")
+	await novel_interface.show_text_only("──思わず秋子は頬が赤くなった。")
+	await novel_interface.show_text_only("そんな反応をバレないように隠す秋子をよそに、
+マリルはモニターへと視線を外さず語り続ける。")
 	novel_interface.show_character("liliu_uniform1","normal1")
-	await novel_interface.show_dialog("不在乎一时的输赢，也不在乎自己人的死活……", "莉琉")
-	await novel_interface.show_dialog("用精确的计算和纯粹的理性进行的复仇。", "莉琉")
+	await novel_interface.show_dialog("一時的な勝負が行われようとも構わず、
+味方に被害を出そうと気にも留めない。", "マリル")
+	await novel_interface.show_dialog("綿密な計算と純粋たる理性で打ち出す復讐。", "マリル")
 	novel_interface.change_expression("sigh")
-	await novel_interface.show_dialog("意识到自己正在被这样的对手逼进死角，施恩内曼总理可不会坐以待毙……", "莉琉")
+	await novel_interface.show_dialog("このような相手から二の矢三の矢と受けて、
+遂に喉元まで迫っていると意識した時、
+シャイネルマン首相は座して死を待つだけ
+だったのだろうか？
+何かしらの手を打ったとするならば……", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("——所以才设计了『自动反击系统』！？", "秋子")
-	await novel_interface.show_text_only("秋子恍然大悟，莉琉微微点了点头。")
+	await novel_interface.show_dialog("まさか、『自動反撃システム』！？", "秋子")
+	await novel_interface.show_text_only("悟った秋子に、マリルが軽く頷いた。")
 	novel_interface.show_character("liliu_uniform1","normal2")
-	await novel_interface.show_dialog("即使你满盘皆胜，也永远无法将军。", "莉琉")
-	await novel_interface.show_dialog("现在抵抗军只要显露出攻击马萨达堡的意图，就等于与全世界为敌——", "莉琉")
+	await novel_interface.show_dialog("チェス盤上で圧倒的不利な局面を打開するのは、
+チェックメイトされないようにするしかない。", "マリル")
+	await novel_interface.show_dialog("システムが世界全土を巻き込むと知っていて、
+尚もレジスタンスが攻撃の意志を示した場合、
+世の中は全世界への宣戦布告と位置付けて、
+阻止する動きを見せるだろう。", "マリル")
 	novel_interface.change_expression("jest")
-	await novel_interface.show_dialog("到时候联合议会可不会在乎自己做过什么承诺~", "莉琉")
+	await novel_interface.show_dialog("そうなればレジスタンスとの間にいくら強固な
+約束があったとしても、
+連合議会はマサダに協力せざるを得ない。", "マリル")
 	novel_interface.change_expression("serious")
-	await novel_interface.show_dialog("而马萨达只要保住首都，保住这个国家的菁英，就有足够的空间进行改革与转型。", "莉琉")
-	await novel_interface.show_dialog("面对施恩内曼这反客为主的一手，慕沙尔选择的对策是……", "莉琉")
+	await novel_interface.show_dialog("方法の強引さを他国から批判されようとも、
+首都と国のエリート達さえ無事であるならば、
+残された力で改革や方向転換などを経て、
+マサダは国家の存続が実現できる。", "マリル")
+	await novel_interface.show_dialog("シャイネルマンの逆転の一手に対して、
+ムシャルの対策は……", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ai","stare")
-	await novel_interface.show_dialog("那个那个——", "爱衣")
+	await novel_interface.show_dialog("はい、は～い！", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("爱衣头上依然顶着瓶子，乖巧的举手发言。")
+	await novel_interface.show_text_only("頭の小瓶をそのままに愛衣が手を挙げた。")
 	novel_interface.show_character("ai","think")
-	await novel_interface.show_dialog("小怜的营救计划……要不要先讨论一下？", "爱衣")
+	await novel_interface.show_dialog("色々大変なのは承知だけどさ。
+
+まずはレンちゃんの救出計画を先に考えるべき
+じゃないの？", "愛衣")
 	await novel_interface.hide_character()
 	novel_interface.show_character("liliu_uniform1","jest")
-	await novel_interface.show_dialog("不需要~", "莉琉")
+	await novel_interface.show_dialog("あのバカは放っとけ。", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("让爱衣没想到是，秋子也几乎同时做出了同样的回应。")
+	await novel_interface.show_text_only("愛衣の予想に反してマリルの返答は辛辣で、
+更に秋子も似た様な反応を示している。")
 	novel_interface.show_character("ai","normal")
-	await novel_interface.show_dialog("……诶？", "爱衣")
+	await novel_interface.show_dialog("……へっ？", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("任何营救都有风险，何况是在摩诺拉的眼皮底下。", "秋子")
+	await novel_interface.show_dialog("彼女の置かれている状況は如何なる救出方法でも
+一定のリスクが発生するわ。
+しかも今回の相手はマノ―ラよ。", "秋子")
 	novel_interface.show_character("liliu_uniform1","sigh")
-	await novel_interface.show_dialog("想靠沙尘暴救人不现实，他们对这种早有预报的天气肯定准备了预案。", "莉琉")
+	await novel_interface.show_dialog("砂嵐を利用しての救出は現実的でない。
+
+何日も前から予報されていた天気など
+対策済みに決まっている。", "マリル")
 	novel_interface.change_expression("jest")
-	await novel_interface.show_dialog("所以让小怜乖乖被抓，然后我们赎回来就好~", "莉琉")
+	await novel_interface.show_dialog("今回ばかりは捕まるまで待ってから交渉した方が
+得策だろう。", "マリル")
 	novel_interface.change_expression("normal2")
-	await novel_interface.show_dialog("无论情报还是权限，SID有的是摩诺拉想要交换的资源。", "莉琉")
-	await novel_interface.show_dialog("即使他们对小怜的能力有所了解也没关系——马萨达现在急于推销自己的产品，浑身都是软肋。", "莉琉")
-	await novel_interface.show_dialog("面对SID和伦伯特的直接威慑，他们不会做出不理性的选择。", "莉琉")
+	await novel_interface.show_dialog("情報でも権限でもマノ―ラとの交渉材料は
+SIDにいくらでもあるからな。", "マリル")
+	await novel_interface.show_dialog("レンの能力がバレてしまう可能性に関しても、
+問題は無い。
+今のマサダは自分達の商品を売り込むのが優先で
+付け入る隙はいくらでもある。", "マリル")
+	await novel_interface.show_dialog("SIDとランボットから直接脅迫を掛ければ、
+彼らは理性的な選択を確実にするだろうさ。", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ai","think")
-	await novel_interface.show_dialog("原来如此……", "爱衣")
-	await novel_interface.show_dialog("那个叫薇拉的怪力女去救人了，她怎么办？", "爱衣")
+	await novel_interface.show_dialog("なるほど……", "愛衣")
+	await novel_interface.show_dialog("ヴィラとかいう怪力娘ちゃんも行動しているけど
+彼女はどうするの？", "愛衣")
 	await novel_interface.hide_character()
 	novel_interface.show_character("liliu_uniform1","normal2")
-	await novel_interface.show_dialog("薇拉应该是去找安全屋了吧？", "莉琉")
+	await novel_interface.show_dialog("ヴィラの目標はセーフハウスだったよな？", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("在大型集会场所设置安全屋是国防军的通用安保协议，是马萨达经历多次恐袭后换来的应对经验。")
-	await novel_interface.show_text_only("如果发生突发状况，在无法确认出口安全的时候，安全屋可以临时保护VIP或关押重要犯人。")
+	await novel_interface.show_text_only("マサダでは長年に渡るテロ攻撃の経験から、
+集会などを開催する場所に対策を講じている。
+セーフハウスも国防軍の共通保安対策として
+定められた物のひとつである。")
+	await novel_interface.show_text_only("突発的に出入口の安全を確保できない状況や、
+VIPの保護、重要容疑者の拘束など、
+様々な緊急時にセーフハウスを利用する事が、
+許されている。")
 	novel_interface.show_character("liliu_uniform1","normal2")
-	await novel_interface.show_dialog("把这个情报通知薇拉的父亲。", "莉琉")
+	await novel_interface.show_dialog("この情報をヴィラの父親に伝えてくれ。", "マリル")
 	novel_interface.change_expression("jest")
-	await novel_interface.show_dialog("好歹是总参谋部的高层，不会眼看自己的女儿羊入虎口的~", "莉琉")
+	await novel_interface.show_dialog("総参謀部の位にある人間が如何な行動をするか
+高みの見物と洒落込もうじゃないか。
+自分の娘が虎口に入ろうとしている時は
+一体どうするだろうな？", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ai","wink")
-	await novel_interface.show_dialog("你真是坏心眼呐……", "爱衣")
+	await novel_interface.show_dialog("本当に性悪だねマリル……", "愛衣")
 	await novel_interface.hide_character()
 	novel_interface.show_character("liliu_uniform1","serious")
-	await novel_interface.show_dialog("所以，现在最关键的就是——", "莉琉")
+	await novel_interface.show_dialog("お前のヘンテコな性格よりはマシさ。
+
+それより重要なのは──", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("莉琉一只手捂着下腹，在大屏幕上调出了签约仪式现场的新闻直播。")
-	await novel_interface.show_text_only("身材略微发福的哈蒙和留着白色络腮胡的慕沙尔正在长时间握手，前者的笑容几乎快要凝固在脸上。")
+	await novel_interface.show_text_only("マリルは片手で自分の腹部を押さえながら、
+モニターの映像を切り替えた。
+目の前に映し出されたのはニュースの生中継だ。")
+	await novel_interface.show_text_only("小太りのハモンと白いアゴヒゲのムシャルが、
+調印式会場で長い握手を交わしている。
+両者の表情は眉毛すらも固まっているかのように
+ピクリとも動かない。")
 	novel_interface.show_character("liliu_uniform1","angry")
-	await novel_interface.show_dialog("这次慕沙尔把自己都交了出去，必然是策划了一场能毕其功于一役的袭击……", "莉琉")
+	await novel_interface.show_dialog("隠していた自身の姿を今になって公衆の面前に
+曝け出す理由はなんだ？
+ムシャルが何か勝負の一手を企んでいるのは……
+
+間違いな……い……", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_dialog("莉琉……好像有点不对劲？", "秋子")
-	await novel_interface.show_text_only("莉琉的肚子发出“咕——”的一声，接着她一言不发的冲出了指挥室。")
+	await novel_interface.show_dialog("………………？
+
+マリル、顔色悪いわよ……？", "秋子")
+	await novel_interface.show_text_only("マリルの腹部から「グ――」と言う音が
+聞こえてきた。
+直後、彼女は一言も発さずに指令室から
+飛び出して行く。")
 	await novel_interface.show_dialog("…………………………", "秋子")
 	novel_interface.show_character("ai","blush_dizzy")
-	await novel_interface.show_dialog("哦呀呀……", "爱衣")
+	await novel_interface.show_dialog("あらま……", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("爱衣轻轻把瓶子从头顶拿了下来，放入一个印着生物危险品标志的密封袋，然后小心的封好。")
-	await novel_interface.show_dialog("那个不是一般的功能饮料吧……", "秋子")
+	await novel_interface.show_text_only("愛衣は小瓶を慎重に頭から降ろした。
+
+そしてハザードシンボルが印刷された
+密封パックに入れる。")
+	await novel_interface.show_dialog("そのエナジードリンク……
+
+絶対に普通の物ではないわよね？", "秋子")
 	novel_interface.show_character("ai","blush_think")
-	await novel_interface.show_dialog("稍微……加了点东西。", "爱衣")
-	await novel_interface.show_dialog("本来想用自己测试一下，24小时分批次喝完的…\n…", "爱衣")
+	await novel_interface.show_dialog("ちょびっとだけ成分を足したかな……？", "愛衣")
+	await novel_interface.show_dialog("24時間に分けて少しずつ飲みながら効果を試す
+つもりだったんだけど。", "愛衣")
 	novel_interface.change_expression("blush_stare")
-	await novel_interface.show_dialog("谁知道她两口就喝掉了~", "爱衣")
+	await novel_interface.show_dialog("まさかマリルが一気に飲み切っちゃうなんて～♪", "愛衣")
 
 	print("=== 星尘降临篇第18话结束 ===")
 

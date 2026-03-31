@@ -14,227 +14,411 @@ func stardustdescends_ep05_script():
 	novel_interface.change_music("res://assets/audio/music/Shop.mp3")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_Vault.png")
 	novel_interface.show_character("ren_full","panic")
-	await novel_interface.show_dialog("这里就是『自由之星』号的金库吗……", "小怜")
+	await novel_interface.show_dialog("ここが「リーベルステラ」の金庫室か……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("我惊讶的环望四周，无论天花板、地板还是两侧墙壁，都包裹着光可鉴人的特殊材质金属板。")
-	await novel_interface.show_text_only("我看着手中的金色筹码，金属板的颜色与筹码外壳类似，但隐约还散发着一种灰绿色的光泽。")
-	await novel_interface.show_text_only("船仓底部的保管箱只有特定的贵宾才能使用，而我刚刚获得了这个资格。")
-	await novel_interface.show_text_only("这里唯一的出入口是位于VIP区域的电梯，电梯的底部大门厚得像一堵墙。")
+	await novel_interface.show_text_only("俺は目を丸くしながら辺りを見回した。
+
+この空間は全てが発光する特殊な金属板を
+使用して設計されている。")
+	await novel_interface.show_text_only("金属板の材質は黄金のチップと似ているけど、
+微かに灰緑色の光沢があるようだ。
+独特な輝きが規格外の雰囲気を際立たせている。")
+	await novel_interface.show_text_only("カジノ船に金庫があるとは聞いていたけど、
+船底がこんな風になっているなんて……
+ちなみに金庫は特定のVIP客しか使用できないが
+その資格を何とか入手して俺はここに来ている。")
+	await novel_interface.show_text_only("出入口はVIPゾーンに設置されている
+エレベーター1つのみ。
+金庫室に通じている扉は、もはや分厚すぎて
+開けられるモノなのかと疑うレベルである。")
 	await novel_interface.hide_background()
-	await novel_interface.show_dialog("（果然这里完全没有信号啊……）", "小怜")
-	await novel_interface.show_text_only("耳机从进入电梯起就失去连接了，安妮之前也再三叮嘱务必按照之前练习的步骤进行。")
+	await novel_interface.show_dialog("（やっぱこの場所じゃ電波は届かないか……）", "レン")
+	await novel_interface.show_text_only("イヤホンの通信はエレベーターに乗った瞬間から
+途切れてしまった。
+必ず事前の練習通りに行動するんだよと、
+俺はアニーに言われた事を頭の中で呟く。")
 	novel_interface.show_background("res://assets/images/bg/Stardust/BG_Stardust_Vault.png")
 	novel_interface.show_character("ren_full","solemn")
-	await novel_interface.show_dialog("（第一步，确定监控被瘫痪……OK。）", "小怜")
+	await novel_interface.show_dialog("（まずは監視システムの状態を確認して……）
+
+（……良し、OKだ）", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("我注意到金库内几个监控摄像头的指示灯同时闪了一下，随后都熄灭了。")
-	await novel_interface.show_dialog("这位小姐，您的保管箱是1212号，每次开启需要您和我们保管的钥匙一起插入……", "侍者")
-	await novel_interface.show_text_only("侍者彬彬有礼的转身想把钥匙给我，却发现我正拿着一瓶“香水”正对着他的脸——")
+	await novel_interface.show_text_only("金庫室内に複数台ある監視カメラのランプが、
+明滅した後に消えた。
+それはアニーからの合図だ。")
+	await novel_interface.show_dialog("──お客様の金庫は1212番でございます。 
+
+金庫を開くには、お客様が保有する鍵と
+我々が保有する鍵の両方が必要となりまして……", "係員")
+	await novel_interface.show_text_only("係員さんが鍵を渡そうと振り返った瞬間、
+その顔に目掛けて俺は「香水」を構える。")
 	novel_interface.show_character("ren_full","wry_smile")
-	await novel_interface.show_dialog("对不起啦~", "小怜")
+	await novel_interface.show_dialog("ご、ごめんなさいっ！", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("被迎面喷了一下之后，侍者立刻眼神涣散，似乎想要说点什么，张了半天嘴却无法发音。")
-	await novel_interface.show_text_only("这种麻醉喷雾是战研部的新产品，爱衣还在其中添加了能消除大脑抑制作用的药物。")
-	await novel_interface.show_text_only("据说被喷到的人就像被催眠一样，非常容易接受各种暗示。")
+	await novel_interface.show_text_only("プシュッと「香水」を顔に向けて吹き付けると、
+係員さんの目が虚ろになった。
+何か言おうと口を動かしているが、
+どうやら声を出せないみたいだ。")
+	await novel_interface.show_text_only("こいつは戦研部が開発した新製品の
+麻酔スプレーらしい。
+愛衣の手によって脳の抑制作用を低下させる
+薬物が添加されている。")
+	await novel_interface.show_text_only("吸い込んだ人間は催眠状態に入り込み、
+あらゆる暗示を受け入れやすくなる。
+……って説明されたんだけど。")
 	novel_interface.show_character("ren_full","smile")
-	await novel_interface.show_dialog("来，在这站好哈……", "小怜")
+	await novel_interface.show_dialog("は～い、ここで立っててね～……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("我小心扶着神情恍惚的侍者走到正对电梯门的位\n置，在他手中塞入一枚红色筹码。")
+	await novel_interface.show_text_only("意識が朦朧としている係員さんをエレベーターの
+正面に移動させた。
+それから彼の手に赤色のチップを渡す。")
 	novel_interface.show_character("ren_full","solemn")
-	await novel_interface.show_dialog("咳咳——", "小怜")
+	await novel_interface.show_dialog("コホン──", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("我回忆着之前被要求反复练习的说辞，用坚定的语气对侍者说道——")
+	await novel_interface.show_text_only("何度も練習したセリフを思い出しながら、
+硬い口調で係員さんに告げた。")
 	novel_interface.show_character("ren_full","normal1")
-	await novel_interface.show_dialog("你刚才带我来金库保管箱，一切都很正常。", "小怜")
-	await novel_interface.show_dialog("我存好物品之后，给了你一枚筹码作小费。", "小怜")
+	await novel_interface.show_dialog("貴方は先ほど俺を金庫まで案内した。
+異常は一切なかった。", "レン")
+	await novel_interface.show_dialog("俺は金庫に荷物を入れた後、貴方に1枚の
+チップを渡した。", "レン")
 	novel_interface.change_expression("solemn")
-	await novel_interface.show_dialog("当听到一声响指或者看到电梯门打开你就会立刻醒来，并“回忆”起所有的细节。", "小怜")
+	await novel_interface.show_dialog("指を鳴らす音を聞くか、エレベーターの扉が
+開いた時に目を覚ます。
+その時、貴方は全ての事を「思い出す」。", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("侍者只是目光呆滞的盯着电梯大门，我看着他晃晃悠悠的背影，蹑手蹑脚后退了几步。")
+	await novel_interface.show_text_only("虚ろな目で係員さんはエレベーターを
+見つめている。
+彼のフラフラと揺れている背中を見て、
+俺はゆっくりと後ろに下がった。")
 	novel_interface.show_character("ren_full","stare")
-	await novel_interface.show_dialog("（这样真的就可以了吗……）", "小怜")
+	await novel_interface.show_dialog("（これで本当にいいのかよ……）", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("虽然莉琉说过人类的大脑很擅长根据简单的引导和暗示补充细节……但这也太简单了吧！？")
+	await novel_interface.show_text_only("人間の脳は簡単な暗示だけでも内容を勝手
+補完するってマリルが言ってたけど……
+これは流石に簡単過ぎだろ！？")
 	novel_interface.show_character("ren_full","stare")
-	await novel_interface.show_dialog("……他到底能“回忆”起什么啊？", "小怜")
+	await novel_interface.show_dialog("果たしてあの人は何を「思い出す」事に
+なるのやら……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("我小声嘟囔着走到保险库中央，快速把高跟鞋脱\n掉，整齐的摆在地板上。")
-	await novel_interface.show_text_only("然后将耳机和其他金属物品全部装入手包，放在高跟鞋旁边。")
-	await novel_interface.show_text_only("这个保险库是一个大型超导静磁屏蔽仓，能阻绝大部分的辐射和磁场。")
-	await novel_interface.show_text_only("莱博娜并未掌握这样的技术，根据施教授的情报，屏蔽仓是由华云宫的军工企业代为制造。")
-	await novel_interface.show_text_only("我找到目标货柜，每个柜门上的两个锁孔之间都有一个淡淡的激光蚀刻云纹。")
+	await novel_interface.show_text_only("小言を呟きつつ、俺は金庫室の中央に移動する。
+
+素早くハイヒールを脱ぎ、きちんと揃えて
+床へと置いた。")
+	await novel_interface.show_text_only("イヤホンや他の金属類もハンドバッグに入れて、
+ハイヒールの隣に置いておく。")
+	await novel_interface.show_text_only("辺りを見ると分かるが、この金庫室は
+通常の物と全く違う。
+正体は巨大な超伝導静磁場遮断室だ。
+
+あらゆる放射線と磁場を遮断できる部屋で、
+金庫と呼ぶにも特別過ぎる代物である。")
+	await novel_interface.show_text_only("施教授の情報によると華雲宮城の軍需工場が
+製造した物らしい。
+リバーナは製造技術を備えてないみたいだから、
+順当だとは思うけど……")
+	await novel_interface.show_text_only("考えながらも探している内に、目標としている
+コンテナを俺は見つけた。
+コンテナに付いている2つの鍵穴の間には、
+雲紋みたいなレーザー加工の刻印が施してある。")
 	novel_interface.show_character("ren_full","normal1")
-	await novel_interface.show_dialog("『0812』号货柜……", "小怜")
+	await novel_interface.show_dialog("こいつが0812番のコンテナだな……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("我将两把陶瓷材质的万能钥匙同时插进货柜的两个锁孔，并激活了尾部的开关。")
-	await novel_interface.show_text_only("法贝拉曾经说过，其实银行之类机构私人保管箱钥匙的安全性都很低——")
-	await novel_interface.show_text_only("一方面是由于这些机构对保管箱所在金库的安保力量十分自信。")
-	await novel_interface.show_text_only("更重要的是，通过那把钥匙可以让客户产生只有自己能打开保管箱的错觉，付款的时候就会更痛快。")
+	await novel_interface.show_text_only("俺はセラミック製のマスターキーを2本同時に
+鍵穴へ差し込み、奥にあったスイッチを押した。")
+	await novel_interface.show_text_only("銀行なんかにある個人金庫のセキュリティーは
+実は付け焼刃と言って良いほど甘い物だ。
+以前にファビオラがそう教えてくれた。")
+	await novel_interface.show_text_only("そもそも、この手の機関は個別の施錠レベルとか
+管理体制より金庫自体の堅固さを重視している。")
+	await novel_interface.show_text_only("重要なのは「キー」と言う担保だ。
+
+顧客にしか開けないと言う錯覚を与え、大金を
+払っても良いと思えるように信用度を上げる。")
 	novel_interface.show_character("ren_full","stare")
-	await novel_interface.show_dialog("（金库和安保系统提供『安全』，而那把钥匙却能提供『安全感』吗……）", "小怜")
+	await novel_interface.show_dialog("（金庫と警備システムが「安全」を……）
+
+（鍵は「安心」を与えているってね……）", "レン")
 	novel_interface.change_expression("shy")
-	await novel_interface.show_dialog("（这话怎么那么像莉琉说的！好讨厌……）", "小怜")
+	await novel_interface.show_dialog("（今のマリルみたいな台詞だったよな！）
+
+（……ちょっと嫌かも）", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("突然，锁孔发出“咔哒”一声，万能钥匙调整到位的瞬间，柜门应声打开。")
+	await novel_interface.show_text_only("しばらくすると、鍵穴から「カチッ」という音が
+聞こえた。
+マスターキーの起動を示すと、コンテナが
+ゆっくりと開いていく。")
 	await novel_interface.hide_background()
-	await novel_interface.show_text_only("货柜中，正是那块长度超过1.5米的黑色陨石——")
+	await novel_interface.show_text_only("コンテナ内に鎮座していたのは……
+
+全長1.5メートルを超える黒色の隕石──
+
+……………………")
 	novel_interface.change_music("res://assets/audio/music/Like A Girl.mp3")
 	novel_interface.change_background("res://assets/images/bg/APT/livingRoom.png")
 	novel_interface.show_character("ren_battle","panic")
-	await novel_interface.show_dialog("EX级异质物！！？", "小怜")
+	await novel_interface.show_dialog("EX級の異質物だってッ！？！？", "レン")
 	await novel_interface.hide_character()
 	novel_interface.show_character("liliu_uniform2","normal2")
-	await novel_interface.show_dialog("没错，就是那块古代陨石的评级。", "莉琉")
+	await novel_interface.show_dialog("そうだ、それがあの古代隕石の評価だ。", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ren_battle","stare")
-	await novel_interface.show_dialog("你之前不是说过，『EX级』是专门为宗教相关的异质物制定的评级吗？", "小怜")
-	await novel_interface.show_dialog("因为对教众有特别的意义，所以EX级的意思是只许收容，不许研究……", "小怜")
+	await novel_interface.show_dialog("「EX級」は宗教関連の異質物にのみ適用される
+評価だって前に言ってなかったっけ？", "レン")
+	await novel_interface.show_dialog("収容は許されたけど、研究は宗教的冒涜だから
+信徒達が許さないって……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("有些异质物在宗教传说中拥有弑神的能力。")
-	await novel_interface.show_text_only("一旦激发可能会引起世界末日级灾难，所以严格禁止任何形式的研究。")
+	await novel_interface.show_text_only("一部の異質物は神話や伝承などで神殺しの力を
+持っていると記載があったりする。")
+	await novel_interface.show_text_only("目覚めると世界終焉を迎える可能性があるため、
+如何なる形でも研究は全面禁止されている。")
 	novel_interface.change_background("res://assets/images/bg/Shot/boySP_news.png")
-	await novel_interface.show_text_only("是啊——")
-	await novel_interface.show_text_only("之所以我会记得这么清楚……")
-	await novel_interface.show_text_only("因为之前那个顶着我的脸的家伙偷走的，正是属于Ex级异质物的『天命之矛』。")
+	await novel_interface.show_text_only("──そうだった。")
+	await novel_interface.show_text_only("俺がこんなにハッキリと覚えているのは……")
+	await novel_interface.show_text_only("前に俺の偽者が盗み出した「天命の矛」も
+EX級の異質物だったからだ。")
 	novel_interface.change_background("res://assets/images/bg/APT/livingRoom.png")
 	novel_interface.show_character("ren_battle","worry")
-	await novel_interface.show_dialog("（我的……脸吗……）", "小怜")
+	await novel_interface.show_dialog("（俺の……顔か……）", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("我扭头看着挂在起居室墙上的镜子。")
-	await novel_interface.show_text_only("好像最近睡觉的时候，我都是以现在这个样子和声音出现在梦境中的呢。")
+	await novel_interface.show_text_only("俺はリビングの壁に掛けてある鏡を見つめた。")
+	await novel_interface.show_text_only("最近は夢の中でさえ男の姿に戻れていない……")
 	novel_interface.show_character("liliu_uniform2","speak")
-	await novel_interface.show_dialog("EX级可并不限于宗教——", "莉琉")
+	await novel_interface.show_dialog("──EX級だからと言って宗教関連に
+限るわけではない。", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("莉琉的声音将我从混乱的思绪中带回现实。")
+	await novel_interface.show_text_only("マリルの言葉が思考に沈んだ俺の意識を、
+現実へと引き戻した。")
 	novel_interface.show_character("liliu_uniform2","normal2")
-	await novel_interface.show_dialog("据测定，那块陨石是4000多年前坠落到地球的，在战前被埃及的考古学家所发掘。", "莉琉")
+	await novel_interface.show_dialog("測定結果によると、あの隕石は4000年前に
+地球へと落下してきた物らしい。
+戦前にエジプトの考古学者が発見したそうだ。", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_TheMeteorite.png")
-	await novel_interface.show_dialog("由于有规则的边角和平整的外立面，可以断定绝对不是自然形成。", "莉琉")
-	await novel_interface.show_dialog("一开始人们认为那是古埃及的某种石棺，但整块陨石浑然一体，完全没有接缝。", "莉琉")
-	await novel_interface.show_dialog("数年后，由于异质物而引发的地区冲突升级，那块陨石被转移到了华云宫城大博物馆。", "莉琉")
-	await novel_interface.show_dialog("施教授就是研究那块陨石的主要成员之一，最初华云宫还以为自己捡了个大便宜……", "莉琉")
-	await novel_interface.show_dialog("但很快他们就发现，这块陨石似乎会“激烈的”拒绝一切形式的窥探和入侵——", "莉琉")
-	await novel_interface.show_dialog("首先，陨石自身的磁场会周期性的起伏，就像在呼吸一样，峰值的磁能积接近铷磁铁。", "莉琉")
-	await novel_interface.show_dialog("当它被射线照射时，磁场会突然暴增，数值甚至高到无法测定。", "莉琉")
-	await novel_interface.show_dialog("不仅无法透视其内部，实验过程中甚至引发了导致整个站点被毁的事故。", "莉琉")
+	await novel_interface.show_dialog("矩形的に規則正しく形が整っていた事から、
+自然の産物でない事は一目瞭然。", "マリル")
+	await novel_interface.show_dialog("最初は古代エジプトの石棺と言われていたが、
+繋ぎ目もない事からその説は否定された。", "マリル")
+	await novel_interface.show_dialog("数年後、各地の異質物による紛争が激化したため
+隕石は華雲宮城の大博物館に運び込まれる。", "マリル")
+	await novel_interface.show_dialog("施教授は隕石を研究する主要メンバーの
+1人だったようだ。
+当初、華雲宮城は良い拾い物をしたと
+思っていたみたいだが……", "マリル")
+	await novel_interface.show_dialog("直ぐに彼らは後悔する事となる。
+そう──
+隕石は自身に対する探測や侵入に対して、
+「激しく」抵抗する事が判明してからな。", "マリル")
+	await novel_interface.show_dialog("あの隕石は独特な磁場を備えているのだが、
+そいつに呼吸的な周期の起伏がある。
+最高値の磁力はルビジウム磁石にも匹敵。", "マリル")
+	await novel_interface.show_dialog("また放射線を照射すると隕石の磁場は突如暴走、
+数値が測定不能なレベルに増加してしまう。", "マリル")
+	await novel_interface.show_dialog("お陰で隕石の解析を行った際に研究拠点は全壊。
+
+結果を導き出すどころの騒ぎでは無くなった。", "マリル")
 	novel_interface.change_background("res://assets/images/bg/APT/livingRoom.png")
 	novel_interface.show_character("anne_normal","happy")
-	await novel_interface.show_dialog("……如果直接切开呢？", "安妮")
+	await novel_interface.show_dialog("……チョッキンパって半分に切っちゃったら
+どうかな？", "アニー")
 	await novel_interface.hide_character()
 	novel_interface.show_character("liliu_uniform2","normal1")
-	await novel_interface.show_dialog("虽然陨石的硬度并不高，但任何试图破坏其物理结构的行为都会导致它放出极高的热量和辐射。", "莉琉")
-	await novel_interface.show_dialog("按照推算，如果强行切割，能量足以抹平地球上的一大片区域。", "莉琉")
+	await novel_interface.show_dialog("強度は高くないので切断自体は可能と言えよう。
+
+しかし物理構造を破壊する行為に対して隕石は、
+超エネルギーと放射線を発する事で答えてくる。", "マリル")
+	await novel_interface.show_dialog("強引な切断によって発生するエネルギー量は、
+計算上だけでも凄まじい数値だ。
+極めて広大な範囲を全て消滅するのも容易い。", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ren_battle","panic")
-	await novel_interface.show_dialog("所以才被分为“不许研究”的EX级吗……", "小怜")
+	await novel_interface.show_dialog("だから「研究禁止」のEX級になったわけか……", "レン")
 	await novel_interface.hide_character()
 	novel_interface.show_character("liliu_uniform2","normal2")
-	await novel_interface.show_dialog("由于其性质不稳定，就像一枚无法预测爆炸时间的炸弹。", "莉琉")
-	await novel_interface.show_dialog("华云宫也千方百计的想甩掉这块烫手山芋吧，好不容易才说服教廷接手，萨蒙顿方面也默许了。", "莉琉")
+	await novel_interface.show_dialog("例えるなら予測不能の時限爆弾みたいなモノさ。
+性質があまりにも不安定過ぎる。", "マリル")
+	await novel_interface.show_dialog("この厄介認定された危険物を、華雲宮城は
+どうしても手放したかったようだ。
+あらゆる手段を尽くして何とか教皇庁を説得、
+サモントン側も黙認して今に至る。", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("说到教廷，我想起索娅下午传来的邮件，是她在圣赦院工房拍的照片。")
-	await novel_interface.show_text_only("上次事件之后，索娅说她要回教廷调查一些事情，顺便升级“工具”。")
-	await novel_interface.show_text_only("那张照片的房间里堆满了一看就很贵的设备，简直与战研部的开发所别无二致。")
-	await novel_interface.show_text_only("除了房间正中拿着激光焊枪的人所穿的修士服，根本看不出一点宗教气息。")
+	await novel_interface.show_text_only("教皇庁と言えば、ソヤが午後辺りにメールで
+送ってきた写真の事を思い出した。")
+	await novel_interface.show_text_only("前回の事件後、ソヤは調査のために教皇庁へ
+戻っている。
+そのついでに自身の「装備」もパワーアップ
+するんだとか。")
+	await novel_interface.show_text_only("俺は携帯を開いて、送られてきたメールを
+再確認する。
+写っているのは高価そうな設備群を連ねている
+内赦院の工房だった。
+見た目は戦研部の開発室と何ら変わりない。")
+	await novel_interface.show_text_only("写真にはレーザートーチで作業している人が
+修道服を着ている以外、
+特に宗教的な雰囲気などは何一つなかった。")
 	novel_interface.show_character("ren_battle","speechless")
-	await novel_interface.show_dialog("（是不是只要给钱，教廷什么都敢接手啊……）", "小怜")
+	await novel_interface.show_dialog("（お金さえ払えば、何でも教皇庁は引き受ける
+　のかな……）", "レン")
 	await novel_interface.hide_character()
 	novel_interface.show_character("liliu_uniform2","normal2")
-	await novel_interface.show_dialog("由于那块陨石的强磁性，不适合使用飞机运输，唯一保险的方式就是航运。", "莉琉")
+	await novel_interface.show_dialog("これより隕石は華雲宮城によって教皇庁へと
+運ばれる。
+飛行機での運搬は隕石の強磁性によって
+ほぼ不可能と言っていい。
+となると、次の手は船になるわけだが。", "マリル")
 	novel_interface.change_expression("speak2")
-	await novel_interface.show_dialog("又因为需要经过苏伊士运河，理论上会违反一长串国际公约……", "莉琉")
+	await novel_interface.show_dialog("それであればスエズ運河の渡航は必須。
+
+あそこを通るとなってしまえば理屈上、
+国際条約を片っ端から違反しまくる事になる。", "マリル")
 	novel_interface.character_move_left(-0.25)
 	novel_interface.show_2nd_character("anne_normal","normal1",0.25)
-	await novel_interface.show_dialog("所以才会委托莱博娜方面帮忙处理吧？", "安妮")
+	await novel_interface.show_dialog("そこで彼らはリバーナに依頼を？", "アニー")
 	novel_interface.character_light(0.35,"normal1")
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("没错，华云宫还用异质物材料给洪先生的赌船打造了一间超导静磁屏蔽舱。", "莉琉")
+	await novel_interface.show_dialog("その通りだ。
+
+しかも華雲宮城はミスター洪先生のカジノ船に
+超伝導静磁場遮断室まで設置してな。", "マリル")
 	novel_interface.character_dark()
 	novel_interface.character_2nd_light(0.35,"panic")
-	await novel_interface.show_dialog("把这些情报透露给我们，难道说……", "安妮")
+	await novel_interface.show_dialog("そんな情報を私達に教えるって事は、まさか……", "アニー")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("莉琉微笑着点了点头。")
+	await novel_interface.show_text_only("マリルは微笑みながら頷いた。")
 	novel_interface.show_character("liliu_uniform2","speak2")
-	await novel_interface.show_dialog("说到有呼吸效应的物品，你们其实也接触过——", "莉琉")
+	await novel_interface.show_dialog("「呼吸的な作用を備えている物質」であれば、
+お前達も接触した経験があるんだぞ？", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ren_battle","wry_smile")
-	await novel_interface.show_dialog("嗯？", "小怜")
+	await novel_interface.show_dialog("うん、うん――……うん？", "レン")
 	await novel_interface.hide_character()
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_TheLastJudgement.png")
-	await novel_interface.show_text_only("我心不在焉的应和着，发现邮件最后是一张照片，内容是索娅在西斯廷教堂拍的壁画《最后的审判》")
-	await novel_interface.show_text_only("看到她的身体已经能自由出入教堂，我不由松了口气，顺手打开网页查了查那副壁画的资料。")
-	await novel_interface.show_dialog("（米开朗基罗……好像和海因里希是同个年代吧。）", "小怜")
-	await novel_interface.show_dialog("那个时代的天才们，是不是都对裸体有某种特别的执着啊……", "小怜")
+	await novel_interface.show_text_only("そうやって2人が話す最中、メールを見ていると
+最後にもう1枚写真があった事に俺は気付いた。
+システィーナ礼拝堂の有名なフレスコ画
+《最後の審判》だ。")
+	await novel_interface.show_text_only("彼女が教会を出入りできるようになった証だと、
+そう思えばホッと一息が出る。
+俺は感慨深くなりながら、何となくフレスコ画を
+ネットで検索してみた。")
+	await novel_interface.show_dialog("（ミケランジェロって確か……）
+
+（ハインリッヒと同じ年代の人だったよな？）", "レン")
+	await novel_interface.show_dialog("あの時代に生まれた天才達は裸に対して全員、
+何らかの特別なこだわりでもあるのか……", "レン")
 	novel_interface.change_background("res://assets/images/bg/APT/livingRoom.png")
 	novel_interface.show_character("liliu_uniform2","normal2")
-	await novel_interface.show_dialog("海因里希的『特斯海姆青金石柱』。", "莉琉")
-	await novel_interface.show_dialog("石柱的表面温度也会周期性小幅涨落，就如同呼吸一样。", "莉琉")
+	await novel_interface.show_dialog("──ハインリッヒの「トスハイム青金石柱」", "マリル")
+	await novel_interface.show_dialog("あの石柱の表面温度は、極小の幅ではあるが
+呼吸のように増減する。", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.show_character("anne_normal","stare")
-	await novel_interface.show_dialog("所以……", "安妮")
+	await novel_interface.show_dialog("だから……", "アニー")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("莉琉和安妮同时看向正在玩手机的我，房间忽然安静了下来。")
+	await novel_interface.show_text_only("マリルとアニーは携帯を弄っている俺の方を
+同時に見た。")
 	novel_interface.show_character("liliu_uniform2","normal1")
-	await novel_interface.show_dialog("咳咳。", "莉琉")
+	await novel_interface.show_dialog("……コホンッ。", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ren_battle","speechless")
-	await novel_interface.show_dialog("？", "小怜")
+	await novel_interface.show_dialog("？？？", "レン")
 	novel_interface.change_expression("panic")
-	await novel_interface.show_dialog("——诶、诶！？", "小怜")
+	await novel_interface.show_dialog("──え、えっ！？", "レン")
 	await novel_interface.hide_character()
 	await novel_interface.hide_background()
-	await novel_interface.show_text_only("……")
+	await novel_interface.show_text_only("…………")
 	novel_interface.change_music("res://assets/audio/music/Shop.mp3")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_Vault.png")
-	await novel_interface.show_text_only("为了避免再次发生『天堂之门』那样的事件，莉琉变更了SID的作战方针。")
-	await novel_interface.show_text_only("任何关于EX级异质物的情报都要主动跟进，且项目权级不设上限。")
-	await novel_interface.show_text_only("“固守新丰洲是无法阻止末日级灾难的，而且我们需要一把打开联合议会大门的钥匙。”")
+	await novel_interface.show_text_only("「天国の扉」事件以後、再発を防止するために
+マリルはSIDの作戦方針を変更した。")
+	await novel_interface.show_text_only("EX級異質物に関する情報は全て能動的に追跡。
+
+項目の権限レベルに上限を設けない。")
+	await novel_interface.show_text_only("「新豊洲に籠っているだけでは、世界滅亡級の
+　災厄は阻止できない」
+「そして我々にも連合議会の扉を開ける
+　カギが必要だ」")
 	novel_interface.show_character("ren_full","panic")
-	await novel_interface.show_dialog("（话是这么说啦……）", "小怜")
+	await novel_interface.show_dialog("（それはそうだけど……）
+
+（今ここで見つかっちゃったら……）", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("我想到上次在第一大道遇到的那群身着黑色特种作战服的家伙，不由打了个冷颤。")
+	await novel_interface.show_text_only("特殊な戦闘服を着た連中に電気銃で撃たれた事を
+思い出し、不意に悪寒を感じてしまう。")
 	novel_interface.show_character("ren_full","uneasy")
-	await novel_interface.show_dialog("（但、但愿钥匙不会断在锁孔里……）", "小怜")
+	await novel_interface.show_dialog("（か、カギが鍵穴の中で折れませんように……）", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("我有些不情愿的拉开0812号柜门，端详着那块通体漆黑的陨石。")
-	await novel_interface.show_text_only("按照爱衣的说法，这个异质物金属打造的屏蔽仓已经可以最大程度限制任何魔法的效果了。")
-	await novel_interface.show_text_only("而且在赌船上空的SID重型运载机上，装载了足以发动一场小型战争的战斗部，以应对突发状况。")
+	await novel_interface.show_text_only("気が進まないけど、俺はコンテナの扉を開けて、
+中にある真っ黒な隕石を見つめる。")
+	await novel_interface.show_text_only("この異質物金属で作られたコンテナは、
+最大限に魔法の効果を抑える事が可能だ。
+愛衣が言っていたので間違いない。")
+	await novel_interface.show_text_only("そしてカジノ船の上空を飛翔する大型輸送機には
+小規模な戦争すら起こせるぐらいの、
+SIDの戦闘部隊が待機している。
+
+安心安全、突発的な状況にも対応できるように
+この作戦は組まれているんだ！")
 	novel_interface.show_character("ren_full","upset")
-	await novel_interface.show_dialog("所以我只要“摸一下”就可以了？", "小怜")
+	await novel_interface.show_dialog("だから……「ちょっとだけ」触れるぐらい……
+大した事はないよな……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("不知是紧张还是害怕，能明显感到体内的血液开始涌动。")
-	await novel_interface.show_text_only("我伸出手，慢慢的探向陨石表面，同时紧张的闭上了眼睛。")
+	await novel_interface.show_text_only("緊張か恐怖か分からないけど、体内の血が
+沸き立つのを感じる。")
+	await novel_interface.show_text_only("見てられずに目を閉じてしまいながら、
+隕石の表面に向かってゆっくりと手を伸ばす……")
 	await novel_interface.hide_background()
 	await novel_interface.show_text_only("……")
 	await novel_interface.show_text_only("…………")
-	await novel_interface.show_text_only("似乎，软绵绵的？")
+	await novel_interface.show_text_only("……なんか……ふわふわ？")
 	novel_interface.show_background("res://assets/images/bg/Stardust/BG_Stardust_Vault.png")
-	await novel_interface.show_text_only("我再次睁开眼睛，手掌已经贴在了陨石的表面，质感坚硬而温润。")
+	await novel_interface.show_text_only("目を開けると、隕石の表面にぴったりと手の平は
+触れている。
+今の質感は固くて温かいんだけど……")
 	novel_interface.show_character("ren_full","panic")
-	await novel_interface.show_dialog("（是幻觉？刚才似乎摸到了软软的东西……）", "小怜")
+	await novel_interface.show_dialog("（さっきのは幻覚？）
+
+（柔らかい感触がしたはず……）", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("又拍了拍陨石，确实是坚硬平整的质地。")
-	await novel_interface.show_text_only("按照约定的步骤，我只要接触到陨石，就应该立刻脱离。")
-	await novel_interface.show_text_only("我有些困惑的关上了柜门并重新上锁，静静的站在货柜面前，回想着刚才的触感。")
+	await novel_interface.show_text_only("隕石に再度触れてみるが、質感が硬い事は
+間違いない。")
+	await novel_interface.show_text_only("本来の作戦は、隕石に触れたらすぐに離脱する。
+……だったけども。")
+	await novel_interface.show_text_only("とりあえずコンテナに鍵を掛け直してから、
+さっきの感触について考える。")
 	novel_interface.show_character("ren_full","upset")
-	await novel_interface.show_dialog("（那个手感……到底怎么回事？）", "小怜")
+	await novel_interface.show_dialog("（あの手触り……一体どういう事なんだ？）", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("突然，身后传来一种类似纽扣之类轻巧物品掉落的声音。")
-	await novel_interface.show_text_only("那东西掉在金属地板上，微微弹起并向前滚动，声响在完全屏蔽外界噪音的金库中显得格外清晰。")
+	await novel_interface.show_text_only("――コツン
+
+……などと困惑していると、背後から突然、
+何か落としたような音が伝わってきた。")
+	await novel_interface.show_text_only("金属の床に落ちて、跳ねながら転がっていく音。
+
+外部からの音が遮断された金庫内では、
+非常に聞き取りやすいものだった。")
 	novel_interface.show_character("ren_full","normal1")
-	await novel_interface.show_dialog("？", "小怜")
+	await novel_interface.show_dialog("……なんだ？", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("转身一眼就看到地上那个黄色的颗粒状物体，我走过去将它捡了起来。")
-	await novel_interface.show_text_only("这个小东西直径大概1厘米，造型类似球体且表面均匀散布着8个圆滚滚的小凸起。")
+	await novel_interface.show_text_only("振り返ると地面には黄色の物体が存在していた。")
+	await novel_interface.show_text_only("直径はおおよそ1センチほど。
+
+球状になっていて、角の丸い8個の突起物が
+付いている。")
 	novel_interface.show_character("ren_full","wry_smile")
-	await novel_interface.show_dialog("……是我礼服上掉下来的吗？", "小怜")
+	await novel_interface.show_dialog("……これって俺のドレスから落ちたのか？", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("不对，看起来像小时候吃过的金平糖，我情不自禁的想伸舌头舔一下。")
-	await novel_interface.show_dialog("呐——", "？？？")
-	await novel_interface.show_text_only("寂静无人的金库里，身后突然传来一个稚气未脱小孩子的声音，把我吓得差点跳起来。")
+	await novel_interface.show_text_only("幼い頃に食べた金平糖に似ているけど……
+
+俺は何だろうと拾い上げ、舐めて本当に金平糖か
+確かめようとしてみた。")
+	await novel_interface.show_dialog("────ねぇ。", "？？？")
+	await novel_interface.show_text_only("声が聞こえた瞬間、俺は飛び上がりそうになる。
+
+誰もいない金庫の中で……
+背後から幼い子供の声が聞こえてきたのだ。")
 	novel_interface.show_character("stardust_small","smile")
-	await novel_interface.show_dialog("呐，你在找什么呢~？", "星尘")
+	await novel_interface.show_dialog("ねぇ、何を探しているの～～？", "シンチェン")
 
 	print("=== 星尘降临篇第5话结束 ===")
 

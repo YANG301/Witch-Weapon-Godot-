@@ -13,300 +13,544 @@ func play_script():
 func stardustdescends_ep09_script():
 	novel_interface.change_music("res://assets/audio/music/Normal Stage.mp3")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_Ordovician.png")
-	await novel_interface.show_text_only("人们总乐于猜测，如果存在强大的外星文明，它们是善意的还是恶意的。")
-	await novel_interface.show_text_only("更加可能答案的是——它们是无意的。")
-	await novel_interface.show_text_only("4.49亿年前的一天，一束来自6000光年外的高能伽马射线穿透大气层，击中了地球。")
-	await novel_interface.show_text_only("射线瞬间击毁了三分之一的臭氧层，阳光中的紫外线直接穿透大气层。")
-	await novel_interface.show_text_only("大量浮游生物死亡，破坏了海洋食物链的基础，饥荒开始蔓延。")
-	await novel_interface.show_text_only("灾难过后数十年，被击碎的大气分子重新组合，形成了大量有毒的二氧化氮气体。")
-	await novel_interface.show_text_only("二氧化氮遮天蔽日，遮住了50%的阳光。地球失去阳光的照射，气温开始迅速下降。")
-	await novel_interface.show_text_only("海洋温度由25度下降到10度，更多浮游生物的死亡加速了食物链的崩溃。")
-	await novel_interface.show_text_only("灾难发生500年后，地球上三分之一的生物消失，剩下的生物在饥饿与严寒中挣扎。")
-	await novel_interface.show_text_only("由于缺少阳光照射，全球大量海水结冰，冰川的蔓延速度快得难以想象，海平面下降了100米。")
-	await novel_interface.show_text_only("灾难发生后15万年，全球平均气温降至5度，地表大部被冰壳覆盖，超过一半的生物在严寒中灭绝。")
-	await novel_interface.show_text_only("银河系中某颗遥远恒星坍缩时的无心之失，让地球上的远古生物群落陷入了无尽的绝望。")
-	await novel_interface.show_text_only("——这次意外史称奥陶纪大灭绝。")
+	await novel_interface.show_text_only("人類の関心が向くであろう議題を1つ挙げるなら
+異星文化の有無は外せないだろう。
+もし宇宙に強大な何かが存在しているであれば、
+彼らは果たして善なのか、それとも悪なのか。")
+	await novel_interface.show_text_only("正解に近い憶測であれば教えよう。
+彼らは無意的なのだ。")
+	await novel_interface.show_text_only("──4.49億年前のある日。
+
+高エネルギーガンマ線が、地球外6000光年の
+距離から飛来する。
+それは大気圏を貫いて、地球へと直撃した。")
+	await novel_interface.show_text_only("ガンマ線はオゾン層の3分の1を破壊。
+
+太陽から放射された紫外線が、直接大気層を
+通過して地表へ到達するようになってしまう。")
+	await novel_interface.show_text_only("結果としてプランクトンが大量に死滅し、
+海洋下の食物連鎖が崩壊を始めた。
+それは生物達に大きな飢餓が広まる起因となる。")
+	await novel_interface.show_text_only("ガンマ線の直撃から数十年が経ち、
+大気中の分子が再構成を開始。
+有毒な二酸化窒素ガスが大量に発生した。")
+	await novel_interface.show_text_only("二酸化窒素ガスは地球を覆い尽くして、
+太陽光の50%を遮断。
+陽射を半分も失った事により、地球には著しい
+気温低下が生じた。")
+	await novel_interface.show_text_only("海水温度も25度から10度まで低下。
+
+プランクトンの死滅は増加する一方となり、
+食物連鎖の崩壊は更に加速する。")
+	await novel_interface.show_text_only("そこから500年後、地球上における生物の
+約3分の1が絶滅を迎えた。
+残った生物も飢餓と寒さに耐える生活を
+余儀なくされる。")
+	await novel_interface.show_text_only("太陽光の消失により海水温度が凝固点に達して、
+地球は氷の星へと変貌していく。
+氷河は想像以上の速度で広がりを見せて、
+海水面は100メートルも下降した。")
+	await novel_interface.show_text_only("──ガンマ線の直撃から15万年後。
+
+平均気温が5度となった地表は大部分が氷と化し
+生物は寒さにより半数が消失してしまう。")
+	await novel_interface.show_text_only("…………………………………………………………
+
+地球の古生物達に無尽の絶望を齎したのは、
+蓋を開ければシンプルな事柄だ。
+超新星爆発によるガンマ線バーストが銀河系の
+どこかで発生し、巻き込まれただけ。")
+	await novel_interface.show_text_only("このアクシデントは歴史書に記された際、
+「オルドビス紀末大量絶滅」と題された――")
 	await novel_interface.hide_background()
 	await novel_interface.stop_music()
+	await novel_interface.show_text_only("…………………")
 	await novel_interface.show_text_only("…………")
-	await novel_interface.show_text_only("……")
-	await novel_interface.show_text_only("第五学园都市。")
-	await novel_interface.show_text_only("随着悠扬的背景音乐，瘫在沙发上的男人渐渐醒了过来……")
+	await novel_interface.show_text_only("──第五学園都市")
+	await novel_interface.show_text_only("抑揚がある美しい音楽の下、ソファーの上で
+寝ていた男が徐々に意識を取り戻す……")
 	novel_interface.change_music("res://assets/audio/music/Sunset.mp3")
 	novel_interface.show_background("res://assets/images/bg/Fabiola/BAR.png")
-	await novel_interface.show_text_only("他满脸胡茬，头发凌乱，艰难的撑着沙发靠背坐起身来。")
-	await novel_interface.show_text_only("面前的桌上摆着一杯清水，男人顿觉喉咙干渴得好像刚从沙漠走出来，拿起水杯一饮而尽。")
-	await novel_interface.show_text_only("接着他感到头痛欲裂，捂着脑袋沉吟了好一阵，之后突然站起身来，似乎在找什么东西。")
-	await novel_interface.show_text_only("发现自己的皮包就放在沙发边上，里面的文件也都完好之后，他才稍感安心又坐下来。")
+	await novel_interface.show_text_only("ボサボサの髪や無精ひげを気にする余裕もなく、
+彼はソファーに背を預けながら身体を起した。")
+	await novel_interface.show_text_only("目の前の机には水が置いてある。
+
+砂漠の遭難者かのように喉が渇いていた男性は、
+勢い良く手に取り一気に飲み干した。")
+	await novel_interface.show_text_only("男は酷い頭痛を感じた様子で、頭を抑えて
+唸り声を上げる。
+直後に何か物を探す素振りをしながら、
+ソファーから立ち上がった。")
+	await novel_interface.show_text_only("どうやら自分のカバンを探していたようだ。
+
+カバンがソファーの近くにある事に気付くと、
+男は慌てて中身を確認し始める。
+中にあった文書を1枚ずつチェックして
+全て揃っている事が分かるとホッと息を吐いた。
+男はそのまま深くソファに座る。")
 	novel_interface.show_character("shi","normal")
-	await novel_interface.show_dialog("这是……\n哪啊……", "施教授")
+	await novel_interface.show_dialog("ここは……どこだ……？", "施教授")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("施教授观察着周围，这里像是一间高级酒吧，在舒缓的乐声中，窗外的楼宇霓虹闪烁。")
-	await novel_interface.show_dialog("你醒了？", "女性的声音")
-	await novel_interface.show_text_only("施教授循声望去，一个穿着白大褂的红发女性正拿着杯淡黄色的饮料缓步走来。")
-	await novel_interface.show_text_only("她将饮料放在施教授面前，自己坐在了对面的沙发椅中。")
+	await novel_interface.show_text_only("男……施教授は辺りを観察した。
+
+部屋内は高級バーの様相で、窓の外は高層ビルの
+ネオンが点滅している。")
+	await novel_interface.show_dialog("……お目覚めかな？", "女性の声")
+	await novel_interface.show_text_only("声がしたので頭をそちらに向けた。
+
+白衣を着た赤髪の女性が、淡い黄色の液体の
+入った容器を持ってこちらへ近づいてくる。")
+	await novel_interface.show_text_only("彼女は容器を施教授の前に置くと、
+反対側のソファに座った。")
 	novel_interface.show_character("liliu_research","normal")
-	await novel_interface.show_dialog("这是电解质水，能缓解头疼。", "莉琉")
+	await novel_interface.show_dialog("電解質を混ぜてある飲み物だ。頭痛に効くぞ。", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.show_character("shi","normal")
-	await novel_interface.show_dialog("你是……", "施教授")
+	await novel_interface.show_dialog("君は……", "施教授")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("施教授狐疑的盯着对方的脸，似乎有点印象。")
+	await novel_interface.show_text_only("施教授は赤髪の女を見つめる。
+どうやら心当たりがある様子だ。")
 	novel_interface.show_character("liliu_research","normal")
-	await novel_interface.show_dialog("您应该认识我——", "莉琉")
-	await novel_interface.show_dialog("我是莉琉·冯·布劳恩，您去年作为访问学者来新丰洲科学院交流，听过我关于晶体异质物的讲座。", "莉琉")
+	await novel_interface.show_dialog("お前なら私を知っているはずだ。", "マリル")
+	await novel_interface.show_dialog("昨年お前は交流の名目の上、訪問学者として
+新豊洲科学院に来た時──
+結晶体異質物をテーマとした私の講座に
+出席していたな？", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("莉琉顿了顿，笑着继续说道。")
+	await novel_interface.show_text_only("彼女は微笑みながら、わざとらしく間を置いて
+話を続ける。")
 	novel_interface.show_character("liliu_research","speak")
-	await novel_interface.show_dialog("另外，我还是SID的主管。", "莉琉")
+	await novel_interface.show_dialog("私の名はマリル・フォン・ブラウン。
+知っての通り新豊洲の科学者だ。
+そして一応……SIDの主任もやっている。", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("施教授一惊，本能的想起身逃走，但很快放弃了这个幼稚的念头——")
-	await novel_interface.show_text_only("莉琉递过去一个平板电脑，安抚的说道。")
+	await novel_interface.show_text_only("マリルの名乗りを聞いた施教授は驚愕し、
+本能的に逃げ出そうと考えた。
+しかし、直ぐに無駄だと理解して諦める。")
+	await novel_interface.show_text_only("そんな施教授にマリルはタブレットを渡すと、
+慰め交じりの言葉を投げかけた。")
 	novel_interface.show_character("liliu_research","smile")
-	await novel_interface.show_dialog("别害怕，这里很安全——", "莉琉")
-	await novel_interface.show_dialog("而且要不是我们，你早就没命了。", "莉琉")
+	await novel_interface.show_dialog("怖がらなくて良い。
+ここにいた方がきっと安全だ。", "マリル")
+	await novel_interface.show_dialog("何せ私達が居なければ、そこがお前の人生の
+終着点だっただろうからな。", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("施教授狐疑得接过电脑，上面是街道的监控录像。")
-	await novel_interface.show_text_only("他忽然想起，自己之前在那栋别墅等了很久都没见到约好的买家，在离开时叫了一辆出租车。")
-	await novel_interface.show_text_only("在街边等车的时候，忽然觉得脖子一阵刺痛，然后就眼前一黑……")
+	await novel_interface.show_text_only("警戒しつつも受け取ったタブレットを眺めると、
+画面には見覚えある交差点の映像が流れていた。")
+	await novel_interface.show_text_only("──彼は事の成り行きを思い出す。
+
+いくら待っても約束した買い手が現れないため、
+諦めて帰る事を決め、
+別荘を出てすぐの交差点でタクシーを呼んだ。")
+	await novel_interface.show_text_only("タクシーが来るまで適当に時間を潰していると、
+首に何か刺されたような痛みを感じた。
+そして、途端に目の前が真っ暗になって……")
 	novel_interface.show_character("shi","normal")
-	await novel_interface.show_dialog("这是……", "施教授")
+	await novel_interface.show_dialog("こいつは……", "施教授")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("监控录像中，施教授站在路边等车，一个不起眼的中年妇女从他身后经过时忽然掏出了注射器——")
-	await novel_interface.show_text_only("那人干脆利落的将针头扎进施教授的脖子，然后迅速从后面搀住了他瘫倒的身体。")
-	await novel_interface.show_text_only("大约三秒之后，一辆着侧门的黑色面包车开到路边，车上的两个人将他拖上车。")
-	await novel_interface.show_text_only("接着面包车迅速开走，前后不到十秒，他就像人间蒸发般消失了。")
+	await novel_interface.show_text_only("映像にはタクシーを待つ自分の姿が映っていた。
+
+そのまましばらく見ていると、とある中年女性が
+自分の後ろを通り過ぎる場面に切り替わる。
+パッと見では一般の通行人に見える彼女だが、
+突然注射器を持ち出し──")
+	await novel_interface.show_text_only("手慣れた様子でこちらの首に針を突き刺した後、
+倒れる身体を受け止めて、合図を出し始めた。")
+	await novel_interface.show_text_only("おおよそ3秒後、ドアを開けたままの黒ワゴンが
+現場に到着する。
+2人の男が急いでワゴンから出て来ると、
+自分を車内へと引っ張り入れる。")
+	await novel_interface.show_text_only("そして現場から黒ワゴンは逃走……
+
+僅か10秒未満。
+自分の身体は神隠しのように消されてしまった。")
 	novel_interface.show_character("liliu_research","normal")
-	await novel_interface.show_dialog("这群人是匿名雇主在网上高价雇用的杀手，还好这辆车在第一个路口就被我们拦下……", "莉琉")
-	await novel_interface.show_dialog("当时他们正准备给你注射神经毒剂，如果晚一步你现在就已经是脑死亡状态了。", "莉琉")
+	await novel_interface.show_dialog("こいつらはネットで依頼を受け持ってる殺し屋で
+誰かが高い金を払って雇ったらしい。
+私達が車を止めるのに尽力しなければ、
+今頃どうなっていた事やら。", "マリル")
+	await novel_interface.show_dialog("あの時は神経毒を注射される寸前だったか。
+
+後一歩遅かったら、今頃お前は脳死状態に
+なっていただろうな。", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("施教授不由倒抽了一口凉气，身体僵硬起来。")
+	await novel_interface.show_text_only("施教授は深く息を吸って、身体を硬直させた。")
 	novel_interface.show_character("liliu_research","smile")
-	await novel_interface.show_dialog("所以说……", "莉琉")
+	await novel_interface.show_dialog("で、聞きたい事があるのだが……", "マリル")
 	novel_interface.change_expression("happy")
-	await novel_interface.show_dialog("你究竟招惹到什么人了？", "莉琉")
+	await novel_interface.show_dialog("お前は一体、誰の恨みを買った？", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.show_character("shi","angry")
-	await novel_interface.show_dialog("招惹……？\n怎、怎么会！", "施教授")
-	await novel_interface.show_dialog("我只是一个学者，能惹到什么人……", "施教授")
+	await novel_interface.show_dialog("恨み……？　そ、そんな……", "施教授")
+	await novel_interface.show_dialog("私はただの一介の学者に過ぎん。
+他人の恨みを買うなんぞ……", "施教授")
 	await novel_interface.hide_character()
 	novel_interface.show_character("liliu_research","normal")
-	await novel_interface.show_dialog("那个别墅作为“地下中介”的信誉一向很好，不管是交易军火、机密文件还是异质物——", "莉琉")
-	await novel_interface.show_dialog("在『七诫』组织的担保下，无论买卖双方是什么样的恶徒都不敢越界。", "莉琉")
+	await novel_interface.show_dialog("あの別荘は「地下取引の仲介所」として名高い。
+
+軍事兵器、機密文書または異質物でも何のその。", "マリル")
+	await novel_interface.show_dialog("『七戒』の担保がある限り、売買する双方が
+どんなにゲス野郎だとしても──
+大体は相手を鑑みない行動に移らないはずだ。", "マリル")
 	novel_interface.change_expression("smile")
-	await novel_interface.show_dialog("但这次，你联系的买家却要冒这么大风险对你这种没什么价值的菜鸟下手，为什么？", "莉琉")
+	await novel_interface.show_dialog("しかし、お前の取引相手はリスクを侵してでも、
+一見価値の無さそうなお前に手を出そうとした。
+その原因はなんだ？", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("施教授防御性的收了收大衣领子，瞄了一眼自己的旧皮包。")
+	await novel_interface.show_text_only("施教授は自らを守るようにコートの襟を正すと、
+さり気なく自分のカバンを横目に見る。")
 	novel_interface.show_character("shi","normal")
-	await novel_interface.show_dialog("你们都看过了吧，这可是第一学园都市的『绝密』级文件，会不会是无形门……", "施教授")
+	await novel_interface.show_dialog("既にあんた達は確認済みだろうが、
+こいつは第一学園都市の「絶対機密」文書だ。
+考えられるのは「無形の扉」の連中が私を……", "施教授")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("莉琉笑着靠在沙发背上，不屑的说道——")
+	await novel_interface.show_text_only("──マリルは笑いながらソファに背を預けた。")
 	novel_interface.show_character("liliu_research","speak")
-	await novel_interface.show_dialog("你这种人都能带出境，就说明不怎么绝密。", "莉琉")
+	await novel_interface.show_dialog("はは、お前程度の人間でも外国へ持ち込める物が
+絶対機密な訳ないだろう？", "マリル")
 	novel_interface.change_expression("smile")
-	await novel_interface.show_dialog("目前同样的文件市面上已经出现了三份，马萨达的情报部门也拿到手了。", "莉琉")
-	await novel_interface.show_dialog("甚至可以推断，华云宫方面是故意放任这份文件流出的——", "莉琉")
-	await novel_interface.show_dialog("而且据我所知，其他几个出卖这份情报的卖家都顺利完成了交易。", "莉琉")
+	await novel_interface.show_dialog("既にそれと同じ文書が3つも市場に出回って
+いるぞ？
+マサダの情報部も手に入れていたようだ。", "マリル")
+	await novel_interface.show_dialog("この様子だと華雲宮が文書の意図的な流出を
+狙ったと推測できるが──", "マリル")
+	await novel_interface.show_dialog("他の情報販売者は全員無事に取引を終えていて、
+お前だけが何故か別として扱われた。", "マリル")
 	novel_interface.change_expression("happy")
-	await novel_interface.show_dialog("你和他们相比，有什么特殊之处，必须要冒险灭口不可呢？", "莉琉")
+	await novel_interface.show_dialog("それは、お前が他の売り手と違って何か特殊な
+理由を持っているからに他ならない。", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("施教授眼神空洞的愣了好久，一个字也没说出来。")
+	await novel_interface.show_text_only("施教授は一言も喋らず、唖然と虚ろな目をした。")
 	novel_interface.show_character("liliu_research","smile")
-	await novel_interface.show_dialog("我猜你和之前联络的买家提出的开价，应该不只是要钱吧……", "莉琉")
-	await novel_interface.show_dialog("或许是你索取的东西，差点要了你的命？", "莉琉")
+	await novel_interface.show_dialog("恐らく、お前が買い手へ提出した取引条件は
+金だけじゃない……", "マリル")
+	await novel_interface.show_dialog("お前が欲しかった物は、危うく自分の命を
+奪い兼ねない『モノ』であった。", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("莉琉面前的男人长叹一口气，身体松弛下来，向后靠在了沙发背上。")
+	await novel_interface.show_text_only("長い溜め息を吐くと、身体をリラックスさせて、
+施教授はマリルと同じくソファに背を預けた。")
 	novel_interface.show_character("shi","eyeclose")
-	await novel_interface.show_dialog("你们这种人……真可怕。", "施教授")
+	await novel_interface.show_dialog("あんた達……本当に末恐ろしいな。", "施教授")
 	await novel_interface.hide_character()
 	novel_interface.show_character("liliu_research","happy")
-	await novel_interface.show_dialog("过奖~", "莉琉")
+	await novel_interface.show_dialog("お褒めに預かり光栄だ。", "マリル")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("莉琉的嘴角微微扬起。")
+	await novel_interface.show_text_only("──マリルは口角を上げた。")
 	novel_interface.show_character("liliu_research","normal")
-	await novel_interface.show_dialog("既然你已经明白自己的处境了——", "莉琉")
+	await novel_interface.show_dialog("置かれた状況はもう理解できただろう？", "マリル")
 	novel_interface.change_expression("smile")
-	await novel_interface.show_dialog("那么，来谈谈咱们的交易吧。", "莉琉")
+	await novel_interface.show_dialog("さて……我々も取引を開始しようか。", "マリル")
 	await novel_interface.hide_character()
 	await novel_interface.stop_music()
 	await novel_interface.hide_background_with_fade()
-	await novel_interface.show_text_only("……")
-	await novel_interface.show_text_only("第三学园都市，马萨达港海关。")
+	await novel_interface.show_text_only("…………")
+	await novel_interface.show_text_only("──第三学園都市、マサダ港税関。")
 	novel_interface.change_music("res://assets/audio/music/Like A Girl.mp3")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_MasadaCustoms.png")
 	novel_interface.show_character("ren_medical","stare")
-	await novel_interface.show_dialog("这个像纹身一样的东西真能自动降解吗……", "小怜")
+	await novel_interface.show_dialog("このタトゥーみたいなの……
+
+……本当に後で消えるのか？", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("我摸了摸手背上的条形码，据说用的是某种异质物加工的油墨，能在设定的时间点自动消失。")
-	await novel_interface.show_text_only("这个条形码是马萨达海关的入境许可，也是外国游人驻留本国期间的唯一合法ID。")
-	await novel_interface.show_text_only("在驻留时限到期的那一刻，这种油墨会自动挥发。")
-	await novel_interface.show_text_only("如果没这个条形码，马萨达境内任何士兵和临检人员都有权将我立刻逮捕。")
+	await novel_interface.show_text_only("俺は手の甲に張り付けられたバーコードを、
+何度も触れて確認する。
+こいつはマサダ税関の入国許可証だ。
+
+外国人旅行者が滞在する間だけ取得できる
+唯一の公式IDでもある。")
+	await novel_interface.show_text_only("異質物で加工した特殊なインクを使用していて
+事前に設定したタイミングが過ぎると、
+自動的に消えるようになっているらしい。")
+	await novel_interface.show_text_only("つまりこのバーコードは滞在期限になった瞬間、
+手の甲から無くなってしまう。")
+	await novel_interface.show_text_only("バーコードを持たない相手は兵士も臨検人員も
+容赦なく逮捕して良い事となっている。")
 	novel_interface.show_character("ren_medical","uneasy")
-	await novel_interface.show_dialog("（嗯……洗澡的时候不会蹭掉吧？）", "小怜")
+	await novel_interface.show_dialog("（うーん……お風呂に入った時とかに、
+　消えちゃったりはしないよな？）", "レン")
 	await novel_interface.hide_character()
 	novel_interface.show_character("stardust_small","disgust")
-	await novel_interface.show_dialog("好慢啊呜……", "小星尘")
+	await novel_interface.show_dialog("遅い……ホントに遅いよ……", "シンチェン")
 	novel_interface.change_expression("wordless")
-	await novel_interface.show_dialog("啊呜啊呜嗷呜~~", "小星尘")
+	await novel_interface.show_dialog("ホントにホントにホントにホントに～～", "シンチェン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("小星尘等得不耐烦，嘴里嘟囔着莫名其妙的音节一扭一扭的跑到走廊窗边，扒着立柱往外看。")
-	await novel_interface.show_text_only("我拉她一路跟我从国际医疗援助组织的特殊通道混过来，而安妮要排队走常规游客的安检通道。")
-	await novel_interface.show_text_only("马萨达的安防在全世界都是出了名的严格，港口大厅也随处可见荷枪实弹巡逻的士兵。")
-	await novel_interface.show_text_only("我走到小星尘身后，从这扇窗向东望去，能看到碧蓝无波的死海和伫立在大运河终点的以利亚大坝。")
-	await novel_interface.show_text_only("死海南侧大坝出水口附近的海面混合着不均匀的青色和浅蓝色，越往北海面的颜色越深。")
-	await novel_interface.show_text_only("据说《创世纪》中被毁灭的两座罪恶之城——所多玛城和蛾摩拉就沉没于死海南部的水底。")
-	await novel_interface.show_text_only("不知那片海中是不是还游荡着对“那位大人”心怀怨愤的冤魂。")
-	await novel_interface.show_text_only("此时东北天边的地平线上，由沙尘暴形成的暗红色云雾正蠢蠢欲动。")
-	await novel_interface.show_text_only("但最让我感到不可思议的是，沙尘暴的信息居然是这个小家伙告诉我的——")
+	await novel_interface.show_text_only("暇を持て余しているシンチェンはどこかで聞いた
+感じの変な歌を口ずさんでいた。
+俺達は国際医療救援組織の特別通路を利用して
+入国したから特に面倒事は無かったが、
+アニーは普通の旅行客と同じ扱いなので、
+保安検査を受けなければならない。")
+	await novel_interface.show_text_only("マサダの保安検査は鬼厳しいと世界中で
+話題に挙がるほど厳重だ。
+現に港のロビーでも、兵士達が実弾入りの銃を
+構えて常にパトロールをしている。")
+	await novel_interface.show_text_only("時間が掛かりそうだったので、俺達は先へ
+進みながらアニーを待つ事にした。
+そして案の定シンチェンが待ちくたびれる
+ぐらいには時間が掛かっている感じである。")
+	await novel_interface.show_text_only("シンチェンは外の景色を見ようと廊下の
+窓前にあった柱の上へよじ登っている。
+俺はシンチェンの後ろへと続くように移動して、
+窓から東の方を眺めた。")
+	await novel_interface.show_text_only("視界に映ったのは蒼く波の立たない死海。
+そして運河の終点に佇立するエリヤダム。
+ダムの吐水口近くの海面は、不均等な緑色と
+浅青色が混ざり合っている。
+よく見ると死海南側から北に行けば行くほど、
+海面の色は深くなる。")
+	await novel_interface.show_text_only("滅ぼされた2つの罪悪の街、ソドムとゴモラは
+死海南部の底深くに沈んだ――
+『創世記』では、そのように記されていた。")
+	await novel_interface.show_text_only("あそこの海底には「アイツ」へ恨みを持つ冤魂が
+沢山いたりするのかな……")
+	await novel_interface.show_text_only("一方、東北側の地平線上には砂嵐による忌々しい
+暗紅色の霧が生き物のように蠢いている。")
+	await novel_interface.show_text_only("不思議なのは、この子が砂嵐に関する情報を
+知っていた事──")
 	novel_interface.show_character("stardust_small","konata_eye")
-	await novel_interface.show_dialog("咩？", "小星尘")
+	await novel_interface.show_dialog("ん～？　な～に～？", "シンチェン")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ren_medical","smile")
-	await novel_interface.show_dialog("呐~你知道马萨达的历史吗？", "小怜")
+	await novel_interface.show_dialog("なぁ、君はマサダの歴史を知っているのかい？", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("她一副“你说啥呢”的表情眨巴着眼睛，同时头上猫耳一样的耳机则快速闪动了两下。")
+	await novel_interface.show_text_only("「何言ってるんだこいつ？」と言いそうな表情で
+シンチェンは目をパチパチさせると、
+ヘッドホンの猫耳が素早く2回点滅した。")
 	novel_interface.show_character("ren_medical","smile")
 	novel_interface.character_move_left(-0.25)
 	novel_interface.show_2nd_character("stardust_small","normal1",0.25)
-	await novel_interface.show_dialog("马萨达是亚拉姆语中“堡垒”的意思，原是一座建在山丘上的宫殿，也是坚固的防御工事——", "小星尘")
-	await novel_interface.show_dialog("公元72年，仅有一千人的马萨达堡在罗马军团围攻下坚守了两年，在城破之际守城将士集体自杀。", "小星尘")
+	await novel_interface.show_dialog("マサダはアラム語で「要塞」を意味する。
+
+切り立った岩山の上に建設され、
+ヘロデ大王が後に離宮として改修した。
+山頂への道は細い登山道が一本あるのみで、
+その地形から難攻不落と言われている。", "シンチェン")
+	await novel_interface.show_dialog("72年、マサダに立て籠った1000人はローマの
+軍隊に囲まれながらも2年間の籠城戦を果たす。
+しかし奮闘も虚しく、時を経て衰退していくと、
+城門を破かれてしまい、
+最後は将校を含めた兵士全員が自決を選択した。", "シンチェン")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("和刚才在餐厅里的状况一样，她像念书般机械的说出了百科页面上的标准答案。")
+	await novel_interface.show_text_only("──さっきレストランで聞いた時と同じだ。
+
+彼女はウィキペディア並みの知識を朗読のように
+急に淡々とした口調で語り始める。")
 	novel_interface.show_character("ren_medical","wry_smile")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.character_light()
 	novel_interface.show_2nd_character("stardust_small","normal1",0.25)
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("……那你知道你刚才说的话是什么意思吗？", "小怜")
+	await novel_interface.show_dialog("……その言葉の内容、君は理解しているんだな？", "レン")
 	novel_interface.character_dark()
 	novel_interface.character_2nd_light(0.35,"konata_eye")
-	await novel_interface.show_dialog("不知道呀~！", "小星尘")
+	await novel_interface.show_dialog("ぜぇ～んぜん！　意味分かってないよ！", "シンチェン")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("她露出一个没心没肺的笑容。")
-	await novel_interface.show_text_only("你是智能音箱吗！？")
-	await novel_interface.show_text_only("还是特别不智能的那种……")
-	await novel_interface.show_text_only("我对历史了解不多，只知道马萨达从几千年前就很惨，七年战争期间连原来的圣城首都被端掉了。")
+	await novel_interface.show_text_only("彼女は眩しい笑顔を見せた。")
+	await novel_interface.show_text_only("お前はスマートスピーカーかよ！？")
+	await novel_interface.show_text_only("あるいはスマートじゃない方のスピーカー……")
+	await novel_interface.show_text_only("俺は歴史に詳しくないけど、もう何千年も
+マサダの苦難は続いていると知っている。
+首都だった聖城も七年戦争の際に破壊された。")
 	novel_interface.show_character("ren_medical","upset")
-	await novel_interface.show_dialog("唉，这个民族还真是坎坷……", "小怜")
+	await novel_interface.show_dialog("はぁ、色々大変な民族だよな……", "レン")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("想到这里，我多少能理解入境大厅横梁上那句“马萨达永不陷落”的标语表达的心境了。")
+	await novel_interface.show_text_only("「マサダは永遠に陥落せず」
+
+入国管理のロビーの梁に貼っていたスローガン、
+今なら何となく気持ちが理解できる。")
 	novel_interface.show_character("ren_medical","upset")
 	novel_interface.character_move_left(-0.25)
 	novel_interface.show_2nd_character("stardust_small","happy",0.25)
-	await novel_interface.show_dialog("啊！安妮——", "小星尘")
+	await novel_interface.show_dialog("あっ！　アニーだ～～！", "シンチェン")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("小星尘指着安检口叫道，安妮正拉着手提箱从那边向我们走来。")
+	await novel_interface.show_text_only("シンチェンは保安検査の出口を指差す。
+
+アニーが荷物を引っ張って、こちらに向かって
+来ているのが見えた。")
 	await novel_interface.stop_music()
 	await novel_interface.hide_background_with_fade()
-	await novel_interface.show_text_only("……")
-	await novel_interface.show_text_only("播磨脑科学研究中心，实验医疗部。")
+	await novel_interface.show_text_only("…………")
+	await novel_interface.show_text_only("──播磨脳科学総合研究センター、実験医療部")
 	novel_interface.change_music("res://assets/audio/music/Normal Stage.mp3")
 	novel_interface.change_background("res://assets/images/bg/Fabiola/Dementium.png")
-	await novel_interface.show_text_only("莉琉坐在大脑潜入装置的床上，有些疲惫的揉着太阳穴——")
-	await novel_interface.show_text_only("爱衣走进房内，递给她一瓶电解质水。")
+	await novel_interface.show_text_only("マリルは脳潜入装置のベッドに座りながら、
+疲れた顔でこめかみを揉んでいる。")
+	await novel_interface.show_text_only("部屋に入ってきた愛衣が、彼女に電解質入りの
+水を渡した。")
 	novel_interface.show_character("ai","normal")
-	await novel_interface.show_dialog("怎么样？审讯有收获吗？", "爱衣")
+	await novel_interface.show_dialog("尋問はどうだった？ 何か収穫あったかい？", "愛衣")
 	await novel_interface.hide_character()
 	novel_interface.show_character("liliu_research","smile")
-	await novel_interface.show_dialog("啊……得到了有趣的情报。", "莉琉")
+	await novel_interface.show_dialog("まぁ……面白い情報は持っていた。", "マリル")
 	novel_interface.change_expression("normal")
-	await novel_interface.show_dialog("施教授那边现在状况如何？", "莉琉")
+	await novel_interface.show_dialog("施教授の現状はどうだ？", "マリル")
 	await novel_interface.hide_character()
 	novel_interface.show_character("ai","think")
-	await novel_interface.show_dialog("嘛……依然是深度昏迷状态，脑干反射微弱，要靠器械维持生命——", "爱衣")
-	await novel_interface.show_dialog("虽然螯合剂清除了他体内大部分神经毒素，但无法确定已经造成了多大损伤，也不知道能不能醒来。", "爱衣")
+	await novel_interface.show_dialog("深昏睡状態のままだね。
+
+脳幹反射は微弱、機械で生命を維持するしか
+できない状態だよ。", "愛衣")
+	await novel_interface.show_dialog("体内の神経毒はキレート剤によって
+大半が中和されたけど……
+すでに身体は甚大なダメージを負っているから、
+二度と目覚めない可能性も高いと言えるわ。", "愛衣")
 	novel_interface.change_expression("stare")
-	await novel_interface.show_dialog("这套装置是目前从他身上获取信息唯一的办法了~", "爱衣")
+	await novel_interface.show_dialog("やっぱり現状は潜入装置で脳に入り込むしか、
+彼から情報を引き出す方法はないよ。", "愛衣")
 	await novel_interface.hide_character()
-	await novel_interface.show_text_only("莉琉拧开了瓶盖，喝了一大口之后说道。")
+	await novel_interface.show_text_only("ボトルのキャップを外すと、中身をグッと飲んで
+マリルは喉を潤していく。")
 	novel_interface.show_character("liliu_research","normal")
-	await novel_interface.show_dialog("那家伙说他窃取文件倒卖，是为了找女儿。", "莉琉")
+	await novel_interface.show_dialog("……あいつの話だと、文書を盗んで売ったのは、
+娘を探すためだったらしい。", "マリル")
 	novel_interface.character_move_left(-0.25)
 	novel_interface.show_2nd_character("ai","wink",0.25)
-	await novel_interface.show_dialog("啊嘞？我还以为那个老土是光棍呢~", "爱衣")
+	await novel_interface.show_dialog("ありゃ、あんなダサダサ服の教授だったから
+てっきり独身かと思ってた。", "愛衣")
 	novel_interface.character_light(0.35,"smile")
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("他女儿六年前从伯克利的天文系毕业，在联邦政府解体前被召入了NASA的一个保密项目组。", "莉琉")
+	await novel_interface.show_dialog("あいつの娘の経歴は以下の通りだ。
+
+6年前にバークレー天文学部から優秀な成績で
+卒業を果たした。
+そして連邦政府解体前にNASAの秘密研究項目へ
+スカウトされて配属──", "マリル")
 	novel_interface.character_dark()
 	novel_interface.character_2nd_light(0.35,"think")
-	await novel_interface.show_dialog("NASA？真是让人怀念的名字呐……", "爱衣")
+	await novel_interface.show_dialog("NASAって本当に懐かしい名前だね……", "愛衣")
 	novel_interface.change_2nd_expression("normal")
-	await novel_interface.show_dialog("是军方的太空武器项目吗？", "爱衣")
+	await novel_interface.show_dialog("項目ってのは、軍隊の宇宙兵器とかのやつ？", "愛衣")
 	novel_interface.character_light()
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("是个天文观测类项目——", "莉琉")
+	await novel_interface.show_dialog("天文観測の項目だ。", "マリル")
 	novel_interface.change_expression("normal")
-	await novel_interface.show_dialog("据说NASA在观测昂宿星团的某个坐标时，偶然收到了特定波段的高频闪烁信号。", "莉琉")
+	await novel_interface.show_dialog("プレアデス星団のとある座標を観測していた時。
+
+NASAは偶然にも特定波長の高周波点滅信号を
+受信したらしい。", "マリル")
 	novel_interface.change_expression("smile")
-	await novel_interface.show_dialog("那个信号明显是指向性的，只能在特定轨道位置接收到——", "莉琉")
-	await novel_interface.show_dialog("就像在四百光年外对着太阳系发射了一道激光，只有处在那条狭窄的光路中才能观测到。", "莉琉")
+	await novel_interface.show_dialog("信号は明らかな指向性を持っており、
+軌道上の特定位置でしか受信できなかった。", "マリル")
+	await novel_interface.show_dialog("それは太陽系に向けて、400光年離れた場所から
+発射されたレーザーのような……", "マリル")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("爱衣的面颊顿时红润起来，兴奋的问道。")
+	await novel_interface.show_text_only("愛衣は頬っぺたが赤くなるほどの興奮を見せて、
+関心を持っている事を露わにする。")
 	novel_interface.show_character("liliu_research","smile")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.show_2nd_character("ai","dizzy",0.25)
-	await novel_interface.show_dialog("就像是……用光纤定向发送讯息？", "爱衣")
+	await novel_interface.show_dialog("まるで光ファイバーで特定方向にメッセージを
+送っているかのような……！？", "愛衣")
 	novel_interface.change_2nd_expression("blush_dizzy")
-	await novel_interface.show_dialog("难难难难道说——？！", "爱衣")
+	await novel_interface.show_dialog("ままま、ま、まさか――ッ！？", "愛衣")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("莉琉微微点了点头。")
+	await novel_interface.show_text_only("マリルは軽く頷いた。")
 	novel_interface.change_background("res://assets/images/bg/Stardust/BG_Stardust_CrabNebula.png")
-	await novel_interface.show_text_only("1967年，天文学家第一次观测到一组有规律的脉冲信号。")
-	await novel_interface.show_text_only("最初他们认为信号来自外星文明生物，并将这个信号命名为“小绿人”。")
-	await novel_interface.show_text_only("后来这种信号被确定为脉冲星，并非智慧生命的造物，但人类对系外信号的监听从未停止。")
-	await novel_interface.show_text_only("不少天文学家和业余爱好者，终其一生希望接收到来自外层空间的电波。")
+	await novel_interface.show_text_only("1967年、天文学者達が初めて規則的な
+パルス信号の観測に成功した。")
+	await novel_interface.show_text_only("最初は地球外文明からの信号だと考えられ、
+その信号は「緑の小人」と名付けられた。")
+	await novel_interface.show_text_only("だが、後から中性子星の一種であるパルサーが
+起因していたと判明。
+発信元は知的生命体が作った物ではないと
+証明された。
+しかし、それでも人間は系外信号の盗聴作業を、
+決して止めなかった。")
+	await novel_interface.show_text_only("天文学者からアマチュアまで、全ての天文学に
+関わる人間にとって、
+外層宇宙からの電波を受信する事は、
+遥か一生の願いとされている。")
 	novel_interface.change_background("res://assets/images/bg/Fabiola/Dementium.png")
 	novel_interface.show_character("liliu_research","angry")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.character_light()
 	novel_interface.show_2nd_character("ai","blush_dizzy",0.25)
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("这个项目从十几年前就开始了，但在黑色圣诞节事件之后，NASA也陷入了瘫痪。", "莉琉")
+	await novel_interface.show_dialog("項目自体は10年以上前から始まっていたが、
+現在は実質上の凍結扱いを受けている。
+流石のNASAもブラッククリスマスには
+敵わなかったようだ。", "マリル")
 	novel_interface.character_dark()
 	novel_interface.character_2nd_light(0.35,"normal")
-	await novel_interface.show_dialog("黑色圣诞节啊……", "爱衣")
+	await novel_interface.show_dialog("ブラッククリスマスか……", "愛衣")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("2033年12月24日，一个巨大的球形『黑域』毫无征兆的在纽摩利达斯附近的海面上展开。")
-	await novel_interface.show_text_only("黑域瞬间吞噬了联邦政府大部分海面作战力量，为七年战争画上了一个纯黑色的句号。")
+	await novel_interface.show_text_only("──2033年12月24日
+
+ニューモリダスの海に前触れもなく現れたのは、
+巨大な球体状の空間『ブラックゾーン』だった。")
+	await novel_interface.show_text_only("存在理由の不明なソレに対応できる訳もなく
+連邦政府は保有していた海軍戦力の大多数を、
+ブラックゾーンに呑み込まれてしまう。
+
+当時ブラッククリスマスは彼らとって、
+文字通り七年戦争の真っ暗な句点となった。")
 	novel_interface.show_character("liliu_research","normal")
 	novel_interface.character_move_left(-0.25,0)
 	novel_interface.character_light()
 	novel_interface.show_2nd_character("ai","normal",0.25)
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("当时施教授收到了一封他女儿的电邮，内容就是那个项目的香农熵特征值。", "莉琉")
+	await novel_interface.show_dialog("施教授が当時、娘から貰ったメールには項目の
+エントロピー特徴値の記載があったそうだ。", "マリル")
 	novel_interface.character_dark()
 	novel_interface.character_2nd_light(0.35,"think")
-	await novel_interface.show_dialog("我记得类似于电磁信号的指纹吧？", "爱衣")
+	await novel_interface.show_dialog("エントロピー特徴値……
+確か電磁信号の指紋のようなものだったよね？", "愛衣")
 	novel_interface.character_light(0.35,"smile")
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("没错，之后他女儿就音讯全无，这些情报也是施教授在这几年里陆续调查到的。", "莉琉")
+	await novel_interface.show_dialog("そうだ。
+
+そのメールを最後に、彼の娘は行方不明となり、
+彼は必死に娘を捜索するようになった。
+先ほどの情報も、この数年の間に施教授が
+調査した成果だ。", "マリル")
 	novel_interface.character_dark()
 	novel_interface.character_2nd_light(0.35,"stare") 
-	await novel_interface.show_dialog("那个大叔比他看起来要靠谱嘛……", "爱衣")
+	await novel_interface.show_dialog("あのおっさん思ったよりやるね……", "愛衣")
 	novel_interface.character_light(0.35,"speak")
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("有意思的是，那个黑色石棺状的EX级异质物在被激发时能发出具有同样特征值的电磁波——", "莉琉")
-	await novel_interface.show_dialog("只不过强度猛烈得多，最严重的那次激发毁掉了华云宫的一个收容站点。", "莉琉")
+	await novel_interface.show_dialog("更に興味深い話は続く。
+
+あの黒い石棺みたいなEX級異質物が、
+外敵を拒絶する際に発する電磁波……
+アレはメールに在った記載と同一の特徴値を
+持っている。", "マリル")
+	await novel_interface.show_dialog("ただし、反応は遥かに激しいがな。
+
+華雲宮の収容基地1つを全壊にした時などは、
+想像を絶する数値を叩き出していたそうだ。", "マリル")
 	novel_interface.change_expression("smile")
-	await novel_interface.show_dialog("他得知这个信息后立刻申请回国，并主动加入了那个石棺的研究团队。", "莉琉")
-	await novel_interface.show_dialog("然而，在上次国际和平论坛之后，他们的项目组毫无征兆的被解散了。", "莉琉")
+	await novel_interface.show_dialog("それを知った彼はすぐに帰国を申し出て、
+あの異質物の研究チームに入ろうとしたらしい。", "マリル")
+	await novel_interface.show_dialog("しかし前回の平和フォーラムの後に突然、
+その研究項目のチームは解散してしまった。", "マリル")
 	novel_interface.change_expression("normal")
-	await novel_interface.show_dialog("华云宫高层似乎打算将石棺交给教廷永久封存。", "莉琉")
+	await novel_interface.show_dialog("研究拠点が全壊した件もあってか華雲宮の
+上層部は石棺を教皇庁に預けて、
+永久に封印しようと考えたらしいな。", "マリル")
 	novel_interface.character_dark()
 	novel_interface.character_2nd_light(0.35,"think") 
-	await novel_interface.show_dialog("那样他女儿的最后线索也会被切断，所以……", "爱衣")
+	await novel_interface.show_dialog("でも、そうなると娘に関する最後の手掛かりが
+無くなっちゃうから……", "愛衣")
 	novel_interface.character_light(0.35,"smile")
 	novel_interface.character_2nd_dark()
-	await novel_interface.show_dialog("所以他偷出了这份机密文件，想在暗网上找中介进行情报交易。", "莉琉")
+	await novel_interface.show_dialog("だから彼は機密文書を盗み出した。
+
+闇サイトで仲介屋に通じて情報の取引を
+行うために。", "マリル")
 	novel_interface.character_dark()
 	novel_interface.character_2nd_light(0.35,"stare")
-	await novel_interface.show_dialog("啊，他是想要NASA的——？", "爱衣")
+	await novel_interface.show_dialog("あっ、分かった！
+彼が欲しかったのはNASAの……？", "愛衣")
 	await novel_interface.hide_all_characters()
-	await novel_interface.show_text_only("莉琉露出一副得到了自己想要玩具般的笑容。")
+	await novel_interface.show_text_only("マリルは欲しいおもちゃを手に入れたような
+笑顔を見せた。")
 	novel_interface.show_character("liliu_research","smile")
-	await novel_interface.show_dialog("没错。", "莉琉")
+	await novel_interface.show_dialog("その通り。", "マリル")
 	novel_interface.change_expression("happy")
-	await novel_interface.show_dialog("为他招来杀身之祸的，就是他向暗网中介索要NASA『0812项目』的内部资料这件事。", "莉琉")
+	await novel_interface.show_dialog("彼の命が狙われた原因は……
+
+闇サイトの仲介にNASA『0812項目』の
+内部資料を要求していたからだ。", "マリル")
 
 	print("=== 星尘降临篇第9话结束 ===")
 
