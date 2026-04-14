@@ -24,9 +24,59 @@ extends Control
 @onready var dojin_icon_gray: Sprite2D = $"DojinButton/IconGray"     # 同人灰色图标
 @onready var dojin_label_gray: Label = $"DojinButton/IconGray/LabelGray"  # 同人灰色文字
 
-# 同人按钮点击代理（用于覆盖 Sprite2D/Label 组合可能产生的“点不到缝隙”区域）
-var _dojin_hit_proxy: Control = null
-const DOJIN_HIT_PADDING := 6.0
+# 顶部页签点击代理与本地化配置
+const DEFAULT_LANGUAGE_CODE := "zh"
+const TAB_HIT_PADDING := 6.0
+const TAB_LOCALIZED_TEXTS := {
+	"main": {
+		"zh": "主线",
+		"tc": "主線",
+		"en": "Main",
+		"jp": "本編",
+		"kr": "메인",
+		"de": "Haupt",
+		"es": "Trama",
+		"fr": "Trame",
+		"it": "Trama",
+		"pt": "Trama",
+		"ru": "Сюжет",
+		"th": "เนื้อหา",
+		"vi": "Chính"
+	},
+	"side": {
+		"zh": "番外",
+		"tc": "番外",
+		"en": "Extra",
+		"jp": "外伝",
+		"kr": "외전",
+		"de": "Extra",
+		"es": "Extra",
+		"fr": "Extra",
+		"it": "Extra",
+		"pt": "Extra",
+		"ru": "Экстра",
+		"th": "พิเศษ",
+		"vi": "Ngoại"
+	},
+	"dojin": {
+		"zh": "同人",
+		"tc": "同人",
+		"en": "Doujin",
+		"jp": "同人",
+		"kr": "동인",
+		"de": "Doujin",
+		"es": "Doujin",
+		"fr": "Doujin",
+		"it": "Doujin",
+		"pt": "Doujin",
+		"ru": "Додзин",
+		"th": "โดจิน",
+		"vi": "Doujin"
+	}
+}
+
+var _tab_hit_proxies: Dictionary = {}
+var _tab_label_layouts: Dictionary = {}
 
 # 故事列表容器
 @onready var main_story_list: Control = $"MainStoryList"  # 主线故事列表
@@ -73,15 +123,16 @@ var _is_settings_open: bool = false  # 设置界面是否打开
 
 func _ready() -> void:
 	"""初始化主菜单，设置默认状态和背景位置"""
-	# 将自己添加到main_menu组
 	add_to_group("main_menu")
-	
+
+	_capture_tab_label_layouts()
+	_refresh_localized_texts()
 	_initialize_backgrounds()
 	_initialize_story_lists()
 	_initialize_black_overlay()
 	_setup_bgm_loop()
-	_ensure_dojin_hit_proxy()
-	_update_dojin_hit_proxy_rect()
+	_ensure_tab_hit_proxies()
+	_update_tab_hit_proxy_rects()
 	_update_backgrounds_position()
 
 func _input(event: InputEvent) -> void:
@@ -141,7 +192,7 @@ func _process(_delta):
 	"""每帧更新，仅在非切换状态时更新背景视差效果"""
 	if not _is_switching:
 		_update_backgrounds_position()
-	_update_dojin_hit_proxy_rect()
+	_update_tab_hit_proxy_rects()
 
 func _update_backgrounds_position():
 	"""根据当前可见的故事列表更新背景视差位置"""
@@ -331,7 +382,7 @@ func _update_button_states(active_index: int):
 	_set_button_active(main_icon_light, main_label_light, main_icon_gray, main_label_gray, active_index == 0)
 	_set_button_active(side_icon_light, side_label_light, side_icon_gray, side_label_gray, active_index == 1)
 	_set_button_active(dojin_icon_light, dojin_label_light, dojin_icon_gray, dojin_label_gray, active_index == 2)
-	_update_dojin_hit_proxy_rect()
+	_update_tab_hit_proxy_rects()
 
 func _set_button_active(icon_light: Sprite2D, label_light: Label, icon_gray: Sprite2D, label_gray: Label, active: bool):
 	"""设置单个按钮的激活状态"""
@@ -340,23 +391,137 @@ func _set_button_active(icon_light: Sprite2D, label_light: Label, icon_gray: Spr
 	icon_gray.visible = not active
 	label_gray.visible = not active
 
-func _ensure_dojin_hit_proxy() -> void:
-	if is_instance_valid(_dojin_hit_proxy):
+func _capture_tab_label_layouts() -> void:
+	_cache_tab_label_layout(main_label_light)
+	_cache_tab_label_layout(main_label_gray)
+	_cache_tab_label_layout(side_label_light)
+	_cache_tab_label_layout(side_label_gray)
+	_cache_tab_label_layout(dojin_label_light)
+	_cache_tab_label_layout(dojin_label_gray)
+
+func _cache_tab_label_layout(label: Label) -> void:
+	if label == null:
 		return
 
-	_dojin_hit_proxy = Control.new()
-	_dojin_hit_proxy.name = "DojinHitProxy"
-	_dojin_hit_proxy.mouse_filter = Control.MOUSE_FILTER_STOP
-	_dojin_hit_proxy.modulate = Color(1, 1, 1, 0)
-	_dojin_hit_proxy.z_index = 100
-	add_child(_dojin_hit_proxy)
+	var layout_key := _get_tab_label_layout_key(label)
+	var label_scale := Vector2(abs(label.scale.x), abs(label.scale.y))
+	_tab_label_layouts[layout_key] = {
+		"center": label.position + (label.size * label_scale * 0.5),
+		"min_height": label.size.y
+	}
 
-	_dojin_hit_proxy.gui_input.connect(_on_dojin_hit_proxy_gui_input)
+func _get_tab_label_layout_key(label: Label) -> String:
+	return str(label.get_path())
 
-func _on_dojin_hit_proxy_gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		_on_dojin_button_pressed()
-		get_viewport().set_input_as_handled()
+func _refresh_localized_texts() -> void:
+	var language_code := _get_current_language_code()
+
+	_apply_tab_localized_text("main", language_code, main_label_light, main_label_gray)
+	_apply_tab_localized_text("side", language_code, side_label_light, side_label_gray)
+	_apply_tab_localized_text("dojin", language_code, dojin_label_light, dojin_label_gray)
+	_update_tab_hit_proxy_rects()
+
+func _apply_tab_localized_text(tab_key: String, language_code: String, light_label: Label, gray_label: Label) -> void:
+	var localized_text := _get_tab_localized_text(tab_key, language_code)
+
+	_apply_localized_label_text(light_label, localized_text)
+	_apply_localized_label_text(gray_label, localized_text)
+
+func _apply_localized_label_text(label: Label, localized_text: String) -> void:
+	if label == null:
+		return
+
+	label.text = localized_text
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+
+	var layout_key := _get_tab_label_layout_key(label)
+	var layout: Dictionary = _tab_label_layouts.get(layout_key, {})
+	if layout.is_empty():
+		return
+
+	var label_scale := Vector2(abs(label.scale.x), abs(label.scale.y))
+	var text_size := label.get_combined_minimum_size()
+	var min_height := float(layout.get("min_height", text_size.y))
+	var centered_size := Vector2(ceil(text_size.x), max(min_height, ceil(text_size.y)))
+	var center: Vector2 = layout.get("center", label.position + centered_size * 0.5)
+
+	label.size = centered_size
+	label.position = center - (centered_size * label_scale * 0.5)
+
+func _get_tab_localized_text(tab_key: String, language_code: String) -> String:
+	var translations: Dictionary = TAB_LOCALIZED_TEXTS.get(tab_key, {})
+	if translations.is_empty():
+		return ""
+
+	var localized_text := str(translations.get(language_code, "")).strip_edges()
+	if not localized_text.is_empty():
+		return localized_text
+
+	return str(translations.get(DEFAULT_LANGUAGE_CODE, "")).strip_edges()
+
+func _get_current_language_code() -> String:
+	var game_config := get_node_or_null("/root/GameConfig")
+	if game_config == null:
+		return DEFAULT_LANGUAGE_CODE
+
+	return _normalize_language_code(game_config.current_language)
+
+func _normalize_language_code(language_code: Variant) -> String:
+	var normalized_code := str(language_code).strip_edges().to_lower()
+
+	match normalized_code:
+		"ja":
+			normalized_code = "jp"
+		"ko":
+			normalized_code = "kr"
+
+	if TAB_LOCALIZED_TEXTS["main"].has(normalized_code):
+		return normalized_code
+
+	return DEFAULT_LANGUAGE_CODE
+
+func _ensure_tab_hit_proxies() -> void:
+	_ensure_tab_hit_proxy("main")
+	_ensure_tab_hit_proxy("side")
+	_ensure_tab_hit_proxy("dojin")
+
+func _ensure_tab_hit_proxy(tab_key: String) -> void:
+	if is_instance_valid(_tab_hit_proxies.get(tab_key) as Control):
+		return
+
+	var hit_proxy := Control.new()
+	hit_proxy.name = "%sHitProxy" % tab_key.capitalize()
+	hit_proxy.mouse_filter = Control.MOUSE_FILTER_STOP
+	hit_proxy.modulate = Color(1, 1, 1, 0)
+	hit_proxy.z_index = 100
+	add_child(hit_proxy)
+
+	hit_proxy.gui_input.connect(_on_tab_hit_proxy_gui_input.bind(tab_key))
+	_tab_hit_proxies[tab_key] = hit_proxy
+
+func _on_tab_hit_proxy_gui_input(event: InputEvent, tab_key: String) -> void:
+	var is_pressed := false
+
+	if event is InputEventMouseButton:
+		is_pressed = event.button_index == MOUSE_BUTTON_LEFT and event.pressed
+	elif event is InputEventScreenTouch:
+		is_pressed = event.pressed
+
+	if not is_pressed:
+		return
+
+	match tab_key:
+		"main":
+			_on_main_story_button_pressed()
+		"side":
+			_on_side_story_button_pressed()
+		"dojin":
+			_on_dojin_button_pressed()
+		_:
+			return
+
+	get_viewport().set_input_as_handled()
 
 func _get_sprite2d_global_rect(sprite: Sprite2D) -> Rect2:
 	if not is_instance_valid(sprite) or not sprite.texture:
@@ -372,27 +537,33 @@ func _get_sprite2d_global_rect(sprite: Sprite2D) -> Rect2:
 
 	return Rect2(top_left, rect_size)
 
-func _update_dojin_hit_proxy_rect() -> void:
-	if not is_instance_valid(_dojin_hit_proxy):
+func _update_tab_hit_proxy_rects() -> void:
+	_update_tab_hit_proxy_rect("main", main_icon_light, main_icon_gray, main_label_light, main_label_gray)
+	_update_tab_hit_proxy_rect("side", side_icon_light, side_icon_gray, side_label_light, side_label_gray)
+	_update_tab_hit_proxy_rect("dojin", dojin_icon_light, dojin_icon_gray, dojin_label_light, dojin_label_gray)
+
+func _update_tab_hit_proxy_rect(tab_key: String, light_icon: Sprite2D, gray_icon: Sprite2D, light_label: Label, gray_label: Label) -> void:
+	var hit_proxy := _tab_hit_proxies.get(tab_key) as Control
+	if hit_proxy == null:
 		return
 
-	var icon := dojin_icon_light if dojin_icon_light.visible else dojin_icon_gray
-	var label := dojin_label_light if dojin_label_light.visible else dojin_label_gray
+	var active_icon := light_icon if light_icon.visible else gray_icon
+	var active_label := light_label if light_label.visible else gray_label
+	var rect := _get_sprite2d_global_rect(active_icon)
 
-	var rect := _get_sprite2d_global_rect(icon)
 	if rect.size == Vector2.ZERO:
-		_dojin_hit_proxy.visible = false
+		hit_proxy.visible = false
 		return
 
-	if is_instance_valid(label) and label.visible:
-		rect = rect.merge(label.get_global_rect())
+	if is_instance_valid(active_label) and active_label.visible:
+		rect = rect.merge(active_label.get_global_rect())
 
-	rect.position -= Vector2(DOJIN_HIT_PADDING, DOJIN_HIT_PADDING)
-	rect.size += Vector2(DOJIN_HIT_PADDING * 2.0, DOJIN_HIT_PADDING * 2.0)
+	rect.position -= Vector2(TAB_HIT_PADDING, TAB_HIT_PADDING)
+	rect.size += Vector2(TAB_HIT_PADDING * 2.0, TAB_HIT_PADDING * 2.0)
 
-	_dojin_hit_proxy.global_position = rect.position
-	_dojin_hit_proxy.size = rect.size
-	_dojin_hit_proxy.visible = true
+	hit_proxy.global_position = rect.position
+	hit_proxy.size = rect.size
+	hit_proxy.visible = true
 
 func load_story_scene(scene_path: String, script_override_path: String = "") -> bool:
 	"""加载剧情场景到CanvasLayer中，带有渐变动画"""
