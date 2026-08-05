@@ -124,6 +124,7 @@ var _is_settings_open: bool = false  # 设置界面是否打开
 func _ready() -> void:
 	"""初始化主菜单，设置默认状态和背景位置"""
 	add_to_group("main_menu")
+	_apply_platform_capabilities()
 
 	_capture_tab_label_layouts()
 	_refresh_localized_texts()
@@ -134,6 +135,12 @@ func _ready() -> void:
 	_ensure_tab_hit_proxies()
 	_update_tab_hit_proxy_rects()
 	_update_backgrounds_position()
+
+func _apply_platform_capabilities() -> void:
+	var dojin_enabled := PlatformCapabilities.shows_dojin_ui()
+	dojin_button.visible = dojin_enabled
+	dojin_button.disabled = not dojin_enabled
+	dojin_story_list.visible = false
 
 func _input(event: InputEvent) -> void:
 	"""处理输入事件，包括退出剧情场景"""
@@ -394,7 +401,7 @@ func _set_story_navigation_enabled(enabled: bool) -> void:
 	"""设置面板显示期间锁定顶部剧情导航，覆盖鼠标、触摸和键盘输入。"""
 	main_story_button.disabled = not enabled
 	side_story_button.disabled = not enabled
-	dojin_button.disabled = not enabled
+	dojin_button.disabled = not enabled or not PlatformCapabilities.shows_dojin_ui()
 	_update_tab_hit_proxy_rects()
 
 func _set_button_active(icon_light: Sprite2D, label_light: Label, icon_gray: Sprite2D, label_gray: Label, active: bool):
@@ -497,7 +504,8 @@ func _normalize_language_code(language_code: Variant) -> String:
 func _ensure_tab_hit_proxies() -> void:
 	_ensure_tab_hit_proxy("main")
 	_ensure_tab_hit_proxy("side")
-	_ensure_tab_hit_proxy("dojin")
+	if PlatformCapabilities.shows_dojin_ui():
+		_ensure_tab_hit_proxy("dojin")
 
 func _ensure_tab_hit_proxy(tab_key: String) -> void:
 	if is_instance_valid(_tab_hit_proxies.get(tab_key) as Control):
@@ -514,6 +522,8 @@ func _ensure_tab_hit_proxy(tab_key: String) -> void:
 	_tab_hit_proxies[tab_key] = hit_proxy
 
 func _on_tab_hit_proxy_gui_input(event: InputEvent, tab_key: String) -> void:
+	if tab_key == "dojin" and not PlatformCapabilities.shows_dojin_ui():
+		return
 	if _is_settings_open:
 		return
 
@@ -556,7 +566,8 @@ func _get_sprite2d_global_rect(sprite: Sprite2D) -> Rect2:
 func _update_tab_hit_proxy_rects() -> void:
 	_update_tab_hit_proxy_rect("main", main_icon_light, main_icon_gray, main_label_light, main_label_gray)
 	_update_tab_hit_proxy_rect("side", side_icon_light, side_icon_gray, side_label_light, side_label_gray)
-	_update_tab_hit_proxy_rect("dojin", dojin_icon_light, dojin_icon_gray, dojin_label_light, dojin_label_gray)
+	if PlatformCapabilities.shows_dojin_ui():
+		_update_tab_hit_proxy_rect("dojin", dojin_icon_light, dojin_icon_gray, dojin_label_light, dojin_label_gray)
 
 func _update_tab_hit_proxy_rect(tab_key: String, light_icon: Sprite2D, gray_icon: Sprite2D, light_label: Label, gray_label: Label) -> void:
 	var hit_proxy := _tab_hit_proxies.get(tab_key) as Control
@@ -808,3 +819,4 @@ func _on_settings_back_pressed() -> void:
 	await settings_panel.hide_settings()
 	_is_settings_open = false
 	_set_story_navigation_enabled(true)
+	_refresh_localized_texts()

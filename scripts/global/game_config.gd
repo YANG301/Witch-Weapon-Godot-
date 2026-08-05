@@ -95,8 +95,9 @@ var current_language: String:
 # ==================== 核心方法 ====================
 func _ready():
 	load_settings()
-	# 启动时立即应用窗口设置
-	apply_display_settings()
+	if PlatformCapabilities.uses_desktop_window_settings():
+		# 只在桌面平台应用窗口设置，移动端和 Web 保持系统管理的窗口状态。
+		apply_display_settings()
 
 # 加载配置文件
 func load_settings():

@@ -57,6 +57,11 @@ const LANGUAGE_BUTTON_TEXT_FADE_DURATION: float = 0.12
 @onready var windowed_btn = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ModeButtons/WindowedBtn
 @onready var screen_list = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ScreenList
 @onready var resolution_list = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings/ResolutionList
+@onready var content_area: ColorRect = $MainPanel/ContentArea
+@onready var side_panel: ColorRect = $MainPanel/SidePanel
+@onready var display_settings: VBoxContainer = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/DisplaySettings
+@onready var audio_settings: VBoxContainer = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings
+@onready var language_settings: VBoxContainer = $MainPanel/ContentArea/SettingsContent/SettingsLayout/LanguageSettings
 @onready var master_volume_slider = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings/MasterVolumeSlider
 @onready var music_volume_slider = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings/MusicVolumeSlider
 @onready var sfx_volume_slider = $MainPanel/ContentArea/SettingsContent/SettingsLayout/HBoxContainer/AudioSettings/SFXVolumeSlider
@@ -198,6 +203,8 @@ const UI_TEXTS: Dictionary = {
 }
 
 func _ready():
+	_apply_platform_capabilities()
+
 	# 加载按钮纹理资源
 	setting_idle_texture = load("res://assets/gui/settings/setting_idle.png")
 	setting_clicked_texture = load("res://assets/gui/settings/setting_clicked.png")
@@ -212,41 +219,61 @@ func _ready():
 		_language_button_display_font = language_font_variation
 	else:
 		_language_button_display_font = _ui_font
-	_setup_language_buttons()
-	_apply_user_menu_base_texture()
-	_refresh_user_menu_avatar_preview()
-	call_deferred("_apply_user_avatar_icon_layout")
-	if user_menu_button != null and not user_menu_button.resized.is_connected(_on_user_menu_button_resized):
-		user_menu_button.resized.connect(_on_user_menu_button_resized)
-	if not resized.is_connected(_on_settings_resized):
-		resized.connect(_on_settings_resized)
-	if user_menu_bg != null:
-		user_menu_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	if user_menu_icon != null:
-		user_menu_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if PlatformCapabilities.shows_language_picker():
+		_setup_language_buttons()
+	if PlatformCapabilities.shows_account_ui():
+		_apply_user_menu_base_texture()
+		_refresh_user_menu_avatar_preview()
+		call_deferred("_apply_user_avatar_icon_layout")
+		if user_menu_button != null and not user_menu_button.resized.is_connected(_on_user_menu_button_resized):
+			user_menu_button.resized.connect(_on_user_menu_button_resized)
+		if not resized.is_connected(_on_settings_resized):
+			resized.connect(_on_settings_resized)
+		if user_menu_bg != null:
+			user_menu_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		if user_menu_icon != null:
+			user_menu_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	# 初始化屏幕列表
-	_populate_screen_list()
+	if PlatformCapabilities.uses_desktop_window_settings():
+		# 初始化屏幕列表
+		_populate_screen_list()
 
 	# 加载保存的设置（包括屏幕、分辨率等）
 	_load_settings()
 
-	# 初始化分辨率列表（需要在加载设置后，因为要知道保存的窗口分辨率）
-	_populate_resolution_list()
+	if PlatformCapabilities.uses_desktop_window_settings():
+		# 初始化分辨率列表（需要在加载设置后，因为要知道保存的窗口分辨率）
+		_populate_resolution_list()
 
-	# 设置初始窗口模式按钮状态
-	_update_window_mode_buttons()
+		# 设置初始窗口模式按钮状态
+		_update_window_mode_buttons()
 
 	_refresh_localized_texts()
 
 	# 默认显示设置页面
 	_show_settings_page()
-	if has_node("/root/AuthManager") and not AuthManager.profile_changed.is_connected(_on_auth_profile_changed):
-		AuthManager.profile_changed.connect(_on_auth_profile_changed)
-	if has_node("/root/AuthManager") and not AuthManager.auth_state_changed.is_connected(_on_auth_state_changed):
-		AuthManager.auth_state_changed.connect(_on_auth_state_changed)
-	if user_menu_button != null and not user_menu_button.gui_input.is_connected(_on_user_menu_button_gui_input):
-		user_menu_button.gui_input.connect(_on_user_menu_button_gui_input)
+	if PlatformCapabilities.shows_account_ui():
+		if has_node("/root/AuthManager") and not AuthManager.profile_changed.is_connected(_on_auth_profile_changed):
+			AuthManager.profile_changed.connect(_on_auth_profile_changed)
+		if has_node("/root/AuthManager") and not AuthManager.auth_state_changed.is_connected(_on_auth_state_changed):
+			AuthManager.auth_state_changed.connect(_on_auth_state_changed)
+		if user_menu_button != null and not user_menu_button.gui_input.is_connected(_on_user_menu_button_gui_input):
+			user_menu_button.gui_input.connect(_on_user_menu_button_gui_input)
+
+func _apply_platform_capabilities() -> void:
+	var account_enabled := PlatformCapabilities.shows_account_ui()
+	var audio_only := PlatformCapabilities.settings_are_audio_only()
+	display_settings.visible = PlatformCapabilities.uses_desktop_window_settings()
+	language_settings.visible = PlatformCapabilities.shows_language_picker()
+	audio_settings.visible = true
+	user_menu_button.visible = account_enabled
+	user_menu_button.disabled = not account_enabled
+	user_menu_button.mouse_filter = Control.MOUSE_FILTER_STOP if account_enabled else Control.MOUSE_FILTER_IGNORE
+	thanks_button.visible = PlatformCapabilities.shows_thanks_page()
+	thanks_button.disabled = not PlatformCapabilities.shows_thanks_page()
+	thanks_content.visible = false
+	side_panel.visible = not audio_only
+	content_area.anchor_right = 1.0 if audio_only else 0.8
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _avatar_picker_overlay == null or not _avatar_picker_overlay.visible:
@@ -862,10 +889,13 @@ func _get_ui_text(key: String, fallback_text: String = "") -> String:
 
 func _refresh_localized_texts() -> void:
 	_apply_settings_page_texts()
-	_apply_thanks_page_texts()
-	_apply_avatar_picker_texts()
-	_populate_screen_list()
-	_rebuild_credits_ui()
+	if PlatformCapabilities.shows_thanks_page():
+		_apply_thanks_page_texts()
+		_rebuild_credits_ui()
+	if PlatformCapabilities.shows_account_ui():
+		_apply_avatar_picker_texts()
+	if PlatformCapabilities.uses_desktop_window_settings():
+		_populate_screen_list()
 
 func _apply_settings_page_texts() -> void:
 	if display_title_label != null:
@@ -1286,46 +1316,49 @@ func _load_settings():
 		# 应用音量设置
 		_apply_audio_settings()
 
-		# 加载屏幕设置
-		var saved_screen = config.get_value("display", "screen", 0)
-		# 确保屏幕索引有效
-		var screen_count = DisplayServer.get_screen_count()
-		if saved_screen >= 0 and saved_screen < screen_count:
-			current_screen = saved_screen
-			screen_list.selected = current_screen
-		else:
-			current_screen = 0
-			screen_list.selected = 0
+		if PlatformCapabilities.uses_desktop_window_settings():
+			# 加载屏幕设置
+			var saved_screen = config.get_value("display", "screen", 0)
+			# 确保屏幕索引有效
+			var screen_count = DisplayServer.get_screen_count()
+			if saved_screen >= 0 and saved_screen < screen_count:
+				current_screen = saved_screen
+				screen_list.selected = current_screen
+			else:
+				current_screen = 0
+				screen_list.selected = 0
 
-		# 加载窗口模式（始终为窗口模式）
-		var saved_borderless = config.get_value("display", "borderless", false)
+			# 加载窗口模式（始终为窗口模式）
+			var saved_borderless = config.get_value("display", "borderless", false)
 
-		# 加载分辨率
-		var saved_width = config.get_value("display", "resolution_x", 1280)
-		var saved_height = config.get_value("display", "resolution_y", 720)
-		var saved_size = Vector2i(saved_width, saved_height)
-		windowed_resolution = saved_size  # 保存到变量
+			# 加载分辨率
+			var saved_width = config.get_value("display", "resolution_x", 1280)
+			var saved_height = config.get_value("display", "resolution_y", 720)
+			var saved_size = Vector2i(saved_width, saved_height)
+			windowed_resolution = saved_size  # 保存到变量
 
-		# 应用窗口设置
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-		DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, saved_borderless)
-		DisplayServer.window_set_current_screen(current_screen)
+			# 应用窗口设置
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			DisplayServer.window_set_flag(DisplayServer.WINDOW_FLAG_BORDERLESS, saved_borderless)
+			DisplayServer.window_set_current_screen(current_screen)
 
-		# 根据窗口模式设置位置和大小到指定屏幕
-		var screen_position = DisplayServer.screen_get_position(current_screen)
-		var screen_size = DisplayServer.screen_get_size(current_screen)
+			# 根据窗口模式设置位置和大小到指定屏幕
+			var screen_position = DisplayServer.screen_get_position(current_screen)
+			var screen_size = DisplayServer.screen_get_size(current_screen)
 
-		if saved_borderless:
-			# 无边框全屏模式，窗口大小等于屏幕大小
-			DisplayServer.window_set_size(screen_size)
-			DisplayServer.window_set_position(screen_position)
-		else:
-			# 窗口模式，使用保存的分辨率并居中到屏幕（确保顶部可见）
-			DisplayServer.window_set_size(saved_size)
-			var window_pos = _center_window_to_screen(saved_size, current_screen)
-			DisplayServer.window_set_position(window_pos)
+			if saved_borderless:
+				# 无边框全屏模式，窗口大小等于屏幕大小
+				DisplayServer.window_set_size(screen_size)
+				DisplayServer.window_set_position(screen_position)
+			else:
+				# 窗口模式，使用保存的分辨率并居中到屏幕（确保顶部可见）
+				DisplayServer.window_set_size(saved_size)
+				var window_pos = _center_window_to_screen(saved_size, current_screen)
+				DisplayServer.window_set_position(window_pos)
 
-	_apply_language_button_selection(GameConfig.current_language)
+	_selected_language_code = _normalize_language_code(GameConfig.current_language)
+	if PlatformCapabilities.shows_language_picker():
+		_apply_language_button_selection(GameConfig.current_language)
 
 func _save_settings():
 	var config = ConfigFile.new()
@@ -1336,22 +1369,25 @@ func _save_settings():
 	config.set_value("audio", "music_volume", music_volume_slider.value)
 	config.set_value("audio", "sfx_volume", sfx_volume_slider.value)
 
-	# 保存窗口模式
-	var mode = DisplayServer.window_get_mode()
-	var is_borderless = DisplayServer.window_get_flag(DisplayServer.WINDOW_FLAG_BORDERLESS)
-	config.set_value("display", "window_mode", mode)
-	config.set_value("display", "borderless", is_borderless)
+	if PlatformCapabilities.uses_desktop_window_settings():
+		# 保存窗口模式
+		var mode = DisplayServer.window_get_mode()
+		var is_borderless = DisplayServer.window_get_flag(DisplayServer.WINDOW_FLAG_BORDERLESS)
+		config.set_value("display", "window_mode", mode)
+		config.set_value("display", "borderless", is_borderless)
 
-	# 保存屏幕
-	config.set_value("display", "screen", current_screen)
+		# 保存屏幕
+		config.set_value("display", "screen", current_screen)
 
-	# 保存分辨率（只保存窗口模式下的分辨率，无边框全屏不保存）
-	if not is_borderless:
-		windowed_resolution = DisplayServer.window_get_size()
+		# 保存分辨率（只保存窗口模式下的分辨率，无边框全屏不保存）
+		if not is_borderless:
+			windowed_resolution = DisplayServer.window_get_size()
 
-	config.set_value("display", "resolution_x", windowed_resolution.x)
-	config.set_value("display", "resolution_y", windowed_resolution.y)
-	config.set_value("language", "current", _selected_language_code)
+		config.set_value("display", "resolution_x", windowed_resolution.x)
+		config.set_value("display", "resolution_y", windowed_resolution.y)
+
+	if PlatformCapabilities.shows_language_picker():
+		config.set_value("language", "current", _selected_language_code)
 
 	config.save(GameConfig.CONFIG_FILE_PATH)
 
@@ -1374,6 +1410,8 @@ func _apply_audio_settings():
 
 # 窗口模式按钮回调
 func _on_borderless_btn_pressed():
+	if not PlatformCapabilities.uses_desktop_window_settings():
+		return
 	# 检查是否已经是无边框模式，避免重复触发
 	if DisplayServer.window_get_flag(DisplayServer.WINDOW_FLAG_BORDERLESS):
 		return
@@ -1398,6 +1436,8 @@ func _on_borderless_btn_pressed():
 	_save_settings()
 
 func _on_windowed_btn_pressed():
+	if not PlatformCapabilities.uses_desktop_window_settings():
+		return
 	# 检查是否已经是窗口模式，避免重复触发
 	if not DisplayServer.window_get_flag(DisplayServer.WINDOW_FLAG_BORDERLESS):
 		return
@@ -1422,6 +1462,8 @@ func _on_windowed_btn_pressed():
 
 # 屏幕选择回调
 func _on_screen_selected(index: int):
+	if not PlatformCapabilities.uses_desktop_window_settings():
+		return
 	current_screen = index
 	# 刷新分辨率列表（不同屏幕可能有不同的最大分辨率）
 	_populate_resolution_list()
@@ -1449,6 +1491,8 @@ func _move_window_to_current_screen():
 
 # 分辨率选择回调
 func _on_resolution_selected(index: int):
+	if not PlatformCapabilities.uses_desktop_window_settings():
+		return
 	var selected_res = resolution_list.get_item_metadata(index)
 	if selected_res:
 		var is_borderless = DisplayServer.window_get_flag(DisplayServer.WINDOW_FLAG_BORDERLESS)
