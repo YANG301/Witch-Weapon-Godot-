@@ -1,4 +1,4 @@
-[gd_resource type="LabelSettings" load_steps=3 format=3 uid="uid://dijm0jkrkte7x"]
+[gd_resource type="LabelSettings" format=3 uid="uid://dijm0jkrkte7x"]
 
 [ext_resource type="FontFile" uid="uid://bajyd14et5o6v" path="res://assets/gui/font/方正兰亭准黑_GBK.ttf" id="1_ukufs"]
 

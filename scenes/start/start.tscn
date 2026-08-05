@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://y7an52y8ptjs"]
+[gd_scene format=3 uid="uid://y7an52y8ptjs"]
 
 [ext_resource type="Script" uid="uid://ncrcqlhjvykp" path="res://scripts/start/start.gd" id="1_stwfd"]
 [ext_resource type="Texture2D" uid="uid://calyit8d3nwql" path="res://assets/gui/launchJp-logo.png" id="2_0stv2"]
@@ -12,7 +12,7 @@ font = ExtResource("5_3xo6f")
 font_size = 30
 font_color = Color(0.180392, 0.196078, 0.219608, 1)
 
-[node name="Control" type="Control"]
+[node name="Control" type="Control" unique_id=11389514]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,22 +21,22 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_stwfd")
 
-[node name="BlackBackground" type="ColorRect" parent="."]
+[node name="BlackBackground" type="ColorRect" parent="." unique_id=1694539712]
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 color = Color(0, 0, 0, 1)
 
-[node name="LaunchLogo" type="Sprite2D" parent="."]
+[node name="LaunchLogo" type="Sprite2D" parent="." unique_id=1175528548]
 position = Vector2(640, 360)
 scale = Vector2(0.95952, 0.96)
 texture = ExtResource("2_0stv2")
 
-[node name="LoadingBg" type="Sprite2D" parent="."]
+[node name="LoadingBg" type="Sprite2D" parent="." unique_id=1212409807]
 position = Vector2(640, 360)
 scale = Vector2(0.95952, 0.96)
 
-[node name="StartButton" type="TextureButton" parent="."]
+[node name="StartButton" type="TextureButton" parent="." unique_id=947256905]
 z_index = -1
 layout_mode = 0
 offset_left = 502.0
@@ -47,7 +47,7 @@ texture_normal = ExtResource("3_eqbev")
 texture_hover = ExtResource("4_pmgyj")
 script = ExtResource("5_0stv2")
 
-[node name="StartButtonText" type="Label" parent="StartButton"]
+[node name="StartButtonText" type="Label" parent="StartButton" unique_id=369199658]
 layout_mode = 0
 offset_left = 78.0
 offset_top = 16.0

@@ -326,6 +326,8 @@ func _try_close_active_story_overlay() -> bool:
 
 func _on_main_story_button_pressed() -> void:
 	"""处理主线按钮点击事件"""
+	if _is_settings_open:
+		return
 	if _try_close_active_story_overlay():
 		return
 	if _is_switching or _is_main_story_active():
@@ -340,6 +342,8 @@ func _is_main_story_active() -> bool:
 
 func _on_side_story_button_pressed() -> void:
 	"""处理支线按钮点击事件"""
+	if _is_settings_open:
+		return
 	if _try_close_active_story_overlay():
 		return
 	if _is_switching or _is_side_story_active():
@@ -350,6 +354,8 @@ func _on_side_story_button_pressed() -> void:
 
 func _on_dojin_button_pressed() -> void:
 	"""处理同人按钮点击事件"""
+	if _is_settings_open:
+		return
 	if _try_close_active_story_overlay():
 		return
 	if _is_switching or _is_dojin_story_active():
@@ -382,6 +388,13 @@ func _update_button_states(active_index: int):
 	_set_button_active(main_icon_light, main_label_light, main_icon_gray, main_label_gray, active_index == 0)
 	_set_button_active(side_icon_light, side_label_light, side_icon_gray, side_label_gray, active_index == 1)
 	_set_button_active(dojin_icon_light, dojin_label_light, dojin_icon_gray, dojin_label_gray, active_index == 2)
+	_update_tab_hit_proxy_rects()
+
+func _set_story_navigation_enabled(enabled: bool) -> void:
+	"""设置面板显示期间锁定顶部剧情导航，覆盖鼠标、触摸和键盘输入。"""
+	main_story_button.disabled = not enabled
+	side_story_button.disabled = not enabled
+	dojin_button.disabled = not enabled
 	_update_tab_hit_proxy_rects()
 
 func _set_button_active(icon_light: Sprite2D, label_light: Label, icon_gray: Sprite2D, label_gray: Label, active: bool):
@@ -501,6 +514,9 @@ func _ensure_tab_hit_proxy(tab_key: String) -> void:
 	_tab_hit_proxies[tab_key] = hit_proxy
 
 func _on_tab_hit_proxy_gui_input(event: InputEvent, tab_key: String) -> void:
+	if _is_settings_open:
+		return
+
 	var is_pressed := false
 
 	if event is InputEventMouseButton:
@@ -546,6 +562,12 @@ func _update_tab_hit_proxy_rect(tab_key: String, light_icon: Sprite2D, gray_icon
 	var hit_proxy := _tab_hit_proxies.get(tab_key) as Control
 	if hit_proxy == null:
 		return
+	if _is_settings_open:
+		hit_proxy.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		hit_proxy.visible = false
+		return
+
+	hit_proxy.mouse_filter = Control.MOUSE_FILTER_STOP
 
 	var active_icon := light_icon if light_icon.visible else gray_icon
 	var active_label := light_label if light_label.visible else gray_label
@@ -774,6 +796,7 @@ func _on_settings_button_pressed() -> void:
 		return
 
 	_is_settings_open = true
+	_set_story_navigation_enabled(false)
 	settings_panel.show_settings()
 
 # 设置面板返回按钮回调
@@ -784,3 +807,4 @@ func _on_settings_back_pressed() -> void:
 
 	await settings_panel.hide_settings()
 	_is_settings_open = false
+	_set_story_navigation_enabled(true)
