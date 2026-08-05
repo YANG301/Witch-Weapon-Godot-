@@ -1,7 +1,7 @@
 extends Node
 
 # 这里只控制平台 UI 与窗口兼容行为，不裁剪或停用同人、账号、多语言底层功能。
-# Windows 显示完整 UI；macOS/Linux 隐藏未完成入口；Android/iOS 设置页仅显示音量。
+# Windows 显示完整 UI；macOS/Linux 隐藏未完成入口；Android/iOS 的设置项仅显示音量，致谢页始终保留。
 const DEBUG_OVERRIDE_ENV := "WITCHWEAPON_PLATFORM_OVERRIDE"
 const PLATFORM_FEATURES: Array[Dictionary] = [
 	{"feature": "ww_windows", "name": "Windows"},
@@ -42,7 +42,7 @@ func shows_language_picker() -> bool:
 	return current_platform() == "Windows"
 
 func shows_thanks_page() -> bool:
-	return not is_mobile()
+	return true
 
 func settings_are_audio_only() -> bool:
 	return is_mobile()

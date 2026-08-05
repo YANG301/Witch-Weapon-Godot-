@@ -262,18 +262,18 @@ func _ready():
 
 func _apply_platform_capabilities() -> void:
 	var account_enabled := PlatformCapabilities.shows_account_ui()
-	var audio_only := PlatformCapabilities.settings_are_audio_only()
+	var thanks_enabled := PlatformCapabilities.shows_thanks_page()
 	display_settings.visible = PlatformCapabilities.uses_desktop_window_settings()
 	language_settings.visible = PlatformCapabilities.shows_language_picker()
 	audio_settings.visible = true
 	user_menu_button.visible = account_enabled
 	user_menu_button.disabled = not account_enabled
 	user_menu_button.mouse_filter = Control.MOUSE_FILTER_STOP if account_enabled else Control.MOUSE_FILTER_IGNORE
-	thanks_button.visible = PlatformCapabilities.shows_thanks_page()
-	thanks_button.disabled = not PlatformCapabilities.shows_thanks_page()
+	thanks_button.visible = thanks_enabled
+	thanks_button.disabled = not thanks_enabled
 	thanks_content.visible = false
-	side_panel.visible = not audio_only
-	content_area.anchor_right = 1.0 if audio_only else 0.8
+	side_panel.visible = thanks_enabled
+	content_area.anchor_right = 0.8 if thanks_enabled else 1.0
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _avatar_picker_overlay == null or not _avatar_picker_overlay.visible:

@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Witch Weapon"
-config/version="1.3.1α"
+config/version="1.4.1α"
 run/main_scene="res://scenes/start/start.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 boot_splash/bg_color=Color(0, 0, 0, 1)
