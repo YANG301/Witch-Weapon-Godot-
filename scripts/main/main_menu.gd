@@ -4,6 +4,7 @@ extends Control
 @onready var main_story_button: TextureButton = $"MainStoryButton"  # 主线按钮
 @onready var side_story_button: TextureButton = $"SideStoryButton"  # 支线按钮
 @onready var dojin_button: TextureButton = $"DojinButton"  # 同人按钮
+@onready var music_button: TextureButton = $"MusicButton"  # 音乐按钮
 @onready var settings_button: TextureButton = $"SettingsButton"  # 设置按钮
 
 # 主线按钮UI元素
@@ -24,9 +25,17 @@ extends Control
 @onready var dojin_icon_gray: Sprite2D = $"DojinButton/IconGray"     # 同人灰色图标
 @onready var dojin_label_gray: Label = $"DojinButton/IconGray/LabelGray"  # 同人灰色文字
 
+# 音乐按钮UI元素
+@onready var music_icon_light: Sprite2D = $"MusicButton/IconLight"    # 音乐高亮图标
+@onready var music_label_light: Label = $"MusicButton/IconLight/LabelLight" # 音乐高亮文字
+@onready var music_icon_gray: Sprite2D = $"MusicButton/IconGray"     # 音乐灰色图标
+@onready var music_label_gray: Label = $"MusicButton/IconGray/LabelGray"  # 音乐灰色文字
+
 # 顶部页签点击代理与本地化配置
 const DEFAULT_LANGUAGE_CODE := "zh"
 const TAB_HIT_PADDING := 6.0
+const DOJIN_TAB_X := 319.0
+const MUSIC_TAB_X_WITH_DOJIN := 460.0
 const TAB_LOCALIZED_TEXTS := {
 	"main": {
 		"zh": "主线",
@@ -72,6 +81,21 @@ const TAB_LOCALIZED_TEXTS := {
 		"ru": "Додзин",
 		"th": "โดจิน",
 		"vi": "Doujin"
+	},
+	"music": {
+		"zh": "音乐",
+		"tc": "音樂",
+		"en": "Music",
+		"jp": "音楽",
+		"kr": "음악",
+		"de": "Musik",
+		"es": "Música",
+		"fr": "Musique",
+		"it": "Musica",
+		"pt": "Música",
+		"ru": "Музыка",
+		"th": "เพลง",
+		"vi": "Âm nhạc"
 	}
 }
 
@@ -82,6 +106,7 @@ var _tab_label_layouts: Dictionary = {}
 @onready var main_story_list: Control = $"MainStoryList"  # 主线故事列表
 @onready var side_story_list: Control = $"SideStoryList"  # 支线故事列表
 @onready var dojin_story_list: Control = $"DojinStoryList"  # 同人故事列表
+@onready var music_page: Control = $"MusicPage"  # 音乐页面（功能占位）
 
 # 设置面板
 @onready var settings_panel: Control = $"SettingsPanel"  # 设置面板
@@ -140,6 +165,7 @@ func _apply_platform_capabilities() -> void:
 	var dojin_enabled := PlatformCapabilities.shows_dojin_ui()
 	dojin_button.visible = dojin_enabled
 	dojin_button.disabled = not dojin_enabled
+	music_button.position.x = MUSIC_TAB_X_WITH_DOJIN if dojin_enabled else DOJIN_TAB_X
 	dojin_story_list.visible = false
 
 func _input(event: InputEvent) -> void:
@@ -163,6 +189,8 @@ func _initialize_story_lists():
 	side_story_list.visible = false   # 支线不可见
 	dojin_story_list.modulate.a = 0.0  # 同人完全隐藏
 	dojin_story_list.visible = false   # 同人不可见
+	music_page.modulate.a = 0.0  # 音乐页面完全隐藏
+	music_page.visible = false   # 音乐页面不可见
 
 func _initialize_black_overlay():
 	"""初始化黑色遮罩"""
@@ -215,10 +243,16 @@ func _get_active_story_list() -> Control:
 		return side_story_list
 	elif dojin_story_list.visible and dojin_story_list.modulate.a > 0.5:
 		return dojin_story_list
+	elif music_page.visible and music_page.modulate.a > 0.5:
+		return music_page
 	return null
 
 func _update_backgrounds_for_list(list_node: Control):
 	"""根据指定列表的滚动位置更新背景视差效果"""
+	if list_node == music_page:
+		_apply_parallax_offset(0.0)
+		return
+
 	var first_story = _get_first_story_node(list_node)
 	if not first_story:
 		return
@@ -293,6 +327,11 @@ func _kill_existing_tween():
 
 func _animate_backgrounds_for_list(target_list: Control):
 	"""为目标列表创建背景视差动画"""
+	if target_list == music_page:
+		_tween.tween_property(story_bg_01, "position:x", BG_INITIAL_X, SWITCH_DURATION)
+		_tween.tween_property(story_bg_02, "position:x", BG_INITIAL_X, SWITCH_DURATION)
+		return
+
 	var first_story = _get_first_story_node(target_list)
 	if not first_story:
 		return
@@ -314,6 +353,8 @@ func _try_close_active_story_overlay() -> bool:
 	# If the active list is expanded (or has an episode list open), treat top button clicks as "back" first.
 	var active_list: Control = _get_current_active_list()
 	if not is_instance_valid(active_list):
+		return false
+	if active_list == music_page or not active_list.has_method("_on_back_area_pressed"):
 		return false
 
 	# These variables exist on main_story_list.gd / side_story_list.gd / dojin_story_list.gd
@@ -371,6 +412,18 @@ func _on_dojin_button_pressed() -> void:
 	_update_button_states(2)  # 2表示激活同人
 	_switch_to_list(dojin_story_list, _get_current_active_list())
 
+func _on_music_button_pressed() -> void:
+	"""处理音乐按钮点击事件"""
+	if _is_settings_open:
+		return
+	if _try_close_active_story_overlay():
+		return
+	if _is_switching or _is_music_page_active():
+		return
+
+	_update_button_states(3)  # 3表示激活音乐
+	_switch_to_list(music_page, _get_current_active_list())
+
 func _is_side_story_active() -> bool:
 	"""检查支线是否已经激活"""
 	return side_story_list.visible and side_story_list.modulate.a > 0.5
@@ -378,6 +431,10 @@ func _is_side_story_active() -> bool:
 func _is_dojin_story_active() -> bool:
 	"""检查同人是否已经激活"""
 	return dojin_story_list.visible and dojin_story_list.modulate.a > 0.5
+
+func _is_music_page_active() -> bool:
+	"""检查音乐页面是否已经激活"""
+	return music_page.visible and music_page.modulate.a > 0.5
 
 func _get_current_active_list() -> Control:
 	"""获取当前激活的列表，用于切换"""
@@ -387,14 +444,17 @@ func _get_current_active_list() -> Control:
 		return side_story_list
 	elif dojin_story_list.visible and dojin_story_list.modulate.a > 0.5:
 		return dojin_story_list
+	elif music_page.visible and music_page.modulate.a > 0.5:
+		return music_page
 	return main_story_list  # 默认返回主线
 
 func _update_button_states(active_index: int):
 	"""更新按钮的高亮/灰色状态
-	active_index: 0=主线, 1=支线, 2=同人"""
+	active_index: 0=主线, 1=支线, 2=同人, 3=音乐"""
 	_set_button_active(main_icon_light, main_label_light, main_icon_gray, main_label_gray, active_index == 0)
 	_set_button_active(side_icon_light, side_label_light, side_icon_gray, side_label_gray, active_index == 1)
 	_set_button_active(dojin_icon_light, dojin_label_light, dojin_icon_gray, dojin_label_gray, active_index == 2)
+	_set_button_active(music_icon_light, music_label_light, music_icon_gray, music_label_gray, active_index == 3)
 	_update_tab_hit_proxy_rects()
 
 func _set_story_navigation_enabled(enabled: bool) -> void:
@@ -402,6 +462,7 @@ func _set_story_navigation_enabled(enabled: bool) -> void:
 	main_story_button.disabled = not enabled
 	side_story_button.disabled = not enabled
 	dojin_button.disabled = not enabled or not PlatformCapabilities.shows_dojin_ui()
+	music_button.disabled = not enabled
 	_update_tab_hit_proxy_rects()
 
 func _set_button_active(icon_light: Sprite2D, label_light: Label, icon_gray: Sprite2D, label_gray: Label, active: bool):
@@ -418,6 +479,8 @@ func _capture_tab_label_layouts() -> void:
 	_cache_tab_label_layout(side_label_gray)
 	_cache_tab_label_layout(dojin_label_light)
 	_cache_tab_label_layout(dojin_label_gray)
+	_cache_tab_label_layout(music_label_light)
+	_cache_tab_label_layout(music_label_gray)
 
 func _cache_tab_label_layout(label: Label) -> void:
 	if label == null:
@@ -439,6 +502,7 @@ func _refresh_localized_texts() -> void:
 	_apply_tab_localized_text("main", language_code, main_label_light, main_label_gray)
 	_apply_tab_localized_text("side", language_code, side_label_light, side_label_gray)
 	_apply_tab_localized_text("dojin", language_code, dojin_label_light, dojin_label_gray)
+	_apply_tab_localized_text("music", language_code, music_label_light, music_label_gray)
 	_update_tab_hit_proxy_rects()
 
 func _apply_tab_localized_text(tab_key: String, language_code: String, light_label: Label, gray_label: Label) -> void:
@@ -506,6 +570,7 @@ func _ensure_tab_hit_proxies() -> void:
 	_ensure_tab_hit_proxy("side")
 	if PlatformCapabilities.shows_dojin_ui():
 		_ensure_tab_hit_proxy("dojin")
+	_ensure_tab_hit_proxy("music")
 
 func _ensure_tab_hit_proxy(tab_key: String) -> void:
 	if is_instance_valid(_tab_hit_proxies.get(tab_key) as Control):
@@ -544,6 +609,8 @@ func _on_tab_hit_proxy_gui_input(event: InputEvent, tab_key: String) -> void:
 			_on_side_story_button_pressed()
 		"dojin":
 			_on_dojin_button_pressed()
+		"music":
+			_on_music_button_pressed()
 		_:
 			return
 
@@ -568,6 +635,7 @@ func _update_tab_hit_proxy_rects() -> void:
 	_update_tab_hit_proxy_rect("side", side_icon_light, side_icon_gray, side_label_light, side_label_gray)
 	if PlatformCapabilities.shows_dojin_ui():
 		_update_tab_hit_proxy_rect("dojin", dojin_icon_light, dojin_icon_gray, dojin_label_light, dojin_label_gray)
+	_update_tab_hit_proxy_rect("music", music_icon_light, music_icon_gray, music_label_light, music_label_gray)
 
 func _update_tab_hit_proxy_rect(tab_key: String, light_icon: Sprite2D, gray_icon: Sprite2D, light_label: Label, gray_label: Label) -> void:
 	var hit_proxy := _tab_hit_proxies.get(tab_key) as Control

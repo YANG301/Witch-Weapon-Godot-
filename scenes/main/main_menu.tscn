@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b6ldhc4dldn1j"]
+[gd_scene load_steps=25 format=3 uid="uid://b6ldhc4dldn1j"]
 
 [ext_resource type="Script" uid="uid://um4c4un4ltp6" path="res://scripts/main/main_menu.gd" id="1_sd5it"]
 [ext_resource type="Texture2D" uid="uid://cad1e353svt3l" path="res://assets/gui/main_menu/story_bg2.png" id="2_w6ykx"]
@@ -16,6 +16,9 @@
 [ext_resource type="PackedScene" uid="uid://dt3vr5ekyg8pe" path="res://scenes/main/dojin_story_list.tscn" id="11_dojin_list"]
 [ext_resource type="Texture2D" uid="uid://c3o7lmmubeea" path="res://assets/gui/settings/setting_in_btn.png" id="12_settings_btn"]
 [ext_resource type="PackedScene" uid="uid://cgko5uvkl13mb" path="res://scenes/setting/settings.tscn" id="13_settings_scene"]
+[ext_resource type="Texture2D" uid="uid://bd4ueqgoiwiee" path="res://assets/gui/main_menu/Music_normal.png" id="14_music_normal"]
+[ext_resource type="Texture2D" uid="uid://dl6jsv7os27jk" path="res://assets/gui/main_menu/Music_pressed.png" id="15_music_pressed"]
+[ext_resource type="PackedScene" path="res://scenes/main/music_page.tscn" id="16_music_page"]
 
 [sub_resource type="FontVariation" id="FontVariation_xfho0"]
 base_font = ExtResource("5_cnht7")
@@ -207,6 +210,53 @@ scale = Vector2(2.4, 2.4)
 text = "同人"
 label_settings = SubResource("LabelSettings_31vgd")
 
+[node name="MusicButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 460.0
+offset_top = 22.0
+offset_right = 559.0
+offset_bottom = 60.0
+
+[node name="IconLight" type="Sprite2D" parent="MusicButton"]
+visible = false
+position = Vector2(17, 19)
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("14_music_normal")
+
+[node name="LabelLight" type="Label" parent="MusicButton/IconLight"]
+anchors_preset = -1
+anchor_left = -0.33142
+anchor_top = -0.126218
+anchor_right = -0.33142
+anchor_bottom = -0.126218
+offset_left = 66.45842
+offset_top = -36.666702
+offset_right = 131.45842
+offset_bottom = 0.33329964
+scale = Vector2(2.4, 2.4)
+text = "音乐"
+label_settings = SubResource("LabelSettings_kpcq7")
+metadata/_edit_use_anchors_ = true
+
+[node name="IconGray" type="Sprite2D" parent="MusicButton"]
+position = Vector2(17, 19)
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("15_music_pressed")
+
+[node name="LabelGray" type="Label" parent="MusicButton/IconGray"]
+anchors_preset = -1
+anchor_left = -0.478478
+anchor_top = -0.186525
+anchor_right = -0.478478
+anchor_bottom = -0.186525
+offset_left = 78.278275
+offset_top = -32.578
+offset_right = 143.27827
+offset_bottom = 4.422
+scale = Vector2(2.4, 2.4)
+text = "音乐"
+label_settings = SubResource("LabelSettings_31vgd")
+
 [node name="MainStoryList" parent="." instance=ExtResource("9_75pso")]
 z_index = 1
 layout_mode = 0
@@ -225,6 +275,13 @@ offset_right = -1280.0
 offset_bottom = -659.0
 
 [node name="DojinStoryList" parent="." instance=ExtResource("11_dojin_list")]
+visible = false
+z_index = 1
+layout_mode = 1
+offset_right = -1280.0
+offset_bottom = -659.0
+
+[node name="MusicPage" parent="." instance=ExtResource("16_music_page")]
 visible = false
 z_index = 1
 layout_mode = 1
@@ -267,5 +324,6 @@ layout_mode = 1
 [connection signal="pressed" from="MainStoryButton" to="." method="_on_main_story_button_pressed"]
 [connection signal="pressed" from="SideStoryButton" to="." method="_on_side_story_button_pressed"]
 [connection signal="pressed" from="DojinButton" to="." method="_on_dojin_button_pressed"]
+[connection signal="pressed" from="MusicButton" to="." method="_on_music_button_pressed"]
 [connection signal="pressed" from="SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="back_pressed" from="SettingsPanel" to="." method="_on_settings_back_pressed"]
