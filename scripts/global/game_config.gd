@@ -18,6 +18,7 @@ var default_config = {
 	"audio": {
 		"master_volume": 100,
 		"music_volume": 100,
+		"music_player_volume": 100,
 		"sfx_volume": 100
 	},
 	"display": {
@@ -53,6 +54,12 @@ var music_volume: float:
 		return config.get_value("audio", "music_volume", default_config["audio"]["music_volume"])
 	set(value):
 		config.set_value("audio", "music_volume", clamp(value, 0.0, 100.0))
+
+var music_player_volume: float:
+	get:
+		return config.get_value("audio", "music_player_volume", default_config["audio"]["music_player_volume"])
+	set(value):
+		config.set_value("audio", "music_player_volume", clamp(value, 0.0, 100.0))
 
 var sfx_volume: float:
 	get:
@@ -107,8 +114,10 @@ func load_settings():
 		reset_to_default()
 		save()
 	else:
-		_ensure_default_config_values()
+		var migrated_defaults := _ensure_default_config_values()
 		config.set_value("language", "current", current_language)
+		if migrated_defaults:
+			save()
 		print("配置文件加载成功: ", CONFIG_FILE_PATH)
 
 # 保存配置到文件
@@ -181,16 +190,22 @@ func reset_to_default():
 	config.set_value("player", "name", system_username)
 	print("配置已重置为默认值（玩家名: ", system_username, "）")
 
-func _ensure_default_config_values() -> void:
+func _ensure_default_config_values() -> bool:
+	var changed := false
+
 	for section in default_config.keys():
 		if not config.has_section(section):
 			for key in default_config[section].keys():
 				config.set_value(section, key, default_config[section][key])
+			changed = true
 			continue
 
 		for key in default_config[section].keys():
 			if not config.has_section_key(section, key):
 				config.set_value(section, key, default_config[section][key])
+				changed = true
+
+	return changed
 
 func _normalize_language_code(value: Variant) -> String:
 	var language_code := str(value).strip_edges().to_lower()

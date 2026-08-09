@@ -285,8 +285,6 @@ offset_bottom = -659.0
 visible = false
 z_index = 1
 layout_mode = 1
-offset_right = -1280.0
-offset_bottom = -659.0
 
 [node name="StorySceneLayer" type="CanvasLayer" parent="."]
 
@@ -294,6 +292,7 @@ offset_bottom = -659.0
 stream = ExtResource("11_bgm")
 volume_db = -5.0
 autoplay = true
+bus = &"GameMusic"
 
 [node name="BlackOverlay" type="ColorRect" parent="."]
 visible = false

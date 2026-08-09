@@ -1,4 +1,6 @@
-[gd_scene format=3]
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/main/music_page.gd" id="1_music_page"]
 
 [node name="MusicPage" type="Control"]
 layout_mode = 3
@@ -8,3 +10,4 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("1_music_page")

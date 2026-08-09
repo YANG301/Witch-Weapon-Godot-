@@ -106,7 +106,7 @@ var _tab_label_layouts: Dictionary = {}
 @onready var main_story_list: Control = $"MainStoryList"  # 主线故事列表
 @onready var side_story_list: Control = $"SideStoryList"  # 支线故事列表
 @onready var dojin_story_list: Control = $"DojinStoryList"  # 同人故事列表
-@onready var music_page: Control = $"MusicPage"  # 音乐页面（功能占位）
+@onready var music_page: Control = $"MusicPage"  # 音乐播放器页面
 
 # 设置面板
 @onready var settings_panel: Control = $"SettingsPanel"  # 设置面板
@@ -137,6 +137,10 @@ const BG2_PARALLAX_FACTOR: float = 0.5  # 背景层2视差因子(移动速度50%
 
 # 动画配置
 const SWITCH_DURATION: float = 0.3  # 列表切换动画持续时间
+const MUSIC_SWITCH_FADE_OUT_DURATION: float = 0.20  # 音乐页相关切换先完整渐隐旧内容
+const MUSIC_SWITCH_GAP_DURATION: float = 0.035  # 保留一帧可感知的原背景，避免交叉淡化互相抵消
+const MUSIC_SWITCH_FADE_IN_DURATION: float = 0.265  # 再渐显目标内容
+const MUSIC_SWITCH_OFFSET: float = 22.0  # 音乐页切换时的轻微水平动势
 const FADE_TO_BLACK_DURATION: float = 0.2  # 渐变到黑色的动画时长
 const MUSIC_FADE_DURATION: float = 0.5  # 音乐渐变时长
 
@@ -145,10 +149,13 @@ var _tween: Tween         # 动画控制器
 var _is_switching: bool = false  # 是否正在切换中
 var _music_tween: Tween   # 音乐渐变控制器
 var _is_settings_open: bool = false  # 设置界面是否打开
+var _bgm_target_db := -5.0
+var _music_player_exclusive := false
 
 func _ready() -> void:
 	"""初始化主菜单，设置默认状态和背景位置"""
 	add_to_group("main_menu")
+	_bgm_target_db = bgm_player.volume_db
 	_apply_platform_capabilities()
 
 	_capture_tab_label_layouts()
@@ -157,9 +164,26 @@ func _ready() -> void:
 	_initialize_story_lists()
 	_initialize_black_overlay()
 	_setup_bgm_loop()
+	_setup_music_page_audio_coordination()
 	_ensure_tab_hit_proxies()
 	_update_tab_hit_proxy_rects()
 	_update_backgrounds_position()
+
+func _setup_music_page_audio_coordination() -> void:
+	if music_page == null or not music_page.has_signal("exclusive_playback_changed"):
+		return
+	var callback := Callable(self, "_on_music_page_exclusive_playback_changed")
+	if not music_page.is_connected("exclusive_playback_changed", callback):
+		music_page.connect("exclusive_playback_changed", callback)
+
+func _on_music_page_exclusive_playback_changed(active: bool) -> void:
+	_music_player_exclusive = active
+	if not is_inside_tree():
+		return
+	if active:
+		_fade_out_music()
+	elif is_instance_valid(story_scene_layer) and story_scene_layer.get_child_count() == 0:
+		_fade_in_music()
 
 func _apply_platform_capabilities() -> void:
 	var dojin_enabled := PlatformCapabilities.shows_dojin_ui()
@@ -307,29 +331,71 @@ func _switch_to_list(show_list: Control, hide_list: Control):
 func _create_switch_animation(show_list: Control, hide_list: Control):
 	"""创建列表切换动画，包含透明度和背景视差"""
 	_kill_existing_tween()
+	var includes_music: bool = show_list == music_page or hide_list == music_page
+	var show_origin: Vector2 = show_list.position
+	var hide_origin: Vector2 = hide_list.position
 	_tween = create_tween()
+	if includes_music:
+		_tween.set_trans(Tween.TRANS_CUBIC)
+		_tween.set_ease(Tween.EASE_IN_OUT)
+		var direction: float = 1.0 if show_list == music_page else -1.0
+		# 同时交叉淡化会让两层的总亮度几乎恒定，看起来像直接替换。
+		# 这里明确拆成“旧页渐隐 -> 短暂原背景 -> 新页渐显”三个阶段。
+		show_list.modulate.a = 0.0
+		show_list.position = show_origin + Vector2(direction * MUSIC_SWITCH_OFFSET, 0.0)
+		_tween.tween_property(
+			hide_list,
+			"modulate:a",
+			0.0,
+			MUSIC_SWITCH_FADE_OUT_DURATION
+		)
+		_tween.parallel().tween_property(
+			hide_list,
+			"position",
+			hide_origin - Vector2(direction * MUSIC_SWITCH_OFFSET, 0.0),
+			MUSIC_SWITCH_FADE_OUT_DURATION
+		)
+		_animate_backgrounds_for_list(show_list, MUSIC_SWITCH_FADE_OUT_DURATION, true)
+		_tween.tween_interval(MUSIC_SWITCH_GAP_DURATION)
+		_tween.tween_property(
+			show_list,
+			"modulate:a",
+			1.0,
+			MUSIC_SWITCH_FADE_IN_DURATION
+		)
+		_tween.parallel().tween_property(
+			show_list,
+			"position",
+			show_origin,
+			MUSIC_SWITCH_FADE_IN_DURATION
+		)
+		_tween.tween_callback(
+			_on_switch_complete.bind(hide_list, show_list, hide_origin, show_origin)
+		)
+		return
+
 	_tween.set_parallel(true)
-	
-	# 透明度动画
 	_tween.tween_property(hide_list, "modulate:a", 0.0, SWITCH_DURATION)
 	_tween.tween_property(show_list, "modulate:a", 1.0, SWITCH_DURATION)
-	
-	# 背景视差动画
-	_animate_backgrounds_for_list(show_list)
-	
-	# 动画完成回调
-	_tween.chain().tween_callback(_on_switch_complete.bind(hide_list))
+	_animate_backgrounds_for_list(show_list, SWITCH_DURATION)
+	_tween.chain().tween_callback(
+		_on_switch_complete.bind(hide_list, show_list, hide_origin, show_origin)
+	)
 
 func _kill_existing_tween():
 	"""安全地终止现有动画"""
 	if _tween:
 		_tween.kill()
 
-func _animate_backgrounds_for_list(target_list: Control):
+func _animate_backgrounds_for_list(
+	target_list: Control,
+	duration: float = SWITCH_DURATION,
+	parallel_with_previous: bool = false
+):
 	"""为目标列表创建背景视差动画"""
 	if target_list == music_page:
-		_tween.tween_property(story_bg_01, "position:x", BG_INITIAL_X, SWITCH_DURATION)
-		_tween.tween_property(story_bg_02, "position:x", BG_INITIAL_X, SWITCH_DURATION)
+		_add_background_tweener(story_bg_01, BG_INITIAL_X, duration, parallel_with_previous)
+		_add_background_tweener(story_bg_02, BG_INITIAL_X, duration, parallel_with_previous)
 		return
 
 	var first_story = _get_first_story_node(target_list)
@@ -340,12 +406,30 @@ func _animate_backgrounds_for_list(target_list: Control):
 	var bg1_target = BG_INITIAL_X - (progress * BG1_MAX_OFFSET * BG1_PARALLAX_FACTOR)
 	var bg2_target = BG_INITIAL_X - (progress * BG2_MAX_OFFSET * BG2_PARALLAX_FACTOR)
 	
-	_tween.tween_property(story_bg_01, "position:x", bg1_target, SWITCH_DURATION)
-	_tween.tween_property(story_bg_02, "position:x", bg2_target, SWITCH_DURATION)
+	_add_background_tweener(story_bg_01, bg1_target, duration, parallel_with_previous)
+	_add_background_tweener(story_bg_02, bg2_target, duration, parallel_with_previous)
 
-func _on_switch_complete(hide_list: Control):
+func _add_background_tweener(
+	background: Sprite2D,
+	target_x: float,
+	duration: float,
+	parallel_with_previous: bool
+) -> void:
+	if parallel_with_previous:
+		_tween.parallel().tween_property(background, "position:x", target_x, duration)
+	else:
+		_tween.tween_property(background, "position:x", target_x, duration)
+
+func _on_switch_complete(
+	hide_list: Control,
+	show_list: Control,
+	hide_origin: Vector2,
+	show_origin: Vector2
+):
 	"""切换动画完成后的清理工作"""
 	hide_list.visible = false
+	hide_list.position = hide_origin
+	show_list.position = show_origin
 	_is_switching = false
 
 
@@ -834,7 +918,7 @@ func _clear_black_overlay() -> void:
 
 func _fade_out_music() -> void:
 	"""渐变停止音乐"""
-	if not bgm_player or not bgm_player.playing:
+	if not is_inside_tree() or not is_instance_valid(bgm_player) or not bgm_player.is_inside_tree() or not bgm_player.playing:
 		return
 	
 	if _music_tween:
@@ -846,12 +930,13 @@ func _fade_out_music() -> void:
 	_music_tween.set_ease(Tween.EASE_OUT)
 	
 	await _music_tween.finished
-	bgm_player.stop()
+	if is_instance_valid(bgm_player) and bgm_player.is_inside_tree():
+		bgm_player.stop()
 	print("背景音乐已渐变停止")
 
 func _fade_in_music() -> void:
 	"""渐变播放音乐"""
-	if not bgm_player:
+	if not is_inside_tree() or not is_instance_valid(bgm_player) or not bgm_player.is_inside_tree() or _music_player_exclusive:
 		return
 	
 	if _music_tween:
@@ -862,7 +947,7 @@ func _fade_in_music() -> void:
 	bgm_player.play()
 	
 	_music_tween = create_tween()
-	_music_tween.tween_property(bgm_player, "volume_db", 0.0, MUSIC_FADE_DURATION)
+	_music_tween.tween_property(bgm_player, "volume_db", _bgm_target_db, MUSIC_FADE_DURATION)
 	_music_tween.set_trans(Tween.TRANS_CUBIC)
 	_music_tween.set_ease(Tween.EASE_IN)
 	
@@ -871,7 +956,7 @@ func _fade_in_music() -> void:
 # 设置按钮点击回调
 func _on_settings_button_pressed() -> void:
 	"""处理设置按钮点击，显示设置面板"""
-	if _is_settings_open:
+	if _is_settings_open or _is_switching:
 		return
 
 	_is_settings_open = true
