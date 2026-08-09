@@ -1,0 +1,546 @@
+{
+    "version":  1,
+    "albums":  [
+                   {
+                       "id":  "music-from-witch-weapon",
+                       "title":  "Music From Witch Weapon",
+                       "cover":  "res://assets/audio/music_player/music_from_witch_weapon/cover.jpg",
+                       "track_count":  3,
+                       "tracks":  [
+                                      {
+                                          "id":  "music-from-witch-weapon:01",
+                                          "number":  1,
+                                          "title":  "Witch Weapon Feat. Jalam",
+                                          "composer":  "Vanguard Sound/Dr.RD",
+                                          "composer_url":  "https://www.vanguard-sound.com/",
+                                          "composer_description":  "参与《魔女兵器》音乐制作的游戏音频团队与音乐人。",
+                                          "audio":  "res://assets/audio/music_player/music_from_witch_weapon/01.mp3",
+                                          "lyrics":  "",
+                                          "duration":  101.538
+                                      },
+                                      {
+                                          "id":  "music-from-witch-weapon:02",
+                                          "number":  2,
+                                          "title":  "Paranoid",
+                                          "composer":  "Vanguard Sound/RabbitJ",
+                                          "composer_url":  "https://open.spotify.com/artist/5gxnAKdEdN6lETmtH2yY7I",
+                                          "composer_description":  "Vanguard Sound 音乐人，参与《Music From Witch Weapon》的创作。",
+                                          "audio":  "res://assets/audio/music_player/music_from_witch_weapon/02.mp3",
+                                          "lyrics":  "",
+                                          "duration":  97.625
+                                      },
+                                      {
+                                          "id":  "music-from-witch-weapon:03",
+                                          "number":  3,
+                                          "title":  "Tricky",
+                                          "composer":  "Vanguard Sound/RabbitJ",
+                                          "composer_url":  "https://open.spotify.com/artist/5gxnAKdEdN6lETmtH2yY7I",
+                                          "composer_description":  "Vanguard Sound 音乐人，参与《Music From Witch Weapon》的创作。",
+                                          "audio":  "res://assets/audio/music_player/music_from_witch_weapon/03.mp3",
+                                          "lyrics":  "",
+                                          "duration":  93
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "witch-weapon-original-soundtrack",
+                       "title":  "Witch\u0027s Weapon -魔女兵器- O.S.T",
+                       "cover":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/cover.jpg",
+                       "track_count":  31,
+                       "tracks":  [
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:01",
+                                          "number":  1,
+                                          "title":  "ANOTHER REAL(Game Size)",
+                                          "composer":  "鈴木このみ",
+                                          "composer_url":  "https://www.konomi-suzuki.net/",
+                                          "composer_description":  "演唱《魔女兵器》原声收录曲目的歌手。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/01.mp3",
+                                          "lyrics":  "",
+                                          "duration":  102.284
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:02",
+                                          "number":  2,
+                                          "title":  "Normal Stage",
+                                          "composer":  "Li Shuo",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/02.mp3",
+                                          "lyrics":  "",
+                                          "duration":  116.727
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:03",
+                                          "number":  3,
+                                          "title":  "Hard Stage",
+                                          "composer":  "秋田真典",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/03.mp3",
+                                          "lyrics":  "",
+                                          "duration":  76.208
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:04",
+                                          "number":  4,
+                                          "title":  "Shop",
+                                          "composer":  "Eddy Liu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/04.mp3",
+                                          "lyrics":  "",
+                                          "duration":  89.095
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:05",
+                                          "number":  5,
+                                          "title":  "Barrier Maze",
+                                          "composer":  "秋田真典",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/05.mp3",
+                                          "lyrics":  "",
+                                          "duration":  80.155
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:06",
+                                          "number":  6,
+                                          "title":  "Like A Girl",
+                                          "composer":  "秋田真典",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/06.mp3",
+                                          "lyrics":  "",
+                                          "duration":  72.655
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:07",
+                                          "number":  7,
+                                          "title":  "step by step",
+                                          "composer":  "Li Shuo",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/07.mp3",
+                                          "lyrics":  "",
+                                          "duration":  74.257
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:08",
+                                          "number":  8,
+                                          "title":  "Deep Water",
+                                          "composer":  "Li Shuo",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/08.mp3",
+                                          "lyrics":  "",
+                                          "duration":  64.9
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:09",
+                                          "number":  9,
+                                          "title":  "Witch\u0027s Confession",
+                                          "composer":  "RabbitJ",
+                                          "composer_url":  "https://open.spotify.com/artist/5gxnAKdEdN6lETmtH2yY7I",
+                                          "composer_description":  "Vanguard Sound 音乐人，参与《Music From Witch Weapon》的创作。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/09.mp3",
+                                          "lyrics":  "",
+                                          "duration":  68.801
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:10",
+                                          "number":  10,
+                                          "title":  "Conspiracy",
+                                          "composer":  "Zhang Haopeng",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/10.mp3",
+                                          "lyrics":  "",
+                                          "duration":  61.719
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:11",
+                                          "number":  11,
+                                          "title":  "Investigation",
+                                          "composer":  "T-Nymph",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/11.mp3",
+                                          "lyrics":  "",
+                                          "duration":  59.513
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:12",
+                                          "number":  12,
+                                          "title":  "Sewer",
+                                          "composer":  "Zhang Haopeng",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/12.mp3",
+                                          "lyrics":  "",
+                                          "duration":  83.383
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:13",
+                                          "number":  13,
+                                          "title":  "Brooklyn",
+                                          "composer":  "Zhang Haopeng",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/13.mp3",
+                                          "lyrics":  "",
+                                          "duration":  103.677
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:14",
+                                          "number":  14,
+                                          "title":  "Whisky",
+                                          "composer":  "Zhang Haopeng",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/14.mp3",
+                                          "lyrics":  "",
+                                          "duration":  69.822
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:15",
+                                          "number":  15,
+                                          "title":  "Sunset",
+                                          "composer":  "Zhang Haopeng",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/15.mp3",
+                                          "lyrics":  "",
+                                          "duration":  59.513
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:16",
+                                          "number":  16,
+                                          "title":  "Hand-to-hand combat",
+                                          "composer":  "Zhang Haopeng",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/16.mp3",
+                                          "lyrics":  "",
+                                          "duration":  64.203
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:17",
+                                          "number":  17,
+                                          "title":  "Hero",
+                                          "composer":  "RabbitJ",
+                                          "composer_url":  "https://open.spotify.com/artist/5gxnAKdEdN6lETmtH2yY7I",
+                                          "composer_description":  "Vanguard Sound 音乐人，参与《Music From Witch Weapon》的创作。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/17.mp3",
+                                          "lyrics":  "",
+                                          "duration":  81.223
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:18",
+                                          "number":  18,
+                                          "title":  "Black Market",
+                                          "composer":  "RabbitJ",
+                                          "composer_url":  "https://open.spotify.com/artist/5gxnAKdEdN6lETmtH2yY7I",
+                                          "composer_description":  "Vanguard Sound 音乐人，参与《Music From Witch Weapon》的创作。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/18.mp3",
+                                          "lyrics":  "",
+                                          "duration":  64.296
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:19",
+                                          "number":  19,
+                                          "title":  "Tricky",
+                                          "composer":  "RabbitJ",
+                                          "composer_url":  "https://open.spotify.com/artist/5gxnAKdEdN6lETmtH2yY7I",
+                                          "composer_description":  "Vanguard Sound 音乐人，参与《Music From Witch Weapon》的创作。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/19.mp3",
+                                          "lyrics":  "",
+                                          "duration":  90.604
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:20",
+                                          "number":  20,
+                                          "title":  "Afterschool",
+                                          "composer":  "秋田真典",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/20.mp3",
+                                          "lyrics":  "",
+                                          "duration":  220.195
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:21",
+                                          "number":  21,
+                                          "title":  "Dungeon",
+                                          "composer":  "Eddy Liu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/21.mp3",
+                                          "lyrics":  "",
+                                          "duration":  190.473
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:22",
+                                          "number":  22,
+                                          "title":  "Humanity",
+                                          "composer":  "Eddy Liu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/22.mp3",
+                                          "lyrics":  "",
+                                          "duration":  104.35
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:23",
+                                          "number":  23,
+                                          "title":  "Sign of brave",
+                                          "composer":  "Eddy Liu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/23.mp3",
+                                          "lyrics":  "",
+                                          "duration":  139.505
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:24",
+                                          "number":  24,
+                                          "title":  "Dancing Kitty",
+                                          "composer":  "Li Shuo",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/24.mp3",
+                                          "lyrics":  "",
+                                          "duration":  116.03
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:25",
+                                          "number":  25,
+                                          "title":  "Everything\u0027s gonna be Okay",
+                                          "composer":  "夏銅子",
+                                          "composer_url":  "https://weibo.com/cusummer",
+                                          "composer_description":  "歌手、ChiliChill 主唱，参与《魔女兵器》原声收录曲目的演唱。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/25.mp3",
+                                          "lyrics":  "",
+                                          "duration":  127.826
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:26",
+                                          "number":  26,
+                                          "title":  "Witch Weapon Feat. Jalam",
+                                          "composer":  "Jalam",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/26.mp3",
+                                          "lyrics":  "",
+                                          "duration":  98.383
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:27",
+                                          "number":  27,
+                                          "title":  "ANOTHER REAL(instrumental)",
+                                          "composer":  "鈴木このみ",
+                                          "composer_url":  "https://www.konomi-suzuki.net/",
+                                          "composer_description":  "演唱《魔女兵器》原声收录曲目的歌手。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/27.mp3",
+                                          "lyrics":  "",
+                                          "duration":  102.609
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:28",
+                                          "number":  28,
+                                          "title":  "【Bonustrack】War Drum Feat. SAKURA",
+                                          "composer":  "SAKURA",
+                                          "composer_url":  "",
+                                          "composer_description":  "《魔女兵器》原声音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/28.mp3",
+                                          "lyrics":  "",
+                                          "duration":  61.719
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:29",
+                                          "number":  29,
+                                          "title":  "【Bonustrack】Chaostic Daily",
+                                          "composer":  "RabbitJ",
+                                          "composer_url":  "https://open.spotify.com/artist/5gxnAKdEdN6lETmtH2yY7I",
+                                          "composer_description":  "Vanguard Sound 音乐人，参与《Music From Witch Weapon》的创作。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/29.mp3",
+                                          "lyrics":  "",
+                                          "duration":  58.05
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:30",
+                                          "number":  30,
+                                          "title":  "【Bonustrack】Paranoid",
+                                          "composer":  "RabbitJ",
+                                          "composer_url":  "https://open.spotify.com/artist/5gxnAKdEdN6lETmtH2yY7I",
+                                          "composer_description":  "Vanguard Sound 音乐人，参与《Music From Witch Weapon》的创作。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/30.mp3",
+                                          "lyrics":  "",
+                                          "duration":  106.626
+                                      },
+                                      {
+                                          "id":  "witch-weapon-original-soundtrack:31",
+                                          "number":  31,
+                                          "title":  "鈴木このみ 特典コメント",
+                                          "composer":  "鈴木このみ",
+                                          "composer_url":  "https://www.konomi-suzuki.net/",
+                                          "composer_description":  "演唱《魔女兵器》原声收录曲目的歌手。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/31.mp3",
+                                          "lyrics":  "",
+                                          "duration":  160.241
+                                      }
+                                  ]
+                   },
+                   {
+                       "id":  "witch-weapon-game-ost",
+                       "title":  "魔女兵器Witch Weapon OST原声音乐",
+                       "cover":  "res://assets/audio/music_player/witch_weapon_game_ost/cover.jpg",
+                       "track_count":  13,
+                       "tracks":  [
+                                      {
+                                          "id":  "witch-weapon-game-ost:01",
+                                          "number":  1,
+                                          "title":  "魔女兵器OST Trailer Music：Beginning",
+                                          "composer":  "刘海宜EddyLiu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_game_ost/01.mp3",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_game_ost/01.lrc",
+                                          "duration":  139.847
+                                      },
+                                      {
+                                          "id":  "witch-weapon-game-ost:02",
+                                          "number":  2,
+                                          "title":  "魔女兵器OST 红莲の翼",
+                                          "composer":  "刘海宜EddyLiu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_game_ost/02.mp3",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_game_ost/02.lrc",
+                                          "duration":  115.239
+                                      },
+                                      {
+                                          "id":  "witch-weapon-game-ost:03",
+                                          "number":  3,
+                                          "title":  "魔女兵器OST Battle BGM Battle Forever",
+                                          "composer":  "刘海宜EddyLiu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_game_ost/03.mp3",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_game_ost/03.lrc",
+                                          "duration":  96
+                                      },
+                                      {
+                                          "id":  "witch-weapon-game-ost:04",
+                                          "number":  4,
+                                          "title":  "魔女兵器OST Battle BGM Funky OLD Fasion",
+                                          "composer":  "刘海宜EddyLiu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_game_ost/04.mp3",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_game_ost/04.lrc",
+                                          "duration":  96
+                                      },
+                                      {
+                                          "id":  "witch-weapon-game-ost:05",
+                                          "number":  5,
+                                          "title":  "魔女兵器OST Battle BGM Funky至上",
+                                          "composer":  "刘海宜EddyLiu/王建安",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_game_ost/05.mp3",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_game_ost/05.lrc",
+                                          "duration":  137.143
+                                      },
+                                      {
+                                          "id":  "witch-weapon-game-ost:06",
+                                          "number":  6,
+                                          "title":  "魔女兵器OST Battle BGM 协奏最终章",
+                                          "composer":  "刘海宜EddyLiu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_game_ost/06.mp3",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_game_ost/06.lrc",
+                                          "duration":  61
+                                      },
+                                      {
+                                          "id":  "witch-weapon-game-ost:07",
+                                          "number":  7,
+                                          "title":  "魔女兵器OST Battle BGM GO!GO!Girl!",
+                                          "composer":  "刘海宜EddyLiu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_game_ost/07.mp3",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_game_ost/07.lrc",
+                                          "duration":  96
+                                      },
+                                      {
+                                          "id":  "witch-weapon-game-ost:08",
+                                          "number":  8,
+                                          "title":  "魔女兵器OST Battle BGM No one stop",
+                                          "composer":  "刘海宜EddyLiu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_game_ost/08.mp3",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_game_ost/08.lrc",
+                                          "duration":  184.421
+                                      },
+                                      {
+                                          "id":  "witch-weapon-game-ost:09",
+                                          "number":  9,
+                                          "title":  "魔女兵器OST Battle BGM 鸽子",
+                                          "composer":  "刘海宜EddyLiu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_game_ost/09.mp3",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_game_ost/09.lrc",
+                                          "duration":  96
+                                      },
+                                      {
+                                          "id":  "witch-weapon-game-ost:10",
+                                          "number":  10,
+                                          "title":  "魔女兵器OST Level BGM 城市",
+                                          "composer":  "刘海宜EddyLiu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_game_ost/10.mp3",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_game_ost/10.lrc",
+                                          "duration":  69.818
+                                      },
+                                      {
+                                          "id":  "witch-weapon-game-ost:11",
+                                          "number":  11,
+                                          "title":  "魔女兵器OST Map BGM 星空",
+                                          "composer":  "刘海宜EddyLiu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_game_ost/11.mp3",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_game_ost/11.lrc",
+                                          "duration":  64
+                                      },
+                                      {
+                                          "id":  "witch-weapon-game-ost:12",
+                                          "number":  12,
+                                          "title":  "魔女兵器OST Menu BGM 星辰之上",
+                                          "composer":  "刘海宜EddyLiu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_game_ost/12.mp3",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_game_ost/12.lrc",
+                                          "duration":  73.846
+                                      },
+                                      {
+                                          "id":  "witch-weapon-game-ost:13",
+                                          "number":  13,
+                                          "title":  "魔女兵器OST Store BGM Shopping Time - SAX ver.",
+                                          "composer":  "刘海宜EddyLiu",
+                                          "composer_url":  "https://www.eddyaudio.com/",
+                                          "composer_description":  "《魔女兵器》原声音乐的声音设计与音乐创作者。",
+                                          "audio":  "res://assets/audio/music_player/witch_weapon_game_ost/13.mp3",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_game_ost/13.lrc",
+                                          "duration":  84.706
+                                      }
+                                  ]
+                   }
+               ]
+}
