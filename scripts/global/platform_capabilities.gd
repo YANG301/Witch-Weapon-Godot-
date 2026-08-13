@@ -26,6 +26,9 @@ func current_platform() -> String:
 func shows_dojin_ui() -> bool:
 	return current_platform() == "Windows"
 
+func shows_mod_editor_ui() -> bool:
+	return current_platform() == "Windows"
+
 func shows_account_ui() -> bool:
 	return current_platform() == "Windows"
 

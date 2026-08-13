@@ -454,6 +454,11 @@ func _setup_back_area():
 
 func _setup_editor_button():
 	if editor_button:
+		var editor_enabled := PlatformCapabilities.shows_mod_editor_ui()
+		editor_button.visible = editor_enabled
+		editor_button.disabled = not editor_enabled
+		if not editor_enabled:
+			return
 		editor_button.pressed.connect(_on_editor_button_pressed)
 
 func _setup_manage_mods_button():
@@ -484,6 +489,8 @@ func _init_background():
 # ==================== 输入事件处理组 ====================
 func _on_editor_button_pressed():
 	"""打开mod编辑器工程管理器"""
+	if not PlatformCapabilities.shows_mod_editor_ui():
+		return
 	_open_project_manager()
 
 func _on_manage_mods_button_pressed():
