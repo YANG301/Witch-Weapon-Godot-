@@ -26,6 +26,14 @@ func current_platform() -> String:
 func shows_dojin_ui() -> bool:
 	return current_platform() == "Windows"
 
+func shows_mod_editor_ui() -> bool:
+	return current_platform() == "Windows"
+
+func shows_test_mod_editor_ui() -> bool:
+	# 新版编辑器尚未完成：仅允许通过 Windows 的 Godot 工具版本继续测试，
+	# 任意正式或调试导出包中都隐藏入口。
+	return shows_mod_editor_ui() and OS.has_feature("editor") and not DisplayServer.get_name() == "headless"
+
 func shows_account_ui() -> bool:
 	return current_platform() == "Windows"
 

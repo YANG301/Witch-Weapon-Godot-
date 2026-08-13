@@ -19,6 +19,7 @@ extends Control
 @onready var detail_scroll: ScrollContainer = get_node_or_null("WindowPanel/Margin/Content/Body/RightPanel/DetailScroll") as ScrollContainer
 @onready var new_project_button: Button = $WindowPanel/Margin/Content/Footer/NewProjectButton
 @onready var open_project_button: Button = $WindowPanel/Margin/Content/Footer/OpenProjectButton
+@onready var open_test_editor_button: Button = $WindowPanel/Margin/Content/Footer/OpenTestEditorButton
 @onready var delete_project_button: Button = $WindowPanel/Margin/Content/Footer/DeleteProjectButton
 @onready var back_button: Button = $WindowPanel/Margin/Content/Header/BackButton
 @onready var new_project_dialog: Window = $NewProjectDialog
@@ -48,6 +49,7 @@ extends Control
 const PROJECTS_PATH: String = "user://mod_projects"
 const MODS_PATH: String = "user://mods"
 const EDITOR_SCENE_PATH: String = "res://scenes/editor/mod_editor.tscn"
+const TEST_EDITOR_SCENE_PATH: String = "res://scenes/editor/mod_editor_test.tscn"
 const ASSET_EDITOR_SCENE_PATH: String = "res://scenes/editor/mod_asset_editor.tscn"
 const UI_FONT: FontFile = preload("res://assets/gui/font/方正兰亭准黑_GBK.ttf")
 const DEFAULT_PREVIEW_IMAGE: String = "res://assets/gui/main_menu/Story00_Main_01.png"
@@ -166,6 +168,7 @@ func _ready():
 	_ensure_import_assets_button()
 	_apply_delete_button_danger_style()
 	_update_action_buttons_state()
+	_apply_editor_release_visibility()
 
 
 	if project_scroll and not project_scroll.gui_input.is_connected(_on_project_scroll_gui_input):
@@ -181,6 +184,8 @@ func _ready():
 		new_project_button.pressed.connect(_on_new_project_button_pressed)
 	if open_project_button and not open_project_button.pressed.is_connected(_on_open_project_button_pressed):
 		open_project_button.pressed.connect(_on_open_project_button_pressed)
+	if open_test_editor_button and not open_test_editor_button.pressed.is_connected(_on_open_test_editor_button_pressed):
+		open_test_editor_button.pressed.connect(_on_open_test_editor_button_pressed)
 	if delete_project_button and not delete_project_button.pressed.is_connected(_on_delete_project_button_pressed):
 		delete_project_button.pressed.connect(_on_delete_project_button_pressed)
 	if back_button and not back_button.pressed.is_connected(_on_back_button_pressed):
@@ -235,6 +240,13 @@ func _ready():
 	_configure_detail_scroll_ui()
 	_play_enter_animation()
 	_ensure_project_action_dialog()
+
+func _apply_editor_release_visibility() -> void:
+	if open_test_editor_button == null:
+		return
+	var test_editor_enabled := PlatformCapabilities.shows_test_mod_editor_ui()
+	open_test_editor_button.visible = test_editor_enabled
+	open_test_editor_button.disabled = not test_editor_enabled
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _is_transitioning or _is_exiting:
@@ -474,6 +486,8 @@ func _update_action_buttons_state() -> void:
 
 	if open_project_button:
 		open_project_button.disabled = not has_episode
+	if open_test_editor_button:
+		open_test_editor_button.disabled = not has_episode
 	if add_episode_button:
 		add_episode_button.disabled = not has_project
 	if _import_assets_button:
@@ -2869,6 +2883,15 @@ func _on_cancel_new_project():
 
 func _on_open_project_button_pressed():
 	"""打开选中剧情节"""
+	_open_selected_episode_with_scene(EDITOR_SCENE_PATH)
+
+func _on_open_test_editor_button_pressed() -> void:
+	"""使用测试版界面打开选中剧情节"""
+	if not PlatformCapabilities.shows_test_mod_editor_ui():
+		return
+	_open_selected_episode_with_scene(TEST_EDITOR_SCENE_PATH)
+
+func _open_selected_episode_with_scene(scene_path: String) -> void:
 	if not _commit_pending_project_rename_if_needed():
 		return
 	if selected_project.is_empty():
@@ -2877,9 +2900,9 @@ func _on_open_project_button_pressed():
 		push_error("请先选择一个剧情节")
 		return
 
-	var editor_scene = load(EDITOR_SCENE_PATH)
+	var editor_scene := load(scene_path) as PackedScene
 	if not editor_scene:
-		push_error("无法加载编辑器场景: " + EDITOR_SCENE_PATH)
+		push_error("无法加载编辑器场景: " + scene_path)
 		return
 
 	# 传递工程路径（剧情节工程目录）

@@ -246,6 +246,15 @@ theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 20
 text = "编辑剧情节"
 
+[node name="OpenTestEditorButton" type="Button" parent="WindowPanel/Margin/Content/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 44)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 20
+text = "测试版编辑剧情节"
+tooltip_text = "打开新版剧情节编辑器界面（测试中）"
+
 [node name="DeleteProjectButton" type="Button" parent="WindowPanel/Margin/Content/Footer"]
 layout_mode = 2
 size_flags_horizontal = 3
