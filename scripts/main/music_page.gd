@@ -1887,6 +1887,14 @@ const PANEL_X := 900.0
 const PANEL_HIDDEN_X := 1288.0
 const HANDLE_CLOSED_X := 1244.0
 const HANDLE_OPEN_X := 864.0
+const PLAYLIST_WHEEL_STEP := 64.0
+const PLAYLIST_DRAG_THRESHOLD := 7.0
+const PLAYLIST_WHEEL_BASE_VELOCITY := 560.0
+const PLAYLIST_WHEEL_ACCELERATION := 220.0
+const PLAYLIST_MAX_VELOCITY := 2200.0
+const PLAYLIST_INERTIA_FRICTION := 6.5
+const PLAYLIST_INERTIA_STOP_SPEED := 12.0
+const PLAYLIST_RELEASE_SAMPLE_TIMEOUT_USEC := 90000
 
 const FALLBACK_FONT = preload("res://assets/gui/font/SourceHanSansLite.ttf")
 
@@ -1949,9 +1957,21 @@ var _playlist_layer: Control
 var _playlist_panel: PanelContainer
 var _playlist_title: Label
 var _playlist_count: Label
+var _playlist_scroll: ScrollContainer
 var _playlist_rows_container: VBoxContainer
 var _playlist_rows: Array[Dictionary] = []
 var _playlist_tween: Tween
+var _playlist_mouse_active := false
+var _playlist_mouse_dragging := false
+var _playlist_mouse_start := Vector2.ZERO
+var _playlist_mouse_start_scroll := 0
+var _playlist_mouse_last_position := Vector2.ZERO
+var _playlist_mouse_last_time_usec := 0
+var _playlist_mouse_album_index := -1
+var _playlist_mouse_track_index := -1
+var _playlist_scroll_position := 0.0
+var _playlist_scroll_velocity := 0.0
+var _playlist_anchor_token := 0
 
 var _status_label: Label
 var _status_token := 0
@@ -1967,6 +1987,10 @@ func _ready() -> void:
 		_refresh_album_selection(true)
 	visibility_changed.connect(_on_visibility_changed)
 	set_process(true)
+
+
+func _process(delta: float) -> void:
+	_process_playlist_inertia(delta)
 
 
 func _exit_tree() -> void:
@@ -2289,19 +2313,21 @@ func _build_playlist_panel() -> void:
 	close_button.pressed.connect(_close_playlist)
 	header.add_child(close_button)
 
-	var scroll := ScrollContainer.new()
-	scroll.name = "TrackScroll"
-	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
-	content.add_child(scroll)
-	_style_playlist_scrollbar(scroll.get_v_scroll_bar())
+	_playlist_scroll = ScrollContainer.new()
+	_playlist_scroll.name = "TrackScroll"
+	_playlist_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_playlist_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_playlist_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	_playlist_scroll.scroll_vertical_custom_step = PLAYLIST_WHEEL_STEP
+	content.add_child(_playlist_scroll)
+	_style_playlist_scrollbar(_playlist_scroll.get_v_scroll_bar())
 
 	_playlist_rows_container = VBoxContainer.new()
 	_playlist_rows_container.name = "TrackRows"
 	_playlist_rows_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_playlist_rows_container.mouse_filter = Control.MOUSE_FILTER_PASS
 	_playlist_rows_container.add_theme_constant_override("separation", 3)
-	scroll.add_child(_playlist_rows_container)
+	_playlist_scroll.add_child(_playlist_rows_container)
 
 	_playlist_handle = Button.new()
 	_playlist_handle.name = "PlaylistHandle"
@@ -2898,11 +2924,14 @@ func _open_playlist() -> void:
 	_playlist_tween.tween_property(_playlist_handle, "position:x", HANDLE_OPEN_X, 0.22)
 	_playlist_handle.text = "›"
 	_playlist_handle.tooltip_text = "收起播放列表"
+	_queue_playlist_anchor_to_current_track()
 
 
 func _close_playlist(immediate := false) -> void:
 	if not _playlist_layer.visible:
 		return
+	_playlist_anchor_token += 1
+	_reset_playlist_mouse_gesture()
 	_playlist_handle.text = "‹"
 	_playlist_handle.tooltip_text = "展开播放列表"
 	if is_instance_valid(_playlist_tween):
@@ -2926,9 +2955,15 @@ func _close_playlist(immediate := false) -> void:
 func _rebuild_playlist() -> void:
 	if not is_instance_valid(_playlist_rows_container) or albums.is_empty():
 		return
+	_playlist_anchor_token += 1
+	_reset_playlist_mouse_gesture()
 	for child in _playlist_rows_container.get_children():
+		_playlist_rows_container.remove_child(child)
 		child.queue_free()
 	_playlist_rows.clear()
+	if is_instance_valid(_playlist_scroll):
+		_playlist_scroll.scroll_vertical = 0
+		_playlist_scroll_position = 0.0
 
 	var album: Dictionary = albums[selected_album_index]
 	var tracks: Array = album.get("tracks", [])
@@ -2943,6 +2978,55 @@ func _rebuild_playlist() -> void:
 	_refresh_playlist_highlight()
 
 
+func _queue_playlist_anchor_to_current_track() -> void:
+	_playlist_anchor_token += 1
+	var token := _playlist_anchor_token
+	_anchor_playlist_after_layout(token)
+
+
+func _anchor_playlist_after_layout(token: int) -> void:
+	# Container positions are only reliable after the newly-created rows have
+	# completed a layout pass. Waiting two frames also avoids a visible jump
+	# before the slide-in panel becomes readable.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if (
+		token != _playlist_anchor_token
+		or not is_instance_valid(_playlist_layer)
+		or not _playlist_layer.visible
+	):
+		return
+	_scroll_playlist_to_current_track()
+
+
+func _scroll_playlist_to_current_track() -> void:
+	if not is_instance_valid(_playlist_scroll) or _playlist_rows.is_empty():
+		return
+	var target_track_index := _displayed_track_index
+	if (
+		is_instance_valid(_playback)
+		and _playback.current_album_index == selected_album_index
+		and _playback.current_track_index >= 0
+	):
+		target_track_index = _playback.current_track_index
+
+	var target_button: Button = null
+	for row_data in _playlist_rows:
+		if (
+			int(row_data.get("album_index", -1)) == selected_album_index
+			and int(row_data.get("track_index", -1)) == target_track_index
+		):
+			target_button = row_data.get("button") as Button
+			break
+	if not is_instance_valid(target_button):
+		return
+
+	_reset_playlist_mouse_gesture()
+	var row_center := target_button.position.y + target_button.size.y * 0.5
+	var viewport_center := _playlist_scroll.size.y * 0.5
+	_set_playlist_scroll_position(row_center - viewport_center)
+
+
 func _create_playlist_row(album_index: int, track_index: int, track: Dictionary, cover_path: String) -> Dictionary:
 	var button := Button.new()
 	button.name = "Track%02d" % (track_index + 1)
@@ -2950,12 +3034,12 @@ func _create_playlist_row(album_index: int, track_index: int, track: Dictionary,
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.flat = true
 	button.focus_mode = Control.FOCUS_NONE
+	button.mouse_force_pass_scroll_events = true
 	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	button.add_theme_stylebox_override("normal", _panel_style(Color.TRANSPARENT, 10.0))
 	button.add_theme_stylebox_override("hover", _panel_style(COLOR_PANEL_HOVER, 10.0))
 	button.add_theme_stylebox_override("pressed", _panel_style(Color(0.17, 0.18, 0.18, 0.9), 10.0))
 	button.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
-	button.pressed.connect(_on_playlist_track_pressed.bind(album_index, track_index))
 
 	var row := HBoxContainer.new()
 	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -3088,6 +3172,7 @@ func _set_lyrics_visible(value: bool) -> void:
 func _on_visibility_changed() -> void:
 	if visible:
 		return
+	_reset_playlist_mouse_gesture()
 	_is_dragging_progress = false
 	_progress_drag_album_index = -1
 	_progress_drag_track_index = -1
@@ -3122,6 +3207,9 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func _input(event: InputEvent) -> void:
 	if not _is_page_interactive():
 		return
+	if _handle_playlist_mouse_input(event):
+		get_viewport().set_input_as_handled()
+		return
 	var carousel_rect := Rect2(180.0, 72.0, 920.0, 320.0)
 	if event is InputEventMouseButton:
 		var mouse_event := event as InputEventMouseButton
@@ -3147,6 +3235,191 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventScreenDrag:
 		var drag_event := event as InputEventScreenDrag
 		_update_carousel_gesture(drag_event.index, drag_event.position)
+
+
+func _handle_playlist_mouse_input(event: InputEvent) -> bool:
+	if not is_instance_valid(_playlist_scroll):
+		return false
+
+	if event is InputEventMouseMotion:
+		if not _playlist_mouse_active:
+			return false
+		var motion_event := event as InputEventMouseMotion
+		var drag_delta := motion_event.position - _playlist_mouse_start
+		if not _playlist_mouse_dragging and drag_delta.length() >= PLAYLIST_DRAG_THRESHOLD:
+			_playlist_mouse_dragging = true
+		if _playlist_mouse_dragging:
+			var now_usec := Time.get_ticks_usec()
+			var sample_delta_usec := now_usec - _playlist_mouse_last_time_usec
+			if sample_delta_usec > 0 and sample_delta_usec <= 120000:
+				var sample_delta := float(sample_delta_usec) / 1000000.0
+				var sample_velocity := -(
+					motion_event.position.y - _playlist_mouse_last_position.y
+				) / sample_delta
+				var velocity_blend := clampf(sample_delta * 14.0, 0.18, 0.62)
+				_playlist_scroll_velocity = lerpf(
+					_playlist_scroll_velocity,
+					clampf(sample_velocity, -PLAYLIST_MAX_VELOCITY, PLAYLIST_MAX_VELOCITY),
+					velocity_blend
+				)
+			_playlist_mouse_last_position = motion_event.position
+			_playlist_mouse_last_time_usec = now_usec
+			_set_playlist_scroll_position(float(_playlist_mouse_start_scroll) - drag_delta.y)
+		return true
+
+	if not (event is InputEventMouseButton):
+		return false
+	var mouse_event := event as InputEventMouseButton
+
+	if mouse_event.button_index == MOUSE_BUTTON_WHEEL_UP or mouse_event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		if (
+			not mouse_event.pressed
+			or not _playlist_layer.visible
+			or not _playlist_scroll.get_global_rect().has_point(mouse_event.position)
+			or not _playlist_has_scroll_range()
+		):
+			return false
+		var direction := -1 if mouse_event.button_index == MOUSE_BUTTON_WHEEL_UP else 1
+		var wheel_factor := maxf(absf(mouse_event.factor), 0.1)
+		_playlist_scroll_position = float(_playlist_scroll.scroll_vertical)
+		if signf(_playlist_scroll_velocity) == float(direction):
+			_playlist_scroll_velocity += PLAYLIST_WHEEL_ACCELERATION * wheel_factor * direction
+		else:
+			_playlist_scroll_velocity = PLAYLIST_WHEEL_BASE_VELOCITY * wheel_factor * direction
+		_playlist_scroll_velocity = clampf(
+			_playlist_scroll_velocity,
+			-PLAYLIST_MAX_VELOCITY,
+			PLAYLIST_MAX_VELOCITY
+		)
+		return true
+
+	if mouse_event.button_index != MOUSE_BUTTON_LEFT:
+		return false
+
+	if mouse_event.pressed:
+		if _is_pointer_over_playlist_scrollbar(mouse_event.position):
+			_playlist_scroll_velocity = 0.0
+			_playlist_scroll_position = float(_playlist_scroll.scroll_vertical)
+			return false
+		if (
+			not _playlist_layer.visible
+			or not _playlist_scroll.get_global_rect().has_point(mouse_event.position)
+		):
+			return false
+		_playlist_mouse_active = true
+		_playlist_mouse_dragging = false
+		_playlist_mouse_start = mouse_event.position
+		_playlist_mouse_start_scroll = _playlist_scroll.scroll_vertical
+		_playlist_mouse_last_position = mouse_event.position
+		_playlist_mouse_last_time_usec = Time.get_ticks_usec()
+		_playlist_scroll_position = float(_playlist_scroll.scroll_vertical)
+		_playlist_scroll_velocity = 0.0
+		var row_data := _playlist_row_at_position(mouse_event.position)
+		_playlist_mouse_album_index = int(row_data.get("album_index", -1))
+		_playlist_mouse_track_index = int(row_data.get("track_index", -1))
+		return true
+
+	if not _playlist_mouse_active:
+		return false
+	var should_activate := false
+	if not _playlist_mouse_dragging:
+		var released_row := _playlist_row_at_position(mouse_event.position)
+		should_activate = (
+			int(released_row.get("album_index", -1)) == _playlist_mouse_album_index
+			and int(released_row.get("track_index", -1)) == _playlist_mouse_track_index
+			and _playlist_mouse_album_index >= 0
+			and _playlist_mouse_track_index >= 0
+		)
+	var album_index := _playlist_mouse_album_index
+	var track_index := _playlist_mouse_track_index
+	if (
+		_playlist_mouse_dragging
+		and Time.get_ticks_usec() - _playlist_mouse_last_time_usec > PLAYLIST_RELEASE_SAMPLE_TIMEOUT_USEC
+	):
+		_playlist_scroll_velocity = 0.0
+	_reset_playlist_mouse_gesture(false)
+	if should_activate:
+		_on_playlist_track_pressed(album_index, track_index)
+	return true
+
+
+func _process_playlist_inertia(delta: float) -> void:
+	if (
+		delta <= 0.0
+		or _playlist_mouse_active
+		or not is_instance_valid(_playlist_scroll)
+		or not is_instance_valid(_playlist_layer)
+		or not _playlist_layer.visible
+	):
+		return
+	if absf(_playlist_scroll_velocity) <= PLAYLIST_INERTIA_STOP_SPEED:
+		_playlist_scroll_velocity = 0.0
+		return
+
+	var safe_delta := minf(delta, 0.05)
+	var previous_velocity := _playlist_scroll_velocity
+	var next_velocity := previous_velocity * exp(-PLAYLIST_INERTIA_FRICTION * safe_delta)
+	var distance := (previous_velocity + next_velocity) * 0.5 * safe_delta
+	var hit_boundary := _set_playlist_scroll_position(_playlist_scroll_position + distance)
+	if hit_boundary:
+		_playlist_scroll_velocity = 0.0
+		return
+	_playlist_scroll_velocity = next_velocity
+
+
+func _set_playlist_scroll_position(value: float) -> bool:
+	if not is_instance_valid(_playlist_scroll):
+		return true
+	var scrollbar := _playlist_scroll.get_v_scroll_bar()
+	var max_scroll := 0.0
+	if scrollbar != null:
+		max_scroll = maxf(scrollbar.max_value - scrollbar.page, 0.0)
+	var clamped_value := clampf(value, 0.0, max_scroll)
+	var hit_boundary := not is_equal_approx(value, clamped_value)
+	_playlist_scroll_position = clamped_value
+	_playlist_scroll.scroll_vertical = int(round(_playlist_scroll_position))
+	return hit_boundary
+
+
+func _playlist_has_scroll_range() -> bool:
+	if not is_instance_valid(_playlist_scroll):
+		return false
+	var scrollbar := _playlist_scroll.get_v_scroll_bar()
+	return scrollbar != null and scrollbar.max_value > scrollbar.page + 0.5
+
+
+func _is_pointer_over_playlist_scrollbar(pointer_position: Vector2) -> bool:
+	if not is_instance_valid(_playlist_scroll):
+		return false
+	var scrollbar := _playlist_scroll.get_v_scroll_bar()
+	return scrollbar != null and scrollbar.visible and scrollbar.get_global_rect().has_point(pointer_position)
+
+
+func _playlist_row_at_position(pointer_position: Vector2) -> Dictionary:
+	for row_data in _playlist_rows:
+		var button := row_data.get("button") as Button
+		if (
+			is_instance_valid(button)
+			and button.is_visible_in_tree()
+			and button.get_global_rect().has_point(pointer_position)
+		):
+			return row_data
+	return {}
+
+
+func _reset_playlist_mouse_gesture(stop_inertia := true) -> void:
+	_playlist_mouse_active = false
+	_playlist_mouse_dragging = false
+	_playlist_mouse_start = Vector2.ZERO
+	_playlist_mouse_start_scroll = 0
+	_playlist_mouse_last_position = Vector2.ZERO
+	_playlist_mouse_last_time_usec = 0
+	_playlist_mouse_album_index = -1
+	_playlist_mouse_track_index = -1
+	if stop_inertia:
+		_playlist_scroll_velocity = 0.0
+		if is_instance_valid(_playlist_scroll):
+			_playlist_scroll_position = float(_playlist_scroll.scroll_vertical)
 
 
 func _dismiss_popovers_outside(pointer_position: Vector2) -> void:
