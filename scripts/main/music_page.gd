@@ -13,10 +13,12 @@ class LyricsParser:
 	## - 一行多个时间戳
 	## - [offset:+/-毫秒]
 	## - UTF-8 BOM、CRLF
+	## - 使用“原文｜译文”表示单条双语歌词
 	## - 忽略网易云 JSON 元信息和普通 LRC 元数据标签
 
 	const TIME_KEY := "time"
 	const TEXT_KEY := "text"
+	const BILINGUAL_SEPARATOR := "｜"
 
 	const _TIMESTAMP_PATTERN := "\\[(\\d{1,3}):(\\d{2})(?:[\\.,](\\d{1,3}))?\\]"
 	const _OFFSET_PATTERN := "(?i)^\\[offset\\s*:\\s*([+-]?\\d+)\\]\\s*$"
@@ -131,6 +133,19 @@ class LyricsParser:
 			lines[2] = str(entries[current_index + 1].get(TEXT_KEY, ""))
 
 		return lines
+
+
+	static func split_bilingual_text(lyric_text: String) -> PackedStringArray:
+		## 只识别全角竖线，避免误拆歌词正文或元数据中的普通 ASCII 竖线。
+		var parts := lyric_text.split(BILINGUAL_SEPARATOR, true, 1)
+		if parts.size() != 2:
+			return PackedStringArray([lyric_text])
+
+		var primary_text := parts[0].strip_edges()
+		var translation_text := parts[1].strip_edges()
+		if primary_text.is_empty() or translation_text.is_empty():
+			return PackedStringArray([lyric_text])
+		return PackedStringArray([primary_text, translation_text])
 
 
 	static func _parse_fraction_seconds(fraction_text: String) -> float:
@@ -1923,6 +1938,7 @@ var _lyrics_previous: Label
 var _lyrics_current: Label
 var _lyrics_next: Label
 var _lyrics_entries: Array[Dictionary] = []
+var _lyrics_bilingual_layout_active := false
 
 var _volume_layer: Control
 var _volume_panel: PanelContainer
@@ -2749,14 +2765,48 @@ func _load_track_lyrics(path: String) -> void:
 
 func _update_lyrics(position_seconds: float) -> void:
 	if _lyrics_entries.is_empty():
+		_set_lyrics_bilingual_layout(false)
 		_lyrics_previous.text = ""
 		_lyrics_current.text = "纯音乐，请欣赏"
 		_lyrics_next.text = ""
 		return
 	var lines: Array[String] = LyricsParser.get_three_lines(_lyrics_entries, position_seconds)
-	_lyrics_previous.text = lines[0]
-	_lyrics_current.text = lines[1]
-	_lyrics_next.text = lines[2]
+	var current_parts := LyricsParser.split_bilingual_text(lines[1])
+	var has_translation := current_parts.size() == 2
+	_set_lyrics_bilingual_layout(has_translation)
+
+	_lyrics_previous.text = LyricsParser.split_bilingual_text(lines[0])[0]
+	_lyrics_current.text = (
+		current_parts[0] + "\n" + current_parts[1]
+		if has_translation
+		else lines[1]
+	)
+	_lyrics_next.text = LyricsParser.split_bilingual_text(lines[2])[0]
+
+
+func _set_lyrics_bilingual_layout(enabled: bool) -> void:
+	if _lyrics_bilingual_layout_active == enabled:
+		return
+	_lyrics_bilingual_layout_active = enabled
+
+	if enabled:
+		# 在 720p 画布内为当前歌词腾出两行，同时保留上一句和下一句的预览。
+		_lyrics_previous.position = Vector2(250.0, 609.0)
+		_lyrics_previous.size = Vector2(780.0, 24.0)
+		_lyrics_current.position = Vector2(220.0, 634.0)
+		_lyrics_current.size = Vector2(840.0, 52.0)
+		_lyrics_current.add_theme_font_size_override("font_size", 20)
+		_lyrics_next.position = Vector2(250.0, 688.0)
+		_lyrics_next.size = Vector2(780.0, 24.0)
+		return
+
+	_lyrics_previous.position = Vector2(250.0, 619.0)
+	_lyrics_previous.size = Vector2(780.0, 27.0)
+	_lyrics_current.position = Vector2(220.0, 648.0)
+	_lyrics_current.size = Vector2(840.0, 34.0)
+	_lyrics_current.add_theme_font_size_override("font_size", 22)
+	_lyrics_next.position = Vector2(250.0, 683.0)
+	_lyrics_next.size = Vector2(780.0, 27.0)
 
 
 func _toggle_volume_popup() -> void:

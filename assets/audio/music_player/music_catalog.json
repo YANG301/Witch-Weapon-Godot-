@@ -15,7 +15,7 @@
                                           "composer_url":  "https://www.vanguard-sound.com/",
                                           "composer_description":  "参与《魔女兵器》音乐制作的游戏音频团队与音乐人。",
                                           "audio":  "res://assets/audio/music_player/music_from_witch_weapon/01.mp3",
-                                          "lyrics":  "",
+                                          "lyrics":  "res://assets/audio/music_player/music_from_witch_weapon/01.lrc",
                                           "duration":  101.538
                                       },
                                       {
@@ -56,7 +56,7 @@
                                           "composer_url":  "https://www.konomi-suzuki.net/",
                                           "composer_description":  "演唱《魔女兵器》原声收录曲目的歌手。",
                                           "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/01.mp3",
-                                          "lyrics":  "",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/01.lrc",
                                           "duration":  102.284
                                       },
                                       {
@@ -320,7 +320,7 @@
                                           "composer_url":  "https://weibo.com/cusummer",
                                           "composer_description":  "歌手、ChiliChill 主唱，参与《魔女兵器》原声收录曲目的演唱。",
                                           "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/25.mp3",
-                                          "lyrics":  "",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/25.lrc",
                                           "duration":  127.826
                                       },
                                       {
@@ -331,7 +331,7 @@
                                           "composer_url":  "",
                                           "composer_description":  "《魔女兵器》原声音乐创作者。",
                                           "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/26.mp3",
-                                          "lyrics":  "",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/26.lrc",
                                           "duration":  98.383
                                       },
                                       {
@@ -386,7 +386,7 @@
                                           "composer_url":  "https://www.konomi-suzuki.net/",
                                           "composer_description":  "演唱《魔女兵器》原声收录曲目的歌手。",
                                           "audio":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/31.mp3",
-                                          "lyrics":  "",
+                                          "lyrics":  "res://assets/audio/music_player/witch_weapon_original_soundtrack/31.bilingual.lrc",
                                           "duration":  160.241
                                       }
                                   ]
