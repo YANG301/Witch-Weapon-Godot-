@@ -10,7 +10,8 @@ enum StoryState {
 	EXPRESSION_CHANGE,# 表情切换
 	BACKGROUND_CHANGE,# 背景切换
 	MUSIC_CHANGE,     # 音乐切换
-	COMBINED          # 组合操作
+	COMBINED,         # 组合操作
+	CHOICE            # 选择分支
 }
 
 # 通用数据结构
@@ -58,6 +59,7 @@ signal briefing_performance_completed  # 简报演出模式完成信号
 signal video_performance_completed  # 视频演出模式完成信号
 signal name_input_completed(player_name: String)  # 姓名输入完成信号
 signal interface_initialized
+signal choice_selected(index: int)  # 选择分支：玩家选中某选项
 
 # 状态变量
 var waiting_for_input: bool = false
@@ -148,6 +150,12 @@ var current_player_name: String = ""  # 当前输入的玩家姓名
 var _interface_initialized: bool = false
 var _log_dragging := false
 var _drag_position := Vector2(0, 0)
+
+# 选择分支相关
+var is_choice_mode: bool = false
+var choice_container: Control = null
+var choice_buttons: Array[Button] = []
+var choice_tween: Tween = null
 
 func wait_until_initialized() -> void:
 	if _interface_initialized:
@@ -266,6 +274,10 @@ func _input(event: InputEvent):
 				is_mouse_pressed = false
 		return  # 在视频模式下，不处理其他输入
 
+	# 选择分支模式下，不处理普通点击推进
+	if is_choice_mode:
+		return
+
 	if event.is_action_pressed("dialog_next") and event.pressed and not log_interface.visible:
 		# 如果处于中心文字演出模式，处理点击事件
 		if is_center_performance_mode:
@@ -343,6 +355,13 @@ func execute_scene(data: StoryData) -> void:
 	scene_completed.emit()
 
 ## 便捷接口函数
+func show_choice(options: Array) -> int:
+	"""显示选项，返回玩家选择的索引（0-based）"""
+	_show_choice_ui(options)
+	var index:int = await choice_selected
+	await _hide_choice_ui()
+	return index
+
 func show_text_only(text: String) -> void:
 	"""显示纯文本"""
 	var data = StoryData.new(StoryState.TEXT_ONLY)
@@ -1208,6 +1227,12 @@ func _handle_combined(data: StoryData) -> void:
 func _hide_all_elements():
 	"""隐藏所有界面元素"""
 	waiting_for_input = false
+	is_choice_mode = false
+
+	if choice_container and is_instance_valid(choice_container):
+		choice_container.queue_free()
+		choice_container = null
+		choice_buttons.clear()
 
 	if show_text_label:
 		show_text_label.text = ""
@@ -1571,6 +1596,9 @@ func show_text(content: String, speaker: String = ""):
 # ==================== 事件处理 ====================
 
 func _on_continue_pressed():
+	# 选择分支模式下不处理普通推进
+	if is_choice_mode:
+		return
 	# 取消自动播放
 	_cancel_auto_play()
 
@@ -3472,3 +3500,90 @@ func _shake_error_label() -> void:
 	name_shake_tween.tween_property(name_error_label, "position:x", original_pos.x, 0.05)
 
 	print("错误提示晃动")
+
+#region 选择分支系统
+func _show_choice_ui(options: Array) -> void:
+	"""动态创建选项按钮并显示在屏幕中央（手动定位，匹配 1280x720）"""
+	if choice_container:
+		await _hide_choice_ui()
+
+	is_choice_mode = true
+
+	# 外层全屏Control，用于接收淡入淡出和拦截点击
+	choice_container = Control.new()
+	choice_container.anchors_preset = 0
+	choice_container.offset_right = 1280.0
+	choice_container.offset_bottom = 720.0
+	choice_container.z_index = 100
+	choice_container.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(choice_container)
+
+	# 内部VBoxContainer手动定位到屏幕中央
+	var vbox = VBoxContainer.new()
+	vbox.layout_mode = 3
+	vbox.anchors_preset = 0
+	var btn_count = options.size()
+	var total_height = btn_count * 50 + (btn_count - 1) * 16
+	var vbox_width = 400.0
+	var vbox_height = float(total_height)
+	var vbox_x = (1280.0 - vbox_width) / 2.0
+	var vbox_y = (720.0 - vbox_height) / 2.0
+	vbox.offset_left = vbox_x
+	vbox.offset_top = vbox_y
+	vbox.offset_right = vbox_x + vbox_width
+	vbox.offset_bottom = vbox_y + vbox_height
+	vbox.add_theme_constant_override("separation", 16)
+	choice_container.add_child(vbox)
+
+	choice_buttons.clear()
+
+	for i in range(options.size()):
+		var btn = Button.new()
+		btn.text = options[i]
+		btn.flat = true
+		btn.focus_mode = Control.FOCUS_CLICK
+		btn.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		btn.custom_minimum_size = Vector2(400, 50)
+
+		#var outline = StyleBoxEmpty.new()
+		#btn.add_theme_stylebox_override("normal", outline)
+		#btn.add_theme_stylebox_override("hover", outline)
+		#btn.add_theme_stylebox_override("pressed", outline)
+		#btn.add_theme_stylebox_override("focus", outline)
+
+		var idx = i
+		btn.pressed.connect(_on_choice_button_pressed.bind(idx))
+
+		vbox.add_child(btn)
+		choice_buttons.append(btn)
+
+	choice_container.modulate.a = 0.0
+	choice_tween = create_tween()
+	choice_tween.tween_property(choice_container, "modulate:a", 1.0, 0.25)
+
+	if choice_buttons.size() > 0:
+		choice_buttons[0].call_deferred("grab_focus")
+
+func _hide_choice_ui() -> void:
+	"""淡出并移除选项按钮"""
+	is_choice_mode = false
+
+	if choice_tween:
+		choice_tween.kill()
+		choice_tween = null
+
+	if choice_container and is_instance_valid(choice_container):
+		choice_tween = create_tween()
+		choice_tween.tween_property(choice_container, "modulate:a", 0.0, 0.15)
+		await choice_tween.finished
+		choice_container.queue_free()
+
+	choice_container = null
+	choice_buttons.clear()
+
+func _on_choice_button_pressed(index: int) -> void:
+	"""玩家点击了某个选项按钮"""
+	if not is_choice_mode:
+		return
+	choice_selected.emit(index)
+#endregion
